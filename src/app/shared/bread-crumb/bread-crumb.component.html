@@ -1,0 +1,36 @@
+<div style="display: flex; align-items: center; margin: 5px 0">
+  <i
+    class="fs-5 fa-solid fa-arrow-right"
+    style="color: #666; font-size: 22px; margin: 12px; margin-right: 10px"
+  ></i>
+
+  <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
+    <!-- Inactive breadcrumb (with link) -->
+    <a
+      *ngIf="!last"
+      class="inactiveshortcut"
+      [routerLink]="breadcrumb.url"
+      style="text-transform: capitalize"
+    >
+      {{ breadcrumb.label }}
+    </a>
+
+    <!-- Active breadcrumb (no link) -->
+    <a
+      *ngIf="last"
+      class="activeshortcut"
+      style="text-transform: capitalize"
+    >
+      {{ breadcrumb.label }}
+    </a>
+
+    <!-- Slash separator -->
+    <span
+      *ngIf="!last"
+      style="margin: 0 8px; color: #666; font-size: 16px"
+    >
+      /
+    </span>
+  </ng-container>
+</div>
+

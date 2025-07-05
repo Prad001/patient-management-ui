@@ -1,0 +1,29 @@
+<nav>
+  <ul class="pagination">
+    <!-- First Page Button -->
+    <li class="page-item " *ngIf=" totalPages >= maxVisiblePages " [ngClass]="{ disabled: currentPage === 1 }" style="cursor: pointer; margin-right: 10px;">
+      <a class="page-link" (click)="goToFirstPage()">Start</a>
+    </li>
+
+    <!-- Previous Button -->
+    <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }" style="cursor: pointer;">
+      <a class="page-link" (click)="pageClicked(currentPage - 1)">Previous</a>
+    </li>
+
+    <!-- Dynamic Page Links -->
+    <li *ngFor="let page of pages" class="page-item" [ngClass]="{ 'active': page === currentPage }">
+      <a class="page-link" href="javascript:void(0)" (click)="pageClicked(page)">{{ page }}</a>
+    </li>
+
+    <!-- Next Button -->
+    <li class="page-item" [ngClass]="{ disabled: currentPage === totalPages }" style="cursor: pointer;">
+      <a class="page-link" (click)="pageClicked(currentPage + 1)">Next</a>
+    </li>
+
+    <!-- Last Page Button -->
+    <li class="page-item " *ngIf=" totalPages >= maxVisiblePages " [ngClass]="{ disabled: currentPage === totalPages }" style="cursor: pointer; margin-left: 10px;">
+      <a class="page-link" (click)="goToLastPage()">End</a>
+    </li>
+  </ul>
+</nav>
+

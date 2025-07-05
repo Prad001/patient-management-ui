@@ -1,0 +1,117 @@
+<div class="container">
+  <div id="title">Patient Management</div>
+
+  <div class="menu">
+    <a
+      *ngIf="isAdminRouteNavbar()"
+      (click)="setActiveLink('dashboardAdmin'); dashboardAdmin()"
+      [ngClass]="{ active: activeLink === 'dashboardAdmin' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-gauge" style="padding-right: 4px"></i
+        ><span>Dashboard</span></span
+      ></a
+    >
+
+    <!-- <a
+      *ngIf="isAdminRouteNavbar()"
+      (click)="setActiveLink('dashboardAdmin'); dashboardAdmin()"
+      id="dropdownUser1"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <span class="entry dropdown-toggle"
+        ><i class="fs-5 fa-solid fa-list-check" style="padding-right: 4px"></i
+        ><span>User Management</span></span
+      ></a
+    > -->
+
+    <a
+      *ngIf="isAdminRouteNavbar()"
+      (click)="toggleUserDropdown()"
+      id="dropdownUser1"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      [ngClass]="{ active: activeLink.startsWith('user-management') }"
+      data-bs-auto-close="outside"
+    >
+      <span class="entry dropdown-toggle">
+        <i class="fs-5 fa-solid fa-list-check" style="padding-right: 4px"></i>
+        <span>User Management</span>
+      </span>
+    </a>
+
+    <a
+      *ngIf="isAdminRouteNavbar()"
+      (click)="setActiveLink('adminReports'); adminReports()"
+      [ngClass]="{ active: activeLink === 'adminReports' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-chart-line" style="padding-right: 4px"></i
+        ><span>Reports</span></span
+      ></a
+    >
+
+    <!-- <div>
+      <ul class="dropdown-menu text-small">
+        <li
+          *ngIf="isAdminRouteNavbar()"
+          (click)="setActiveLink('receptionist'); receptionist()"
+        >
+          <a class="dropdown-item">Receptionist</a>
+        </li>
+        <li
+          *ngIf="isAdminRouteNavbar()"
+          (click)="setActiveLink('doctor'); doctor()"
+        >
+          <a class="dropdown-item">Doctor</a>
+        </li>
+        <li
+          *ngIf="isAdminRouteNavbar()"
+          (click)="setActiveLink('patient'); patient()"
+        >
+          <a class="dropdown-item">Patient</a>
+        </li>
+      </ul>
+    </div> -->
+    <div >
+        <ul class="dropdown-menu text-small show" style="background-color:#E0F7FA ;">
+      <li *ngIf="isAdminRouteNavbar()" (click)="receptionist()">
+        <a
+          class="dropdown-item"
+          [ngClass]="{ active: activeLink === 'user-management/receptionist' }"
+          >Receptionist</a
+        >
+      </li>
+      <li *ngIf="isAdminRouteNavbar()" (click)="doctor()">
+        <a
+          class="dropdown-item"
+          [ngClass]="{ active: activeLink === 'user-management/doctor' }"
+          >Doctor</a
+        >
+      </li>
+      <li *ngIf="isAdminRouteNavbar()" (click)="patient()">
+        <a
+          class="dropdown-item"
+          [ngClass]="{ active: activeLink === 'user-management/patient' }"
+          >Patient</a
+        >
+      </li>
+    </ul>
+    </div>
+    
+  </div>
+
+  <div class="menu" id="options">
+    <a>
+      <span class="entry"
+        ><i class="fs-5 fa-solid fa-circle-question"></i><span>Help</span></span
+      >
+    </a>
+
+    <a>
+      <span class="entry"
+        ><i class="fs-5 fa-solid fa-arrow-right-from-bracket"></i
+        ><span>Logout</span></span
+      >
+    </a>
+  </div>
+</div>

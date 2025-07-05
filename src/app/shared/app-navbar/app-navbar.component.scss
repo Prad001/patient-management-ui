@@ -1,0 +1,29 @@
+// mat-toolbar {
+//   width: 100%;
+//   transition: margin-left 300ms ease, width 300ms ease;
+// }
+
+// mat-toolbar.shifted {
+//   margin-left: 300px;
+//   width: calc(100% - 300px);
+// }
+
+// .example-spacer {
+//   flex: 1 1 auto;
+// }
+mat-toolbar {
+  width: 100%;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  background-color: #D3EEF2;
+  color: black;
+   box-shadow: 2px 2px 2px #ccc;
+//   &.shifted {
+//     // margin-left: 300px;
+//    // width: calc(100% - 300px);
+//   }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+

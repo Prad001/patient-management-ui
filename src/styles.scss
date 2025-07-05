@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
+
+
+.main-card {
+    max-width: 1400px;
+
+    background:#E1F5FE;
+    border-radius: 3px;
+    padding: 30px;
+    
+    header{
+        font-size: 34px;
+        line-height: 34px;
+        font-weight: 600;
+        color: #232836;
+        text-align: center;
+        margin-bottom: 16px;
+
+    }
+
+    .inner {
+        max-width: 1200px;
+        margin: auto auto;
+    }
+}

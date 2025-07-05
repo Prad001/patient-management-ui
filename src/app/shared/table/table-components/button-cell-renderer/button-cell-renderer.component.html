@@ -1,0 +1,14 @@
+   
+   <div >
+    <button class="button-capture me-3" *ngIf="params.buttonConfig.capture" (click)="onButtonClick('capture')">Capture
+    </button>
+    <button class="button-capture me-3" *ngIf="params.buttonConfig.configure" (click)="onButtonClick('configure')">Configure
+    </button>
+    
+    <button class="btn" *ngIf="params.buttonConfig.update" (click)="onButtonClick('update')">
+        <i class="bi bi-pencil-fill " id="update" ></i>
+    </button>
+    <button class="btn" *ngIf="params.buttonConfig.delete" (click)="onButtonClick('delete')">
+        <i class="bi bi-trash " id="delete"></i>
+    </button>
+   </div>

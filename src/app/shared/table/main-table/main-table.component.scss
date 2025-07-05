@@ -1,0 +1,11 @@
+.ag-theme-quartz {
+    --ag-header-background-color: #029cb1; /* Header background */
+    //--ag-header-foreground-color: white;  /* Header text color */
+  }
+  
+  ::ng-deep .custom-table .ag-header-cell-text {
+    color: rgb(255, 255, 255) !important;
+  }
+  
+  
+ 
