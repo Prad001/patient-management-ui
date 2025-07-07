@@ -3,6 +3,7 @@ import { AdminComponent } from "./admin.component";
 import { ReceptionistSearchComponent } from "./user-management/receptionist/receptionist-search/receptionist-search.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ReportsComponent } from "./reports/reports.component";
+import { ReceptionistCreateOrUpdateComponent } from "./user-management/receptionist/receptionist-create-or-update/receptionist-create-or-update.component";
 
 
 export const adminRoutes: Routes = [
@@ -12,6 +13,8 @@ export const adminRoutes: Routes = [
     canActivate: [],
     children: [
        { path: "user-management/receptionist/search", component: ReceptionistSearchComponent},
+       { path: "user-management/receptionist/create", component: ReceptionistCreateOrUpdateComponent, data: {create: true}},
+       { path: "user-management/receptionist/update/:receptionistId", component: ReceptionistCreateOrUpdateComponent, data: {create: false}},
        { path: "", component: DashboardComponent},
        { path: "reports", component: ReportsComponent },
        { path: "admin", component: AdminComponent },      

@@ -1,0 +1,72 @@
+.inp {
+  width: 360px;
+}
+
+.parent {
+  position: relative;
+}
+
+.child {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fixed {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.option {
+  border: 1.5px solid rgba(222, 219, 219, 0.87);
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+}
+
+
+.bar-section {
+  max-width: 1400px;
+  background: #ffffff;
+  border-radius: 3px;
+  padding: 0; /* Remove padding to eliminate extra space */
+  margin-top: 5px;
+}
+
+.bar-section .row {
+  margin: 0; /* Remove default row margin */
+}
+
+.bar-section .tab-column {
+  background-color: #A4B4BF; /* Default background color */
+  color: white; /* Default text color */
+  cursor: pointer;
+  text-align: center;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid rgb(204, 202, 202);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.bar-section .tab-column:hover {
+  background-color: #6f8fa4; /* Darker shade on hover */
+}
+
+.bar-section .tab-column.active {
+  background-color: #3498DB; /* Active tab background color */
+  color: white; /* Active tab text color */
+  font-weight: bold;
+}
+
+
+.view {
+  color: black;
+
+ &:hover {
+   color: gray;
+ }
+}

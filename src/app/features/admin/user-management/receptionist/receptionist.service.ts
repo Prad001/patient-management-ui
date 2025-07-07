@@ -76,4 +76,62 @@ export class ReceptionistService {
   }
 
 
+
+
+
+   createReceptionist(
+       name: string,
+        gender: string,
+        dateOfBirth: string,
+        contactEmail: string,
+        contactPhone: string,
+        assignedFacility: string,
+        roleTitle: string,
+        accessLevel: string
+  ): Observable<Receptionist> {
+    return this.http
+      .post<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.CREATE}`, {
+        name,
+        gender,
+        dateOfBirth,
+        contactEmail,
+        contactPhone,
+        assignedFacility,
+        roleTitle,
+        accessLevel
+      })
+      .pipe(
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
+
+   updateReceptionist(
+       receptionistId: string,
+       name: string,
+        gender: string,
+        dateOfBirth: string,
+        contactEmail: string,
+        contactPhone: string,
+        assignedFacility: string,
+        roleTitle: string,
+        accessLevel: string
+  ): Observable<Receptionist> {
+    return this.http
+      .post<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.UPDATE}`, {
+        receptionistId,
+        name,
+        gender,
+        dateOfBirth,
+        contactEmail,
+        contactPhone,
+        assignedFacility,
+        roleTitle,
+        accessLevel
+      })
+      .pipe(
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
+
+
 }

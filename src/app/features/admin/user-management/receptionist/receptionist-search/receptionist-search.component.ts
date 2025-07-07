@@ -140,7 +140,7 @@ onSearchTextChange(searchValue: string): void {
 
   createReceptionists(): void {
     this.router.navigate([
-      "ada-access/auth-tools/policy-authoring/rules/create",
+      "admin/user-management/receptionist/create",
     ]);
   }
 

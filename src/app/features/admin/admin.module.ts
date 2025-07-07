@@ -5,7 +5,7 @@ import { ReceptionistCreateOrUpdateComponent } from './user-management/reception
 import { ReceptionistSearchComponent } from './user-management/receptionist/receptionist-search/receptionist-search.component';
 import { DeleteDialogComponent } from './shared/dialogs/delete-dialog/delete-dialog.component';
 import { SuccessDialogComponent } from './shared/dialogs/success-dialog/success-dialog.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportsComponent } from './reports/reports.component'; // ✅ ADD THIS
 
@@ -20,7 +20,8 @@ import { ReportsComponent } from './reports/reports.component'; // ✅ ADD THIS
     ReportsComponent,
 
   ],
-  imports: [CommonModule, SharedModule,FormsModule],
+  imports: [CommonModule, SharedModule,FormsModule,
+        ReactiveFormsModule],
   exports: [],
 })
 export class AdminModule {}
