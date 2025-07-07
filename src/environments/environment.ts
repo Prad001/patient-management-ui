@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'http://localhost:4006',
+  //apiUrl: '/api',
   keyCloakRedirectUrl: 'http://localhost:9000'
 };

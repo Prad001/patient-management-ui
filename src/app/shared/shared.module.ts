@@ -14,6 +14,7 @@ import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { MainTableComponent } from './table/main-table/main-table.component';
 import { ButtonCellRendererComponent } from './table/table-components/button-cell-renderer/button-cell-renderer.component';
 import { RowTooltipComponent } from './table/main-table/row-tooltip.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 @NgModule({
   declarations: [
     SideNavbarComponent,
@@ -33,7 +34,8 @@ import { RowTooltipComponent } from './table/main-table/row-tooltip.component';
     FontAwesomeModule,
     RouterModule,
     AgGridAngular,
-    AgGridModule
+    AgGridModule,
+    MatExpansionModule
   ],
   exports: [
     SideNavbarComponent,

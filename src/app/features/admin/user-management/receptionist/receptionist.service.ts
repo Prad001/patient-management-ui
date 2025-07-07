@@ -1,22 +1,16 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Receptionist } from "src/types/receptionist";
-import { environment } from "@env";
-import { Observable } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-import { ErrorHandlingService } from "../../shared/service/errorHandling.service";
-import { API_ENDPOINTS } from "../../admin-endpoints";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Receptionist } from 'src/types/receptionist';
+import { environment } from '@env';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { ErrorHandlingService } from '../../shared/service/errorHandling.service';
+import { API_ENDPOINTS } from '../../admin-endpoints';
+import { tap } from 'rxjs/operators';
 
-interface GetReceptionistsResponse {
-  receptionists: Receptionist[];
-}
-
-interface GetReceptionistResponse {
-  receptionist: Receptionist;
-}
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ReceptionistService {
   private readonly apiUrl = environment.apiUrl;
@@ -26,98 +20,103 @@ export class ReceptionistService {
     private errorHandlingService: ErrorHandlingService
   ) {}
 
-
-
-  getReceptionists(
-    currentPage: number,
-  ): Observable<Receptionist[]> {
-
+  getReceptionists(currentPage: number): Observable<Receptionist[]> {
+    const params = { currentPage };
 
     return this.http
-      .post<GetReceptionistsResponse>(
+      .get<Receptionist[]>(
         `${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.FETCH}`,
-        {
-          currentPage,
-        }
+        { params }
       )
       .pipe(
-        map((response) => response.receptionists),
+        tap((response) => console.log('Raw API response:', response)),
         catchError((error) => this.errorHandlingService.handleError(error))
       );
   }
 
   getReceptionistSearch(
     currentPage: number,
-    searchText: String,
-    filterByHeader: String
+    searchText: string,
+    filterByHeader: string
   ): Observable<Receptionist[]> {
+    const params = { currentPage, searchText, filterByHeader };
     return this.http
-      .post<GetReceptionistsResponse>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.SEARCH}`, {
-        currentPage,
-        searchText,
-        filterByHeader,
-      })
+      .get<Receptionist[]>(
+        `${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.SEARCH}`,
+        { params }
+      )
       .pipe(
-        map((response) => response.receptionists),
+        tap((response) => console.log('Raw API response:', response)),
         catchError((error) => this.errorHandlingService.handleError(error))
       );
   }
-
 
   getReceptionist(receptionistId: string): Observable<Receptionist> {
+    const params = { receptionistId };
     return this.http
-      .post<GetReceptionistResponse>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.GET}`, {
-        receptionistId
+      .get<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.GET}`, {
+        params,
       })
       .pipe(
-        map((response) => response.receptionist),
+        tap((response) => console.log('Raw API response:', response)),
         catchError((error) => this.errorHandlingService.handleError(error))
       );
   }
 
+  deleteReceptionist(receptionistId: string): Observable<Receptionist> {
+    const params = { receptionistId };
+    return this.http
+      .delete<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.GET}`, {
+        params,
+      })
+      .pipe(
+        tap((response) => console.log('Raw API response:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
 
-
-
-
-   createReceptionist(
-       name: string,
-        gender: string,
-        dateOfBirth: string,
-        contactEmail: string,
-        contactPhone: string,
-        assignedFacility: string,
-        roleTitle: string,
-        accessLevel: string
+  createReceptionist(
+    name: string,
+    gender: string,
+    dateOfBirth: string,
+    contactEmail: string,
+    contactPhone: string,
+    assignedFacility: string,
+    roleTitle: string,
+    accessLevel: string
   ): Observable<Receptionist> {
     return this.http
-      .post<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.CREATE}`, {
-        name,
-        gender,
-        dateOfBirth,
-        contactEmail,
-        contactPhone,
-        assignedFacility,
-        roleTitle,
-        accessLevel
-      })
+      .post<Receptionist>(
+        `${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.CREATE}`,
+        {
+          name,
+          gender,
+          dateOfBirth,
+          contactEmail,
+          contactPhone,
+          assignedFacility,
+          roleTitle,
+          accessLevel,
+        }
+      )
       .pipe(
         catchError((error) => this.errorHandlingService.handleError(error))
       );
   }
 
-   updateReceptionist(
-       receptionistId: string,
-       name: string,
-        gender: string,
-        dateOfBirth: string,
-        contactEmail: string,
-        contactPhone: string,
-        assignedFacility: string,
-        roleTitle: string,
-        accessLevel: string
+  updateReceptionist(
+    receptionistId: string,
+    name: string,
+    gender: string,
+    dateOfBirth: string,
+    contactEmail: string,
+    contactPhone: string,
+    assignedFacility: string,
+    roleTitle: string,
+    accessLevel: string
   ): Observable<Receptionist> {
     return this.http
-      .post<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.UPDATE}`, {
+      .put<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.UPDATE}`, {
         receptionistId,
         name,
         gender,
@@ -126,12 +125,10 @@ export class ReceptionistService {
         contactPhone,
         assignedFacility,
         roleTitle,
-        accessLevel
+        accessLevel,
       })
       .pipe(
         catchError((error) => this.errorHandlingService.handleError(error))
       );
   }
-
-
 }

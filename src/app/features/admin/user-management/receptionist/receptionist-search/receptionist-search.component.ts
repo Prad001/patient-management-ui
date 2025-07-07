@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, firstValueFrom, Subject } from 'rxjs';
 import { Header } from 'src/types/header';
 import { Receptionist} from 'src/types/receptionist';
 import { DeleteDialogComponent } from '../../../shared/dialogs/delete-dialog/delete-dialog.component';
@@ -156,34 +156,40 @@ onSearchTextChange(searchValue: string): void {
   // ──────────────────────────────────────────────────────────────
   // Data Fetching
   // ──────────────────────────────────────────────────────────────
-  async fetchRecpetionists(): Promise<void> {
-    try {
-      const response = await this.receptionistService
-        .getReceptionists(this.currentPage - 1)
-        .toPromise();
-      this.formatAndSetRules(response, false);
-    } catch (error) {
-      console.error("Error fetching rules:", error);
-    }
+
+
+async fetchRecpetionists(): Promise<void> {
+  try {
+    const response = await firstValueFrom(
+      this.receptionistService.getReceptionists(this.currentPage - 1)
+    );
+
+    console.log("Response in search component", response);
+    this.formatAndSetRecpetionists(response, false);
+  } catch (error) {
+    console.error("Error fetching receptionists:", error);
   }
+}
+
 
   async fetchRecpetionistsSearch(): Promise<void> {
     try {
-      const response = await this.receptionistService
-        .getReceptionistSearch(
+    const response = await firstValueFrom(
+      this.receptionistService.getReceptionistSearch(
           this.currentPage - 1,
           this.searchText,
           this.filterByHeader
         )
-        .toPromise();
-      this.formatAndSetRules(response, true);
+        
+    );
+      this.formatAndSetRecpetionists(response, true);
     } catch (error) {
       console.error("Error fetching rule search:", error);
     }
   }
 
-private formatAndSetRules(response: Receptionist[] | undefined, inSearchMode: boolean): void {
-  if (!response || response.length === 0) return;
+private formatAndSetRecpetionists(response: Receptionist[] | undefined, inSearchMode: boolean): void {
+   if (!response || response.length === 0) return;
 
   const formatted = response.map((rule) => ({
     ...rule,
@@ -195,6 +201,7 @@ private formatAndSetRules(response: Receptionist[] | undefined, inSearchMode: bo
     this.totalPagesSearch = response[0]?.totalPages || 0;
   } else {
     this.filteredData = formatted;
+    console.log("filtered data is",this.filteredData);
     this.totalPagesNormal = response[0]?.totalPages || 0;
   }
 

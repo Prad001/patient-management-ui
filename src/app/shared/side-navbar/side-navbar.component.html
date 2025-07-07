@@ -12,20 +12,32 @@
       ></a
     >
 
-    <!-- <a
-      *ngIf="isAdminRouteNavbar()"
-      (click)="setActiveLink('dashboardAdmin'); dashboardAdmin()"
-      id="dropdownUser1"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      <span class="entry dropdown-toggle"
-        ><i class="fs-5 fa-solid fa-list-check" style="padding-right: 4px"></i
-        ><span>User Management</span></span
-      ></a
-    > -->
 
-    <a
+
+    <mat-accordion multi>
+  <mat-expansion-panel [expanded]="true" class="user-management-panel">
+    <mat-expansion-panel-header>
+      
+      <mat-panel-title class="dropdown-heading text-right">
+        <i class="fs-5 fa-solid fa-list-check icon-padding " style="margin-right: 10px"></i>
+        User Management
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="panel-item" *ngIf="isAdminRouteNavbar()" (click)="receptionist()" [class.active]="activeLink === 'user-management/receptionist'">
+      Receptionist
+    </div>
+    <div class="panel-item" *ngIf="isAdminRouteNavbar()" (click)="doctor()" [class.active]="activeLink === 'user-management/doctor'">
+      Doctor
+    </div>
+    <div class="panel-item" *ngIf="isAdminRouteNavbar()" (click)="patient()" [class.active]="activeLink === 'user-management/patient'">
+      Patient
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+          <!-- <a
       *ngIf="isAdminRouteNavbar()"
       (click)="toggleUserDropdown()"
       id="dropdownUser1"
@@ -39,6 +51,39 @@
         <span>User Management</span>
       </span>
     </a>
+
+
+       <nav class="sidebar-nav">
+        <ul class="dropdown-menu text-small show" style="background-color:#E0F7FA ;">
+      <li *ngIf="isAdminRouteNavbar()" (click)="receptionist()">
+        <a
+          class="dropdown-item"
+          [ngClass]="{ active: activeLink === 'user-management/receptionist' }"
+          >Receptionist</a
+        >
+      </li>
+      <li *ngIf="isAdminRouteNavbar()" (click)="doctor()">
+        <a
+          class="dropdown-item"
+          [ngClass]="{ active: activeLink === 'user-management/doctor' }"
+          >Doctor</a
+        >
+      </li>
+      <li *ngIf="isAdminRouteNavbar()" (click)="patient()">
+        <a
+          class="dropdown-item"
+          [ngClass]="{ active: activeLink === 'user-management/patient' }"
+          >Patient</a
+        >
+      </li>
+    </ul>
+  </nav> -->
+
+
+  
+
+
+    
 
     <a
       *ngIf="isAdminRouteNavbar()"
@@ -72,31 +117,7 @@
         </li>
       </ul>
     </div> -->
-    <div >
-        <ul class="dropdown-menu text-small show" style="background-color:#E0F7FA ;">
-      <li *ngIf="isAdminRouteNavbar()" (click)="receptionist()">
-        <a
-          class="dropdown-item"
-          [ngClass]="{ active: activeLink === 'user-management/receptionist' }"
-          >Receptionist</a
-        >
-      </li>
-      <li *ngIf="isAdminRouteNavbar()" (click)="doctor()">
-        <a
-          class="dropdown-item"
-          [ngClass]="{ active: activeLink === 'user-management/doctor' }"
-          >Doctor</a
-        >
-      </li>
-      <li *ngIf="isAdminRouteNavbar()" (click)="patient()">
-        <a
-          class="dropdown-item"
-          [ngClass]="{ active: activeLink === 'user-management/patient' }"
-          >Patient</a
-        >
-      </li>
-    </ul>
-    </div>
+   
     
   </div>
 
