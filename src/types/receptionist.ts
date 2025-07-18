@@ -17,7 +17,8 @@ export interface Receptionist {
   updatedAt: string;
   createdAt: string;
   totalPages:number;
-  currentPage:number
+  currentPage:number,
+  content:any;
 }
 
 // public enum ReceptionistStatus {

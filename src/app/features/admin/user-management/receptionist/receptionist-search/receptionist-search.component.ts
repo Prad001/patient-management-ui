@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { debounceTime, distinctUntilChanged, firstValueFrom, Subject } from 'rxjs';
 import { Header } from 'src/types/header';
-import { Receptionist} from 'src/types/receptionist';
+import { Receptionist } from 'src/types/receptionist';
 import { DeleteDialogComponent } from '../../../shared/dialogs/delete-dialog/delete-dialog.component';
 import { ReceptionistService } from '../receptionist.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TimeFormatService } from '../../../shared/service/time-format.service';
+import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/success-dialog.component';
 
 @Component({
   selector: 'app-receptionist-search',
@@ -100,13 +101,10 @@ export class ReceptionistSearchComponent {
   // ──────────────────────────────────────────────────────────────
   // Event Handlers
   // ──────────────────────────────────────────────────────────────
-  changePage(page: number): void {
-    this.currentPage = page;
-    this.totalPages = this.inSearchMode
-      ? this.totalPagesSearch
-      : this.totalPagesNormal;
-    this.inSearchMode ? this.fetchRecpetionistsSearch() : this.fetchRecpetionists();
-  }
+changePage(page: number): void {
+  this.currentPage = page;
+  this.inSearchMode ? this.fetchRecpetionistsSearch() : this.fetchRecpetionists();
+}
 
 onSearchTextChange(searchValue: string): void {
   this.searchTextChanged.next(searchValue);
@@ -129,12 +127,12 @@ onSearchTextChange(searchValue: string): void {
   // Navigation
   // ──────────────────────────────────────────────────────────────
   updateRule(index: number): void {
-    const ruleId = this.inSearchMode
+    const receptionistId = this.inSearchMode
       ? this.searchedData[index].receptionistId
       : this.filteredData[index].receptionistId;
     this.router.navigate([
-      "ada-access/auth-tools/policy-authoring/rules/update",
-      ruleId,
+      "admin/user-management/receptionist/update",
+      receptionistId,
     ]);
   }
 
@@ -161,9 +159,8 @@ onSearchTextChange(searchValue: string): void {
 async fetchRecpetionists(): Promise<void> {
   try {
     const response = await firstValueFrom(
-      this.receptionistService.getReceptionists(this.currentPage - 1)
+      this.receptionistService.getReceptionists(this.currentPage - 1, this.itemsPerPage)
     );
-
     console.log("Response in search component", response);
     this.formatAndSetRecpetionists(response, false);
   } catch (error) {
@@ -178,7 +175,8 @@ async fetchRecpetionists(): Promise<void> {
       this.receptionistService.getReceptionistSearch(
           this.currentPage - 1,
           this.searchText,
-          this.filterByHeader
+          this.filterByHeader,
+          this.itemsPerPage
         )
         
     );
@@ -188,43 +186,50 @@ async fetchRecpetionists(): Promise<void> {
     }
   }
 
-private formatAndSetRecpetionists(response: Receptionist[] | undefined, inSearchMode: boolean): void {
-   if (!response || response.length === 0) return;
+// private formatAndSetRecpetionists(response: Receptionist[] | undefined, inSearchMode: boolean): void {
+//    if (!response || response.length === 0) return;
+//   const formatted = response.map((rule) => ({
+//     ...rule,
+//     timestamp: this.timeFormatService.formatDate(rule.updatedAt),
+//   }));
 
-  const formatted = response.map((rule) => ({
-    ...rule,
-    timestamp: this.timeFormatService.formatDate(rule.updatedAt),
+//   if (inSearchMode) {
+//     this.searchedData = formatted;
+//     this.totalPagesSearch = response[0]?.totalPages || 0;
+//   } else {
+//     this.filteredData = formatted;
+//     console.log("filtered data is",this.filteredData);
+//     this.totalPagesNormal = response[0]?.totalPages || 0;
+//   }
+
+//   this.updatePagination(response);
+// }
+
+private formatAndSetRecpetionists(response: any, inSearchMode: boolean): void {
+
+   // if (!response || !response.content || response.content.length === 0) return;
+
+  const content = response?.content;
+  if (!content || content.length === 0) return;
+  
+
+  const formatted = content.map((receptionist: Receptionist) => ({
+    ...receptionist,
+    timestamp: this.timeFormatService.formatDate(receptionist.updatedAt),
   }));
 
   if (inSearchMode) {
     this.searchedData = formatted;
-    this.totalPagesSearch = response[0]?.totalPages || 0;
+    this.totalPagesSearch = response.totalPages;
   } else {
     this.filteredData = formatted;
-    console.log("filtered data is",this.filteredData);
-    this.totalPagesNormal = response[0]?.totalPages || 0;
+    this.totalPagesNormal = response.totalPages;
+    console.log("Total pages normal:", this.totalPagesNormal);
   }
 
-  this.updatePagination(response);
+   this.totalPages = response.totalPages;
+   this.currentPage = response.page + 1; // Adjusting for 0-based index
 }
-
-
- private updatePagination(response: Receptionist[] | undefined): void {
-  if (response && response.length > 0 && response[0].totalPages) {
-    const totalPages = response[0].totalPages;
-    const currentPage = response[0].currentPage + 1;
-
-    if (this.inSearchMode) {
-      this.totalPagesSearch = totalPages;
-    } else {
-      this.totalPagesNormal = totalPages;
-    }
-
-    this.totalPages = totalPages;
-    this.currentPage = currentPage;
-  }
-}
-
 
   // ──────────────────────────────────────────────────────────────
   // Search
@@ -275,7 +280,7 @@ private formatAndSetRecpetionists(response: Receptionist[] | undefined, inSearch
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         data: {
           title: "Are you sure?",
-          message: "Do you really want to delete this Rule?",
+          message: "Do you really want to delete this User?",
           isConfirm: false,
         },
       });
@@ -283,22 +288,23 @@ private formatAndSetRecpetionists(response: Receptionist[] | undefined, inSearch
       const result = await dialogRef.afterClosed().toPromise();
       if (!result) return;
 
-      // const ruleId = this.inSearchMode
-      //   ? this.searchedData[index].ruleId
-      //   : this.filteredData[index].ruleId;
-      // await this.receptionistService.deleteRule(ruleId).toPromise();
+     
+       await this.receptionistService.deleteReceptionist(this.filteredData[index].receptionistId).subscribe(() => {});
 
-      this.inSearchMode ? this.fetchRecpetionistsSearch() : this.fetchRecpetionists();
+     
 
-      this.dialog.open(DeleteDialogComponent, {
+      this.dialog.open(SuccessDialogComponent, {
         data: {
           title: "Success",
-          message: "The Rule has been deleted successfully.",
+          message: "The User has been deleted successfully.",
           isConfirm: true,
         },
+      }) .afterClosed()
+      .subscribe(() => {
+         this.inSearchMode ? this.fetchRecpetionistsSearch() : this.fetchRecpetionists();
       });
     } catch (error) {
-      console.error("Error deleting Rule:", error);
+      console.error("Error deleting User:", error);
     }
   }
 }

@@ -20,7 +20,8 @@
         {{ isCreateMode ? "Create New" : "Update" }} User
          </div>
           <div class="col-6">
-            <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <form *ngIf="formReady" [formGroup]="form" (ngSubmit)="onSubmit()">
+
               <div class="mb-3" *ngIf="!isCreateMode">
                 <label class="form-label" for="receptionistId">Receptioninst Id:</label>
 
@@ -260,7 +261,6 @@
                 Save
               </button>
               <button
-                type="button"
                 class="btn btn-outline-secondary"
                 (click)="onCancel()"
               >

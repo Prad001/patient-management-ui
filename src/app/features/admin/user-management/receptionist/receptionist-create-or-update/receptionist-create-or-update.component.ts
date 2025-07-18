@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Receptionist } from 'src/types/receptionist';
 import { ReceptionistService } from '../receptionist.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/success-dialog.component';
 
 @Component({
@@ -12,15 +12,18 @@ import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/s
   styleUrls: ['./receptionist-create-or-update.component.scss']
 })
 export class ReceptionistCreateOrUpdateComponent {
-        @Input({ required: true }) isCreateMode: boolean = true;
+   isCreateMode: boolean = true;
 
 
   existingReceptionistId = '';
   showPassword: boolean = false;
   form: FormGroup = new FormGroup({});
   receptionist: Receptionist = null!;
+  formReady = false;
 
-  constructor(private receptionService: ReceptionistService, private dialog:MatDialog, private router: Router) {
+
+  constructor(private receptionService: ReceptionistService, private dialog:MatDialog, private router: Router,private route: ActivatedRoute) {
+   // this.existingReceptionistId = this.route.snapshot.params['receptionistId'] || '';
  
     
   }
@@ -28,12 +31,16 @@ export class ReceptionistCreateOrUpdateComponent {
 
 
 async ngOnInit() {
+  this.isCreateMode = Boolean(this.route.snapshot.data["create"]);
+  this.existingReceptionistId = this.route.snapshot.params['receptionistId'];
 
   if (this.isCreateMode) {
     this.initializeForm(); // initialize blank form for create
+     this.formReady = true;
   } else {
     await this.fetchReceptionistById(); // fetch user and then initialize form
     this.initializeForm();      // now that this.user is set
+     this.formReady = true;
   }
 }
 
@@ -48,6 +55,8 @@ initializeForm() {
         this.typeValidator,
       ]),
       dateOfBirth: new FormControl(null, Validators.required),
+      employeeCode: new FormControl(null, Validators.required),
+      department: new FormControl(null, Validators.required),
       contactEmail: new FormControl(null, [
         Validators.required,
         Validators.email,
@@ -69,6 +78,8 @@ initializeForm() {
         this.typeValidator,
       ]),
       dateOfBirth: new FormControl(this.receptionist.dateOfBirth, Validators.required),
+      employeeCode: new FormControl(this.receptionist.employeeCode, Validators.required),
+      department: new FormControl(this.receptionist.department, Validators.required),
       contactEmail: new FormControl(this.receptionist.contactEmail, [
         Validators.required,
         Validators.email,
@@ -84,17 +95,20 @@ initializeForm() {
   }
 }
 
-fetchReceptionistById(): void {
-  this.receptionService.getReceptionist(this.existingReceptionistId).subscribe({
-    next: (receptionist) => {
-      this.receptionist = receptionist;
-    },
-    error: (error) => {
-      console.error("Failed to fetch user by ID", error);
-    }
+fetchReceptionistById(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    this.receptionService.getReceptionist(this.existingReceptionistId).subscribe({
+      next: (receptionist) => {
+        this.receptionist = receptionist;
+        resolve();
+      },
+      error: (error) => {
+        console.error("Failed to fetch user by ID", error);
+        reject(error);
+      }
+    });
   });
 }
-
 
 genderOptions = [
   { value: 'None', label: 'None' },
@@ -132,6 +146,8 @@ accessLevelOptions = [
         this.form.value.name,
         this.form.value.gender,
         this.form.value.dateOfBirth,
+        this.form.value.employeeCode,
+        this.form.value.department,
         this.form.value.contactEmail,
         this.form.value.contactPhone,
         this.form.value.assignedFacility,
@@ -148,6 +164,8 @@ accessLevelOptions = [
          this.form.value.name,
         this.form.value.gender,
         this.form.value.dateOfBirth,
+        this.form.value.employeeCode,
+        this.form.value.department,
         this.form.value.contactEmail,
         this.form.value.contactPhone,
         this.form.value.assignedFacility,

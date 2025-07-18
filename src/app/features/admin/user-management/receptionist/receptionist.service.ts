@@ -20,11 +20,15 @@ export class ReceptionistService {
     private errorHandlingService: ErrorHandlingService
   ) {}
 
-  getReceptionists(currentPage: number): Observable<Receptionist[]> {
-    const params = { currentPage };
+  getReceptionists(page: number, size: number): Observable<any> {
+    let sortBy: string = 'createdAt'
+    const params = { 
+      page: page.toString(),
+      size: size.toString(),
+      sortBy};
 
     return this.http
-      .get<Receptionist[]>(
+      .get<any>(
         `${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.FETCH}`,
         { params }
       )
@@ -34,12 +38,36 @@ export class ReceptionistService {
       );
   }
 
+  // getDoctors(page: number, size: number = 7, sortBy: string = 'createdAt'): Observable<any> {
+  //       const params = {
+  //           page: page.toString(),
+  //           size: size.toString(),
+  //           sortBy
+  //       };
+
+  //       return this.http
+  //           .get<any>(${this.apiUrl}${API_ENDPOINTS.DOCTOR.FETCH}, { params })
+  //           .pipe(
+  //               tap((response) => console.log('Raw API response:', response)),
+  //               catchError((error) => this.errorHandlingService.handleError(error))
+  //           );
+  //   }
+
   getReceptionistSearch(
-    currentPage: number,
-    searchText: string,
-    filterByHeader: string
+    page: number,
+    value: string,
+    category: string,
+    size: number 
   ): Observable<Receptionist[]> {
-    const params = { currentPage, searchText, filterByHeader };
+     let sortBy: string = 'createdAt'
+     const params = {
+            category,
+            value,
+            page: page.toString(),
+            size: size.toString(),
+            sortBy
+        };
+    //const params = { currentPage, searchText, filterByHeader };
     return this.http
       .get<Receptionist[]>(
         `${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.SEARCH}`,
@@ -52,23 +80,18 @@ export class ReceptionistService {
   }
 
   getReceptionist(receptionistId: string): Observable<Receptionist> {
-    const params = { receptionistId };
     return this.http
-      .get<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.GET}`, {
-        params,
-      })
+      .get<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.GET}`+ `/${receptionistId}`)
       .pipe(
-        tap((response) => console.log('Raw API response:', response)),
+        tap((response) => console.log('Raw API response for get:', response)),
         catchError((error) => this.errorHandlingService.handleError(error))
       );
   }
 
   deleteReceptionist(receptionistId: string): Observable<Receptionist> {
-    const params = { receptionistId };
+  
     return this.http
-      .delete<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.GET}`, {
-        params,
-      })
+      .delete<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.DELETE }`+ `/${receptionistId}`)
       .pipe(
         tap((response) => console.log('Raw API response:', response)),
         catchError((error) => this.errorHandlingService.handleError(error))
@@ -79,12 +102,16 @@ export class ReceptionistService {
     name: string,
     gender: string,
     dateOfBirth: string,
+    employeeCode:string,
+    department: string,
     contactEmail: string,
     contactPhone: string,
     assignedFacility: string,
     roleTitle: string,
     accessLevel: string
   ): Observable<Receptionist> {
+    const status="ACTIVE";
+    const lastLogin= "";
     return this.http
       .post<Receptionist>(
         `${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.CREATE}`,
@@ -92,11 +119,15 @@ export class ReceptionistService {
           name,
           gender,
           dateOfBirth,
+          employeeCode,
+          department,
           contactEmail,
           contactPhone,
           assignedFacility,
           roleTitle,
           accessLevel,
+          lastLogin,
+          status,
         }
       )
       .pipe(
@@ -109,23 +140,30 @@ export class ReceptionistService {
     name: string,
     gender: string,
     dateOfBirth: string,
+    employeeCode:string,
+    department: string,
     contactEmail: string,
     contactPhone: string,
     assignedFacility: string,
     roleTitle: string,
     accessLevel: string
   ): Observable<Receptionist> {
+    const status="ACTIVE";
+    const lastLogin= "";
     return this.http
-      .put<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.UPDATE}`, {
-        receptionistId,
+      .put<Receptionist>(`${this.apiUrl}${API_ENDPOINTS.RECEPTIONIST.UPDATE}`+ `/${receptionistId}`, {
         name,
         gender,
         dateOfBirth,
+        employeeCode,
+        department,
         contactEmail,
         contactPhone,
         assignedFacility,
         roleTitle,
         accessLevel,
+        lastLogin,
+        status,
       })
       .pipe(
         catchError((error) => this.errorHandlingService.handleError(error))
