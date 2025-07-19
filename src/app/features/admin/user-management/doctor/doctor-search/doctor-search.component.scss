@@ -1,0 +1,30 @@
+.form-inputs .form-control {
+  height: 40px;
+}
+
+.form-inputs .form-control:focus {
+  box-shadow: none;
+  border: 1px solid #000;
+}
+
+.form-control {
+  min-width: 350px;
+}
+
+.search-icon {
+  margin-right: 40px;
+  background-color: #333742;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  color: rgb(210, 207, 207);
+  border-radius: 16%;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+    background-color: #00BCD4;
+    transition: all 0.3s ease-in-out;
+  }
+}

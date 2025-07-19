@@ -1,0 +1,147 @@
+<app-bread-crumb
+  [breadcrumbs]="[
+    { label: 'Dashboard', url: '/admin' },
+    { label: 'Doctor' }
+  ]"
+></app-bread-crumb>
+
+<section class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 text-center">
+      <div class="main-card mx-auto my-1">
+        <div class="inner">
+          <div class="row mb-3">
+            <div class="col-5">
+              <span class="d-flex form-inputs" style="margin-right: 50px">
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Search"
+                  [ngModel]="searchText"
+                  (ngModelChange)="onSearchTextChange($event)"
+                />
+
+                <div class="search-icon" (click)="searchDoctors()">
+                  <i
+                    class="fa-solid fa-magnifying-glass"
+                    style="font-size: 16px; text-align: center; margin-top: 5px"
+                  ></i>
+                  
+                </div>
+              </span>
+            </div>
+
+            <div class="col-3">
+              <select class="form-select" [(ngModel)]="filterByHeader">
+                <option value="">All Categories</option>
+                <ng-container *ngFor="let header of headers">
+                  <option
+                    *ngIf="header.showInDropdown"
+                    value="{{ header.property }}"
+                  >
+                    {{ header.name }}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+
+            <div class="col-3">
+              <i
+                class="fa-solid fa-square-plus"
+                style="
+                  font-size: 2rem;
+                  top: 3px;
+                  position: relative;
+                  cursor: pointer;
+                "
+                (click)="createDoctors()"
+              ></i>
+              
+              <a style="margin-left: 12px; font-size: 22px; font-weight: 300"
+                >Create
+              </a>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!this.inSearchMode">
+            <div
+              class="col"
+              
+            >
+              <app-main-table
+                [headers]="headers"
+                [data]="filteredData"
+                [buttonConfig]="buttonConfig"
+                (actionClicked)="handleAction($event)"
+              ></app-main-table>
+            </div>
+
+            <div class="row mt-1">
+              <div class="col-6">
+                <button class="btn btn-secondary float-start" (click)="back()">
+                  Back
+                </button>
+              </div>
+              <div class="col-6">
+                <div class="float-end">
+                  <app-pagination
+                    [totalPages]="totalPages"
+                    [totalItems]="filteredData.length"
+                    [itemsPerPage]="itemsPerPage"
+                    [currentPage]="currentPage"
+                    (onClick)="changePage($event)"
+                  ></app-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="this.inSearchMode">
+            <div
+              class="col"
+              *ngIf="searchedData.length > 0; else noDataTemplate"
+            >
+              <app-main-table
+                [headers]="headers"
+                [data]="searchedData"
+                [buttonConfig]="buttonConfig"
+                (actionClicked)="handleAction($event)"
+              ></app-main-table>
+            </div>
+
+            <ng-template #noDataTemplate>
+              <div class="text-center mt-4">
+                <i
+                  class="bi bi-exclamation-octagon-fill"
+                  style="font-size: 50px; color: gray"
+                ></i>
+                <p class="pt-2 pb-3" style="font-size: 18px">
+                  No results found
+                </p>
+              </div>
+            </ng-template>
+
+            <div class="row mt-1">
+              <div class="col-6">
+                <button class="btn btn-secondary float-start" (click)="back()">
+                  Back
+                </button>
+              </div>
+              <div class="col-6">
+                <div class="float-end">
+                  <app-pagination
+                    [totalPages]="totalPages"
+                    [totalItems]="searchedData.length"
+                    [itemsPerPage]="itemsPerPage"
+                    [currentPage]="currentPage"
+                    (onClick)="changePage($event)"
+                  ></app-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
