@@ -1,11 +1,11 @@
 export const API_ENDPOINTS = {
   RECEPTIONIST: {
-    FETCH: '/receptionist',
-    SEARCH: '/receptionist',
-    GET: '/receptionist',
-    CREATE: '/receptionist',
-    UPDATE: '/receptionist',
-    DELETE: '/receptionist',
+    FETCH: '/receptionists',
+    SEARCH: '/receptionists',
+    GET: '/receptionists',
+    CREATE: '/receptionists',
+    UPDATE: '/receptionists',
+    DELETE: '/receptionists',
   },
   DOCTOR: {
     FETCH: '/doctors',

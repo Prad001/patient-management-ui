@@ -11,12 +11,16 @@ import { adminRouter } from './features/admin/admin.router';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
+import { DoctorComponent } from './features/doctor/doctor.component';
+import { doctorRouter } from './features/doctor/doctor.router';
+import { DoctorModule } from './features/doctor/doctor.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent
+    AdminComponent,
+    DoctorComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +32,9 @@ import { HttpClientModule } from '@angular/common/http';
     AgGridAngular,
     AgGridModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    doctorRouter,
+    DoctorModule
   ],
  providers: [
         

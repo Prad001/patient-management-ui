@@ -2,8 +2,10 @@
   <div id="title">Patient Management</div>
 
   <div class="menu">
+
+    <!-- *************************Admin*************************** -->
     <a
-      *ngIf="isAdminRouteNavbar()"
+      *ngIf="isAdminRouteNavbar()  && !isDoctorRouteNavbar()"
       (click)="setActiveLink('dashboardAdmin'); dashboardAdmin()"
       [ngClass]="{ active: activeLink === 'dashboardAdmin' }"
       ><span class="entry"
@@ -14,7 +16,7 @@
 
 
 
-    <mat-accordion multi>
+    <mat-accordion multi  *ngIf="isAdminRouteNavbar()  && !isDoctorRouteNavbar()">
   <mat-expansion-panel [expanded]="true" class="user-management-panel">
     <mat-expansion-panel-header>
       
@@ -24,69 +26,21 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <div class="panel-item" *ngIf="isAdminRouteNavbar()" (click)="receptionist()" [class.active]="activeLink === 'user-management/receptionist'">
+    <div class="panel-item" *ngIf="isAdminRouteNavbar()  && !isDoctorRouteNavbar()" (click)="adminReceptionist()" [class.active]="activeLink === 'user-management/receptionist'">
       Receptionist
     </div>
-    <div class="panel-item" *ngIf="isAdminRouteNavbar()" (click)="doctor()" [class.active]="activeLink === 'user-management/doctor'">
+    <div class="panel-item" *ngIf="isAdminRouteNavbar()  && !isDoctorRouteNavbar()" (click)="adminDoctor()" [class.active]="activeLink === 'user-management/doctor'">
       Doctor
     </div>
-    <div class="panel-item" *ngIf="isAdminRouteNavbar()" (click)="patient()" [class.active]="activeLink === 'user-management/patient'">
+    <div class="panel-item" *ngIf="isAdminRouteNavbar()  && !isDoctorRouteNavbar()" (click)="adminPatient()" [class.active]="activeLink === 'user-management/patient'">
       Patient
     </div>
   </mat-expansion-panel>
 </mat-accordion>
 
 
-          <!-- <a
-      *ngIf="isAdminRouteNavbar()"
-      (click)="toggleUserDropdown()"
-      id="dropdownUser1"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-      [ngClass]="{ active: activeLink.startsWith('user-management') }"
-      data-bs-auto-close="outside"
-    >
-      <span class="entry dropdown-toggle">
-        <i class="fs-5 fa-solid fa-list-check" style="padding-right: 4px"></i>
-        <span>User Management</span>
-      </span>
-    </a>
-
-
-       <nav class="sidebar-nav">
-        <ul class="dropdown-menu text-small show" style="background-color:#E0F7FA ;">
-      <li *ngIf="isAdminRouteNavbar()" (click)="receptionist()">
-        <a
-          class="dropdown-item"
-          [ngClass]="{ active: activeLink === 'user-management/receptionist' }"
-          >Receptionist</a
-        >
-      </li>
-      <li *ngIf="isAdminRouteNavbar()" (click)="doctor()">
-        <a
-          class="dropdown-item"
-          [ngClass]="{ active: activeLink === 'user-management/doctor' }"
-          >Doctor</a
-        >
-      </li>
-      <li *ngIf="isAdminRouteNavbar()" (click)="patient()">
-        <a
-          class="dropdown-item"
-          [ngClass]="{ active: activeLink === 'user-management/patient' }"
-          >Patient</a
-        >
-      </li>
-    </ul>
-  </nav> -->
-
-
-  
-
-
-    
-
     <a
-      *ngIf="isAdminRouteNavbar()"
+      *ngIf="isAdminRouteNavbar()  && !isDoctorRouteNavbar()"
       (click)="setActiveLink('adminReports'); adminReports()"
       [ngClass]="{ active: activeLink === 'adminReports' }"
       ><span class="entry"
@@ -95,30 +49,68 @@
       ></a
     >
 
-    <!-- <div>
-      <ul class="dropdown-menu text-small">
-        <li
-          *ngIf="isAdminRouteNavbar()"
-          (click)="setActiveLink('receptionist'); receptionist()"
+    <!-- *************************Doctor*************************** -->
+     <a
+      *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
+      (click)="setActiveLink('dashboardDoctor'); dashboardDoctor()"
+      [ngClass]="{ active: activeLink === 'dashboardDoctor' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-gauge" style="padding-right: 4px"></i
+        ><span>Dashboard</span></span
+      ></a
+    >
+
+    <a
+      *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
+      (click)="setActiveLink('doctorAppointment'); doctorAppointment()"
+      [ngClass]="{ active: activeLink === 'doctorAppointment' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-clipboard-list" style="padding-right: 4px"></i
         >
-          <a class="dropdown-item">Receptionist</a>
-        </li>
-        <li
-          *ngIf="isAdminRouteNavbar()"
-          (click)="setActiveLink('doctor'); doctor()"
-        >
-          <a class="dropdown-item">Doctor</a>
-        </li>
-        <li
-          *ngIf="isAdminRouteNavbar()"
-          (click)="setActiveLink('patient'); patient()"
-        >
-          <a class="dropdown-item">Patient</a>
-        </li>
-      </ul>
-    </div> -->
-   
-    
+        <span>Appointment</span></span
+      ></a
+    >
+
+     <a
+      *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
+      (click)="setActiveLink('doctorSlot'); doctorSlot()"
+      [ngClass]="{ active: activeLink === 'doctorSlot' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-regular fa-clock" style="padding-right: 4px"></i
+        ><span>Slot</span></span
+      ></a
+    >
+
+    <a
+      *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
+      (click)="setActiveLink('doctorSchedule'); doctorSchedule()"
+      [ngClass]="{ active: activeLink === 'doctorSchedule' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-calendar-check" style="padding-right: 4px"></i
+        ><span>Schedule</span></span
+      ></a
+    >
+
+     <a
+      *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
+      (click)="setActiveLink('doctorPatientDetails'); doctorPatientDetails()"
+      [ngClass]="{ active: activeLink === 'doctorPatientDetails' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-hospital-user" style="padding-right: 4px"></i
+        > <span>Patient Details</span></span
+      ></a
+    >
+
+    <a
+      *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
+      (click)="setActiveLink('doctorReports'); doctorReports()"
+      [ngClass]="{ active: activeLink === 'doctorReports' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-chart-line" style="padding-right: 4px"></i
+        ><span>Reports</span></span
+      ></a
+    >
+ 
   </div>
 
   <div class="menu" id="options">

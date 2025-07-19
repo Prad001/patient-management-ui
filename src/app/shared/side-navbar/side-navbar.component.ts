@@ -6,8 +6,6 @@ import {
   AfterViewInit,
   Input,
 } from '@angular/core';
-import { MatDrawer } from '@angular/material/sidenav';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { filter, Subscription } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -52,14 +50,33 @@ export class SideNavbarComponent {
         this.setActiveLink('adminReports');
       } else if (currentUrl.includes('receptionist')) {
         this.setActiveLink('user-management/receptionist');
-      } else if (currentUrl.includes('doctor')) {
+      } else if (this.router.url.startsWith('/admin/user-management/doctor')) {
         this.setActiveLink('user-management/doctor');
       } else if (currentUrl.includes('patient')) {
         this.setActiveLink('user-management/patient');
       } else {
         this.setActiveLink('dashboardAdmin');
       }
-      this.isTitle = 'Adaptive Access Control';
+      //this.isTitle = 'Adaptive Access Control';
+    }
+
+    if (this.isDoctorRouteNavbar()) {
+      if (currentUrl.includes('reports')) {
+        this.setActiveLink('doctorReports');
+      } else if (currentUrl.includes('appointment')) {
+        this.setActiveLink('doctorAppointment');
+      } else if (currentUrl.includes('slot')) {
+        this.setActiveLink('doctorSlot');
+      
+      }else if (currentUrl.includes('schedule')) {
+        this.setActiveLink('doctorSchedule');
+      
+      } else if (currentUrl.includes('patient-details')) {
+        this.setActiveLink('doctorPatientDetails');
+      } else {
+        this.setActiveLink('dashboardDoctor');
+      }
+     // this.isTitle = 'Doctor Dashboard';
     }
   }
 
@@ -73,33 +90,65 @@ export class SideNavbarComponent {
     this.isUserDropdownOpen = !this.isUserDropdownOpen;
   }
 
+  //Admin
+
   dashboardAdmin() {
     this.router.navigate(['admin']);
   }
-
-  // adminUserManagement() {
-  //   this.router.navigate(["admin/user-management"]);
-  // }
 
   adminReports() {
     this.router.navigate(['admin/reports']);
   }
 
-  receptionist() {
+  adminReceptionist() {
     this.router.navigate(['admin/user-management/receptionist/search']);
   }
 
-  doctor() {
+  adminDoctor() {
     this.router.navigate(['admin/user-management/doctor/search']);
   }
 
-  patient() {
+  adminPatient() {
     this.router.navigate(['admin/patient']);
   }
 
-  isAdminRouteNavbar(): boolean {
-    return this.router.url.includes('/admin');
+
+  //Doctor
+
+  dashboardDoctor() {
+    this.router.navigate(['doctor']);
   }
+  doctorReports() {
+    this.router.navigate(['doctor/reports']);
+  }
+  doctorAppointment() {
+    this.router.navigate(['doctor/appointment']);
+  }
+  doctorSlot() {
+    this.router.navigate(['doctor/slot']);
+  }
+  doctorSchedule() {
+    this.router.navigate(['doctor/schedule']);
+  }
+
+  doctorPatientDetails() {
+    this.router.navigate(['doctor/patient-details']);
+  }
+
+
+
+
+
+  isAdminRouteNavbar(): boolean {
+  const url = this.router.url;
+  return url.startsWith('/admin') && !url.startsWith('/doctor');
+}
+
+isDoctorRouteNavbar(): boolean {
+  const url = this.router.url;
+  return url.startsWith('/doctor');
+}
+
 
   closeSidenav() {
     this.sidenavClosed.emit();
