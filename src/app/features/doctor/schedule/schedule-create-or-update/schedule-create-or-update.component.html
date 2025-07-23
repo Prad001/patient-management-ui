@@ -1,0 +1,251 @@
+<div class="bar-section">
+        <div class="row">
+          <!-- Schedule Column -->
+          <div
+            class="col-6 tab-column"
+            (click)="
+              isCreateMode
+                ? !isNext && (selectedTab = 'schedule')
+                : (selectedTab = 'schedule')
+            "
+            [class.active]="selectedTab === 'schedule'"
+            [style.cursor]="isNext && isCreateMode ? 'not-allowed' : 'pointer'"
+            [class.disabled]="isNext && isCreateMode"
+          >
+            Schedule
+          </div>
+
+           <!-- Slot Column -->
+
+          <div
+            class="col-6 tab-column"
+            (click)="
+              isCreateMode
+                ? isNext && (selectedTab = 'slot')
+                : (selectedTab = 'slot')
+            "
+            [class.active]="selectedTab === 'slot'"
+            [style.cursor]="!isNext && isCreateMode ? 'not-allowed' : 'pointer'"
+            [class.disabled]="!isNext && isCreateMode"
+          >
+            Slot
+          </div>
+        </div>
+      </div>
+
+<div class="row text-start p-5" *ngIf="selectedTab === 'schedule'">
+  <div class="col-12 tab-column pb-4 fs-4">
+    {{ isCreateMode ? "Create New" : "Update" }} Schedule
+  </div>
+  <div class="col-6">
+    <form *ngIf="formReadySchedule" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-3" *ngIf="!isCreateMode">
+        <label class="form-label" for="scheduleId">Schedule Id:</label>
+
+        <input
+          class="form-control"
+          type="text"
+          id="scheduleId"
+          formControlName="scheduleId"
+          readonly
+        />
+        <div
+          *ngIf="
+            form.get('scheduleId')?.invalid &&
+            (form.get('scheduleId')?.dirty || form.get('scheduleId')?.touched)
+          "
+        ></div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="scheduleType">Schedule Type:</label>
+        <select
+          class="form-select"
+          id="scheduleType"
+          formControlName="scheduleType"
+        >
+          <option
+            *ngFor="let option of scheduleTypeOptions"
+            [value]="option.value"
+            [disabled]="option.value === 'None'"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+        <div
+          *ngIf="form.get('scheduleType')?.value === 'week'"
+          class="text-primary pt-1"
+        >
+          *End date will be automatically set to 6 days after the start date.
+        </div>
+        <div
+          *ngIf="
+            form.controls['scheduleType']?.invalid &&
+            form.controls['scheduleType']?.touched
+          "
+          class="text-danger"
+        >
+          Please select a Schedule Type.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="startDate">Start Date :</label>
+        <input
+          type="date"
+          id="startDate"
+          class="form-control"
+          formControlName="startDate"
+          [min]="today"
+        />
+        <div
+          *ngIf="
+            form.controls['startDate']?.invalid &&
+            form.controls['startDate']?.touched
+          "
+          class="text-danger"
+        >
+          Please select a Start Date.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="endDate">End Date :</label>
+        <input
+          type="date"
+          id="endDate"
+          class="form-control"
+          formControlName="endDate"
+          [min]="form.get('startDate')?.value"
+        />
+        <div
+          *ngIf="
+            form.controls['endDate']?.invalid &&
+            form.controls['endDate']?.touched
+          "
+          class="text-danger"
+        >
+          Please select a End Date.
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        (click)="onSubmit()"
+        class="btn btn-primary me-3"
+        [disabled]="form.invalid"
+      >
+        Save
+      </button>
+      <button class="btn btn-outline-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<!-- *ngIf="selectedTab === 'node' && isNext" -->
+
+<div class="row text-start p-5" *ngIf="selectedTab === 'slot' && isNext">
+  <div class="col-12 tab-column pb-4 fs-4">
+    {{ isCreateMode ? "fill" : "Update" }} Slot Details
+  </div>
+  <div class="col-6">
+    <form *ngIf="formReadySchedule" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-3" *ngIf="!isCreateMode">
+        <label class="form-label" for="slotId">Slot Id:</label>
+
+        <input
+          class="form-control"
+          type="text"
+          id="slotId"
+          formControlName="slotId"
+          readonly
+        />
+        <div
+          *ngIf="
+            form.get('slotId')?.invalid &&
+            (form.get('slotId')?.dirty || form.get('slotId')?.touched)
+          "
+        ></div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="sessionDuration">Session Duration:</label>
+        <select
+          class="form-select"
+          id="sessionDuration"
+          formControlName="sessionDuration"
+        >
+          <option
+            *ngFor="let option of sessionDurationTypeOptions"
+            [value]="option.value"
+            [disabled]="option.value === 'None'"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            form.controls['sessionDuration']?.invalid &&
+            form.controls['sessionDuration']?.touched
+          "
+          class="text-danger"
+        >
+          Please select a Session Duration.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="startTime">Start Time :</label>
+        <input
+          type="time"
+          id="startTime"
+          class="form-control"
+          formControlName="startTime"
+        />
+        <div
+          *ngIf="
+            form.controls['startTime']?.invalid &&
+            form.controls['startTime']?.touched
+          "
+          class="text-danger"
+        >
+          Please select a Start Time.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="endTime">End Time :</label>
+        <input
+          type="time"
+          id="endTime"
+          class="form-control"
+          formControlName="endTime"
+        />
+        <div
+          *ngIf="
+            form.controls['endTime']?.invalid &&
+            form.controls['endTime']?.touched
+          "
+          class="text-danger"
+        >
+          Please select a End Time.
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        (click)="onSubmit()"
+        class="btn btn-primary me-3"
+        [disabled]="form.invalid"
+      >
+        Save
+      </button>
+      <button class="btn btn-outline-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+    </form>
+  </div>
+</div>

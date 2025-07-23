@@ -12,9 +12,7 @@ import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/s
   styleUrls: ['./receptionist-create-or-update.component.scss']
 })
 export class ReceptionistCreateOrUpdateComponent {
-   isCreateMode: boolean = true;
-
-
+  isCreateMode: boolean = true;
   existingReceptionistId = '';
   showPassword: boolean = false;
   form: FormGroup = new FormGroup({});

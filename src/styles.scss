@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 
@@ -26,3 +25,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
         margin: auto auto;
     }
 }
+
+// .mat-dialog-container {
+//   background: white !important;
+//   color: black;
+//   padding: 24px;
+//   border-radius: 8px;
+// }
+.dark-dialog .mat-mdc-dialog-container {
+  background-color: #ffffff !important;
+  color: #000000;
+}
+

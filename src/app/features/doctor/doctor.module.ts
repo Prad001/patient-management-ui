@@ -8,6 +8,12 @@ import { ReportsComponent } from "./reports/reports.component";
 import { PatientDetailsComponent } from "./patient-details/patient-details.component";
 import { SlotComponent } from "./slot/slot.component";
 import { ScheduleComponent } from './schedule/schedule.component';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarModule, DateAdapter } from "angular-calendar";
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { ScheduleCreateOrUpdateComponent } from './schedule/schedule-create-or-update/schedule-create-or-update.component';
+import { ScheduleSearchComponent } from './schedule/schedule-search/schedule-search.component';
 
 @NgModule({
   declarations: [
@@ -17,11 +23,13 @@ import { ScheduleComponent } from './schedule/schedule.component';
    PatientDetailsComponent,
    SlotComponent,
    ScheduleComponent,
-
+   ScheduleCreateOrUpdateComponent,
+   ScheduleSearchComponent,
+  
    
   ],
   imports: [CommonModule, SharedModule,FormsModule,
-        ReactiveFormsModule],
+        ReactiveFormsModule, NgbModalModule,   FlatpickrModule.forRoot(),CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })],
   exports: [],
 })
 export class DoctorModule {}

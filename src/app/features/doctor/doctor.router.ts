@@ -7,6 +7,7 @@ import { SlotComponent } from "./slot/slot.component";
 import { PatientDetailsComponent } from "./patient-details/patient-details.component";
 import { ScheduleComponent } from "./schedule/schedule.component";
 
+
 export const doctorRoutes: Routes = [
   {
     path: "doctor",
@@ -20,6 +21,9 @@ export const doctorRoutes: Routes = [
       { path: "appointment", component: AppointmentComponent},
       { path: "slot", component: SlotComponent },
       { path: "schedule", component: ScheduleComponent },
+      // { path: "schedule/create", component: ScheduleCreateOrUpdateComponent, data: { create: true }},
+      // { path: "schedule/update/:scheduleId", component: ScheduleCreateOrUpdateComponent, data: { create: false }},
+
       { path: "patient-details", component: PatientDetailsComponent},
       { path: "doctor", component: DoctorComponent },
     ],
