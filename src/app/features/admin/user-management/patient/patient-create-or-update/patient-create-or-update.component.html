@@ -1,0 +1,127 @@
+<app-bread-crumb [breadcrumbs]="[
+    { label: 'Dashboard', url: '/admin' },
+    { label: 'Patient', url: '/admin/user-management/patient/search' }
+  ]"></app-bread-crumb>
+
+<section class="container mt-2">
+    <div class="row">
+        <div class="main-card mx-auto">
+            <div class="inner">
+                <div class="row text-start">
+                    <div class="col-12 tab-column pb-4 fs-4">
+                        {{ isCreateMode ? 'Create New' : 'Update' }} Patient
+                    </div>
+                    <div class="col-6">
+                        <form *ngIf="formReady" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                            <div class="mb-3" *ngIf="!isCreateMode">
+                                <label class="form-label" for="patientId">Patient ID:</label>
+                                <input class="form-control" type="text" id="patientId" formControlName="patientId"
+                                    readonly />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Name:</label>
+                                <input class="form-control" id="name" placeholder="Enter Name" formControlName="name" />
+                                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.touched)">
+                                    <small class="text-danger">*Name cannot be empty</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="gender">Gender:</label>
+                                <select class="form-select" id="gender" formControlName="gender">
+                                    <option *ngFor="let option of genderOptions" [value]="option.value"
+                                        [disabled]="option.value === 'None'">
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                                <div *ngIf="form.controls['gender']?.invalid && form.controls['gender']?.touched"
+                                    class="text-danger">
+                                    Please select a gender.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="dateOfBirth">Date of Birth:</label>
+                                <input type="date" id="dateOfBirth" class="form-control"
+                                    formControlName="dateOfBirth" />
+                                <div *ngIf="form.controls['dateOfBirth']?.invalid && form.controls['dateOfBirth']?.touched"
+                                    class="text-danger">
+                                    Please select a valid date.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="aadhaarNumber">Aadhaar Number:</label>
+                                <input class="form-control" id="aadhaarNumber" placeholder="Enter Aadhaar Number"
+                                    formControlName="aadhaarNumber" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="contactPhone">Contact Number:</label>
+                                <input class="form-control" id="contactPhone" placeholder="Enter Contact Number"
+                                    formControlName="contactPhone" />
+                                <div *ngIf="form.get('contactPhone')?.invalid && form.get('contactPhone')?.touched">
+                                    <small class="text-danger">*Contact Number cannot be empty</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="email">Email Address:</label>
+                                <input class="form-control" id="email" placeholder="Enter Email Address"
+                                    formControlName="email" />
+                                <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+                                    <small class="text-danger">*Email Address cannot be empty</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="address">Address:</label>
+                                <textarea class="form-control" id="address" rows="2" formControlName="address"
+                                    placeholder="Enter Address"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="medicalHistory">Medical History:</label>
+                                <textarea class="form-control" id="medicalHistory" rows="2"
+                                    formControlName="medicalHistory" placeholder="Enter Medical History"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="allergies">Allergies:</label>
+                                <textarea class="form-control" id="allergies" rows="2" formControlName="allergies"
+                                    placeholder="Enter Allergies"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="medications">Medications:</label>
+                                <textarea class="form-control" id="medications" rows="2" formControlName="medications"
+                                    placeholder="Enter Medications"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="consents">Consents:</label>
+                                <textarea class="form-control" id="consents" rows="2" formControlName="consents"
+                                    placeholder="Enter Consents"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="emergencyContact">Emergency Contact:</label>
+                                <input class="form-control" id="emergencyContact" placeholder="Enter Emergency Contact"
+                                    formControlName="emergencyContact" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary me-3" [disabled]="form.invalid">
+                                Save
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -7,5 +7,7 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:4006',
   //apiUrl: '/api',
+  patientUrl: 'http://localhost:4000',
+  adminUrl: 'http://localhost:4006',
   keyCloakRedirectUrl: 'http://localhost:9000'
 };

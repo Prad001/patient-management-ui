@@ -13,12 +13,12 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ReceptionistService {
-  private readonly apiUrl = environment.apiUrl;
+  private readonly apiUrl = environment.adminUrl;
 
   constructor(
     private http: HttpClient,
     private errorHandlingService: ErrorHandlingService
-  ) {}
+  ) { }
 
   getReceptionists(page: number, size: number): Observable<any> {
     let sortBy: string = 'createdAt'

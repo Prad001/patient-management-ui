@@ -6,6 +6,8 @@ import { ReportsComponent } from "./reports/reports.component";
 import { ReceptionistCreateOrUpdateComponent } from "./user-management/receptionist/receptionist-create-or-update/receptionist-create-or-update.component";
 import { DoctorSearchComponent } from "./user-management/doctor/doctor-search/doctor-search.component";
 import { DoctorCreateOrUpdateComponent } from "./user-management/doctor/doctor-create-or-update/doctor-create-or-update.component";
+import { PatientSearchComponent } from "./user-management/patient/patient-search/patient-search.component";
+import { PatientCreateOrUpdateComponent } from "./user-management/patient/patient-create-or-update/patient-create-or-update.component";
 
 
 export const adminRoutes: Routes = [
@@ -17,6 +19,9 @@ export const adminRoutes: Routes = [
       { path: "user-management/receptionist/search", component: ReceptionistSearchComponent },
       { path: "user-management/receptionist/create", component: ReceptionistCreateOrUpdateComponent, data: { create: true } },
       { path: "user-management/receptionist/update/:receptionistId", component: ReceptionistCreateOrUpdateComponent, data: { create: false } },
+      { path: "user-management/patient/search", component: PatientSearchComponent },
+      { path: "user-management/patient/create", component: PatientCreateOrUpdateComponent, data: { create: true } },
+      { path: 'user-management/patient/update/:patientId', component: PatientCreateOrUpdateComponent, data: { create: false } },
 
       { path: "user-management/doctor/search", component: DoctorSearchComponent },
       { path: "user-management/doctor/create", component: DoctorCreateOrUpdateComponent, data: { create: true } },

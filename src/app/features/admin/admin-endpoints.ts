@@ -14,5 +14,15 @@ export const API_ENDPOINTS = {
     CREATE: '/doctors',
     UPDATE: '/doctors',
     DELETE: '/doctors',
+
+  },
+  PATIENT: {
+    FETCH: '/patients/paginated',
+    SEARCH: '/patients/filter',
+    GET: '/patients',
+    CREATE: '/patients',
+    UPDATE: '/patients',
+    DELETE: '/patients',
+
   }
 }

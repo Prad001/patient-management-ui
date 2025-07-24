@@ -21,7 +21,7 @@ export class SideNavbarComponent {
   isTitle: string = '';
   private routerSubscription: Subscription = new Subscription();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     // Subscribe to route changes
@@ -67,16 +67,16 @@ export class SideNavbarComponent {
         this.setActiveLink('doctorAppointment');
       } else if (currentUrl.includes('slot')) {
         this.setActiveLink('doctorSlot');
-      
-      }else if (currentUrl.includes('schedule')) {
+
+      } else if (currentUrl.includes('schedule')) {
         this.setActiveLink('doctorSchedule');
-      
+
       } else if (currentUrl.includes('patient-details')) {
         this.setActiveLink('doctorPatientDetails');
       } else {
         this.setActiveLink('dashboardDoctor');
       }
-     // this.isTitle = 'Doctor Dashboard';
+      // this.isTitle = 'Doctor Dashboard';
     }
   }
 
@@ -111,6 +111,9 @@ export class SideNavbarComponent {
   adminPatient() {
     this.router.navigate(['admin/patient']);
   }
+  patient() {
+    this.router.navigate(['admin/user-management/patient/search']);
+  }
 
 
   //Doctor
@@ -140,14 +143,14 @@ export class SideNavbarComponent {
 
 
   isAdminRouteNavbar(): boolean {
-  const url = this.router.url;
-  return url.startsWith('/admin') && !url.startsWith('/doctor');
-}
+    const url = this.router.url;
+    return url.startsWith('/admin') && !url.startsWith('/doctor');
+  }
 
-isDoctorRouteNavbar(): boolean {
-  const url = this.router.url;
-  return url.startsWith('/doctor');
-}
+  isDoctorRouteNavbar(): boolean {
+    const url = this.router.url;
+    return url.startsWith('/doctor');
+  }
 
 
   closeSidenav() {

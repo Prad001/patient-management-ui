@@ -1,4 +1,4 @@
-export interface Receptionist {
+  export interface Receptionist {
     [key: string]: any; // 👈 allow arbitrary string keys
   receptionistId: string;
   name: string;

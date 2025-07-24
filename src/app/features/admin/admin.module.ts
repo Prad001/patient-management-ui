@@ -9,7 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportsComponent } from './reports/reports.component';
 import { DoctorCreateOrUpdateComponent } from './user-management/doctor/doctor-create-or-update/doctor-create-or-update.component';
-import { DoctorSearchComponent } from './user-management/doctor/doctor-search/doctor-search.component'; // ✅ ADD THIS
+import { DoctorSearchComponent } from './user-management/doctor/doctor-search/doctor-search.component';
+import { PatientCreateOrUpdateComponent } from './user-management/patient/patient-create-or-update/patient-create-or-update.component';
+import { PatientSearchComponent } from './user-management/patient/patient-search/patient-search.component';
 
 
 @NgModule({
@@ -22,10 +24,12 @@ import { DoctorSearchComponent } from './user-management/doctor/doctor-search/do
     ReportsComponent,
     DoctorCreateOrUpdateComponent,
     DoctorSearchComponent,
+    PatientCreateOrUpdateComponent,
+    PatientSearchComponent,
 
   ],
   imports: [CommonModule, SharedModule,FormsModule,
         ReactiveFormsModule],
   exports: [],
 })
-export class AdminModule {}
+export class AdminModule { }
