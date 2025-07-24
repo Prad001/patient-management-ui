@@ -109,12 +109,8 @@ export class SideNavbarComponent {
   }
 
   adminPatient() {
-    this.router.navigate(['admin/patient']);
-  }
-  patient() {
     this.router.navigate(['admin/user-management/patient/search']);
   }
-
 
   //Doctor
 
