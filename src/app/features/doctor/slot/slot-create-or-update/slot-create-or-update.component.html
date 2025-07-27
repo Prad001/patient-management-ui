@@ -1,0 +1,89 @@
+<app-bread-crumb [breadcrumbs]="[
+  { label: 'Dashboard', url: '/admin' },
+  { label: 'Slot', url: '/admin/user-management/slot/search' }
+]"></app-bread-crumb>
+
+<section class="container mt-4">
+    <div class="row">
+        <div class="main-card mx-auto px-4 py-3 shadow-sm rounded">
+            <div class="inner">
+                <div class="row text-start">
+                    <div class="col-12 tab-column pb-4 fs-4 fw-semibold">
+                        {{ isCreateMode ? 'Create New' : 'Update' }} Slot
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <form *ngIf="formReady" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                            <div class="mb-3" *ngIf="!isCreateMode">
+                                <label class="form-label" for="slotId">Slot ID</label>
+                                <input class="form-control" type="text" id="slotId" formControlName="slotId" readonly />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Slot Name</label>
+                                <input class="form-control" id="name" placeholder="Enter Slot Name"
+                                    formControlName="name" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="startTime">Start Time</label>
+                                <input class="form-control" type="time" id="startTime" formControlName="startTime"
+                                    [disabled]="!isCreateMode" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="endTime">End Time</label>
+                                <input class="form-control" type="time" id="endTime" formControlName="endTime"
+                                    [disabled]="!isCreateMode" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="sessionDuration">Session Duration (min):</label>
+                                <div class="position-relative">
+                                    <select class="form-control" id="sessionDuration" formControlName="sessionDuration"
+                                        [disabled]="!isCreateMode" required>
+                                        <option value="" disabled>Select Duration</option>
+                                        <option [value]="15">15 minutes</option>
+                                        <option [value]="30">30 minutes</option>
+                                        <option [value]="60">60 minutes</option>
+                                    </select>
+                                    <i class="fa fa-chevron-down position-absolute"
+                                        style="right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+                                </div>
+                            </div>
+
+                            <!-- Capacity shown only in update mode -->
+                            <div class="mb-3" *ngIf="!isCreateMode">
+                                <label class="form-label" for="capacity">Capacity</label>
+                                <input class="form-control" type="number" id="capacity" formControlName="capacity"
+                                    [disabled]="true" />
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label" for="doctorId">Doctor</label>
+                                <div class="position-relative">
+                                    <select class="form-control pe-5" formControlName="doctorId"
+                                        [disabled]="!isCreateMode" required>
+                                        <option value="" disabled>Select Doctor</option>
+                                        <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">{{ doctor.name
+                                            }}</option>
+                                    </select>
+                                    <i class="fa fa-chevron-down position-absolute"
+                                        style="right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-3">
+                                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save</button>
+                                <button type="button" class="btn btn-outline-secondary"
+                                    (click)="onCancel()">Cancel</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

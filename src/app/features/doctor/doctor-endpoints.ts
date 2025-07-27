@@ -7,12 +7,9 @@ export const API_ENDPOINTS = {
     UPDATE: '/schedule',
     DELETE: '/schedule',
   },
-  SLOT: {
-    GETALL: '/slots',
-  },
   AVAILABILITY: {
-    CREATE:'/availabilities',
-    FETCH:'/availabilities'
+    CREATE: '/availabilities',
+    FETCH: '/availabilities'
   },
   APPOINTMENT: {
     FETCH: '/appointments',
@@ -20,5 +17,22 @@ export const API_ENDPOINTS = {
     CREATE: '/appointments',
     UPDATE: '/appointments',
     DELETE: '/appointments'
-  }
+  },
+  PATIENT: {
+    FETCH: '/patients/paginated',
+    SEARCH: '/patients/filter',
+    GET: '/patients',
+  },
+  SLOT: {
+    FETCH: '/slots/paginated',
+    SEARCH: '/slots/paginated',
+    GET: '/slots',
+    CREATE: '/slots',
+    UPDATE: '/slots',
+    DELETE: '/slots',
+    GETALL: '/slots',
+  },
+  DOCTOR: {
+    FETCH: '/doctors/all',
+  },
 }
