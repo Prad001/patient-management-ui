@@ -67,19 +67,11 @@
       ><span class="entry"
         ><i class="fs-5 fa-solid fa-clipboard-list" style="padding-right: 4px"></i
         >
-        <span>Appointment</span></span
+        <span>Appointments</span></span
       ></a
     >
 
-     <a
-      *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
-      (click)="setActiveLink('doctorSlot'); doctorSlot()"
-      [ngClass]="{ active: activeLink === 'doctorSlot' }"
-      ><span class="entry"
-        ><i class="fs-5 fa-regular fa-clock" style="padding-right: 4px"></i
-        ><span>Slot</span></span
-      ></a
-    >
+
 
     <a
       *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
@@ -88,6 +80,16 @@
       ><span class="entry"
         ><i class="fs-5 fa-solid fa-calendar-check" style="padding-right: 4px"></i
         ><span>Schedule</span></span
+      ></a
+    >
+
+         <a
+      *ngIf="!isAdminRouteNavbar() && isDoctorRouteNavbar()"
+      (click)="setActiveLink('doctorSlot'); doctorSlot()"
+      [ngClass]="{ active: activeLink === 'doctorSlot' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-regular fa-clock" style="padding-right: 4px"></i
+        ><span>Slot</span></span
       ></a
     >
 

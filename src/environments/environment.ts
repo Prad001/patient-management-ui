@@ -6,6 +6,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:4006',
+  scheduleApiUrl: 'http://localhost:4008',
   //apiUrl: '/api',
   patientUrl: 'http://localhost:4000',
   adminUrl: 'http://localhost:4006',

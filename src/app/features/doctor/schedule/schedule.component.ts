@@ -14,7 +14,7 @@ import {
   isSameMonth,
   addHours,
 } from 'date-fns';
-import { scheduled, Subject } from 'rxjs';
+import { firstValueFrom, scheduled, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -26,12 +26,14 @@ import { EventColor } from 'calendar-utils';
 import { Router } from '@angular/router';
 import { ScheduleCreateOrUpdateComponent } from './schedule-create-or-update/schedule-create-or-update.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Availabilities } from 'src/types/availabilities';
+import { ScheduleService } from './schedule.service';
 
 const colors: Record<string, EventColor> = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
+  // red: {
+  //   primary: '#ad2121',
+  //   secondary: '#FAE3E3',
+  // },
   blue: {
     primary: '#1e90ff',
     secondary: '#D1E8FF',
@@ -40,6 +42,10 @@ const colors: Record<string, EventColor> = {
     primary: '#e3bc08',
     secondary: '#FDF1BA',
   },
+  green: {
+    primary: '#32CD32',
+    secondary: '#93f093ff',
+  }
 };
 
 @Component({
@@ -57,6 +63,8 @@ export class ScheduleComponent {
 
   viewDate: Date = new Date();
 
+  scheduleData:Availabilities[]=[];
+
   modalData?: {
     action: string;
     event: CalendarEvent;
@@ -70,62 +78,64 @@ export class ScheduleComponent {
         this.handleEvent('Edited', event);
       },
     },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
+    // {
+    //   label: '<i class="fas fa-fw fa-trash-alt"></i>',
+    //   a11yLabel: 'Delete',
+    //   onClick: ({ event }: { event: CalendarEvent }): void => {
+    //     this.events = this.events.filter((iEvent) => iEvent !== event);
+    //     this.handleEvent('Deleted', event);
+    //   },
+    // },
   ];
 
   refresh = new Subject<void>();
 
   events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: { ...colors['red'] },
-      actions: this.actions,
-      allDay: true,
-      // resizable: {
-      //   beforeStart: true,
-      //   afterEnd: true,
-      // },
-      // draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...colors['blue'] },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
+
   ];
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal, private router: Router, private dialog:MatDialog) {}
+  constructor(private modal: NgbModal, private router: Router, private dialog:MatDialog, private scheduleService:ScheduleService) {}
+
+
+    ngOnInit(): void {
+      this.fetchAvailabilities();
+    }
+
+    
+
+async fetchAvailabilities() {
+  const response = await firstValueFrom(
+    this.scheduleService.getAvailabilities()
+  );
+
+  this.scheduleData = response;
+
+  this.events = this.scheduleData.map((item) => {
+    const start = new Date(`${item.date}T${item.startTime}`);
+    const end = new Date(`${item.date}T${item.endTime}`);
+
+    return {
+      id: item.availabilityId,
+      title: item.slotName,
+      start,
+      end,
+      color: item.availability ? colors['green'] : colors['red'],
+      actions: this.actions,
+      allDay: false,
+      draggable: false,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false,
+      },
+      meta: item,
+    } as CalendarEvent;
+  });
+
+  this.refresh.next(); // trigger change detection for calendar
+}
+
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -196,8 +206,8 @@ export class ScheduleComponent {
   createSchedule() {
     this.dialog
       .open(ScheduleCreateOrUpdateComponent, {
-         panelClass: 'dark-dialog',
-        width: '650px',
+        width: '950px',
+        height: '700px',
         data: { isCreateMode:true, title: 'Schedule' },
       })
       .afterClosed()

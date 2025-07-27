@@ -8,7 +8,7 @@
   <div class="col-md-4">
     <div class="btn-group">
       <div
-        class="btn btn-primary"
+        class="btn btn-dark"
         mwlCalendarPreviousView
         [view]="view"
         [(viewDate)]="viewDate"
@@ -24,7 +24,7 @@
         Today
       </div>
       <div
-        class="btn btn-primary"
+        class="btn btn-dark"
         mwlCalendarNextView
         [view]="view"
         [(viewDate)]="viewDate"
@@ -41,21 +41,21 @@
   <div class="col-md-4">
     <div class="btn-group">
       <div
-        class="btn btn-primary"
+        class="btn btn-dark"
         (click)="setView(CalendarView.Month)"
         [class.active]="view === CalendarView.Month"
       >
         Month
       </div>
       <div
-        class="btn btn-primary"
+        class="btn btn-dark"
         (click)="setView(CalendarView.Week)"
         [class.active]="view === CalendarView.Week"
       >
         Week
       </div>
       <div
-        class="btn btn-primary"
+        class="btn btn-dark"
         (click)="setView(CalendarView.Day)"
         [class.active]="view === CalendarView.Day"
       >

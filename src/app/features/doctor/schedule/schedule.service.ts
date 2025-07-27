@@ -14,6 +14,7 @@ import { tap } from 'rxjs/operators';
 })
 export class ScheduleService {
   private readonly apiUrl = environment.apiUrl;
+  private readonly scheduleApiUrl = environment.scheduleApiUrl;
 
   constructor(
     private http: HttpClient,
@@ -125,4 +126,40 @@ export class ScheduleService {
         catchError((error) => this.errorHandlingService.handleError(error))
       );
   }
+
+  getAllSlots() : Observable<any> {
+    return this.http
+      .get<any>(`${this.scheduleApiUrl}${API_ENDPOINTS.SLOT.GETALL}`)
+      .pipe(
+        tap((response) => console.log('Raw API response for slots:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
+
+  createScheduleWithSlots(scheduleData: any): Observable<any>{
+      return this.http
+      .post<Schedule>(
+        `${this.scheduleApiUrl}${API_ENDPOINTS.AVAILABILITY.CREATE}`,
+        scheduleData 
+      )
+      .pipe(
+        tap((response) => console.log('Schedule created:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
+
+    getAvailabilities(): Observable<any>{
+      return this.http
+      .get<Schedule>(
+        `${this.scheduleApiUrl}${API_ENDPOINTS.AVAILABILITY.FETCH}`,
+         
+      )
+      .pipe(
+        tap((response) => console.log('Schedule created:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
 }
+
+
+

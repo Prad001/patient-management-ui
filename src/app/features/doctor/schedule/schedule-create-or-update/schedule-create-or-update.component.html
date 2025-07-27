@@ -1,23 +1,23 @@
 <div class="bar-section">
-        <div class="row">
-          <!-- Schedule Column -->
-          <div
-            class="col-6 tab-column"
-            (click)="
-              isCreateMode
-                ? !isNext && (selectedTab = 'schedule')
-                : (selectedTab = 'schedule')
-            "
-            [class.active]="selectedTab === 'schedule'"
-            [style.cursor]="isNext && isCreateMode ? 'not-allowed' : 'pointer'"
-            [class.disabled]="isNext && isCreateMode"
-          >
-            Schedule
-          </div>
+  <div class="row">
+    <!-- Schedule Column -->
+    <div
+      class="col-6 tab-column"
+      (click)="
+        isCreateMode
+          ? !isNext && (selectedTab = 'schedule')
+          : (selectedTab = 'schedule')
+      "
+      [class.active]="selectedTab === 'schedule'"
+      [style.cursor]="isNext && isCreateMode ? 'not-allowed' : 'pointer'"
+      [class.disabled]="isNext && isCreateMode"
+    >
+      Schedule
+    </div>
 
-           <!-- Slot Column -->
+    <!-- Slot Column -->
 
-          <div
+    <!-- <div
             class="col-6 tab-column"
             (click)="
               isCreateMode
@@ -29,15 +29,28 @@
             [class.disabled]="!isNext && isCreateMode"
           >
             Slot
-          </div>
-        </div>
-      </div>
+          </div> -->
+    <div
+      class="col-6 tab-column"
+      (click)="
+        isCreateMode
+          ? !isNext && (selectedTab = 'slot')
+          : (selectedTab = 'slot')
+      "
+      [class.active]="selectedTab === 'slot'"
+      [style.cursor]="!isNext && isCreateMode ? 'not-allowed' : 'pointer'"
+      [class.disabled]="!isNext && isCreateMode"
+    >
+      Slot
+    </div>
+  </div>
+</div>
 
 <div class="row text-start p-5" *ngIf="selectedTab === 'schedule'">
   <div class="col-12 tab-column pb-4 fs-4">
     {{ isCreateMode ? "Create New" : "Update" }} Schedule
   </div>
-  <div class="col-6">
+  <div class="col-8">
     <form *ngIf="formReadySchedule" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="mb-3" *ngIf="!isCreateMode">
         <label class="form-label" for="scheduleId">Schedule Id:</label>
@@ -134,8 +147,9 @@
         (click)="onSubmit()"
         class="btn btn-primary me-3"
         [disabled]="form.invalid"
+        style="background-color: #029cb1; border-color: #029cb1;"
       >
-        Save
+        Next
       </button>
       <button class="btn btn-outline-secondary" (click)="onCancel()">
         Cancel
@@ -144,108 +158,47 @@
   </div>
 </div>
 
-
-<!-- *ngIf="selectedTab === 'node' && isNext" -->
-
-<div class="row text-start p-5" *ngIf="selectedTab === 'slot' && isNext">
-  <div class="col-12 tab-column pb-4 fs-4">
-    {{ isCreateMode ? "fill" : "Update" }} Slot Details
+<!-- selectedTab === 'slot' && isNext -->
+<div class="row text-start p-5" *ngIf="selectedTab === 'slot'">
+  <div class="col-6 tab-column pb-2 fs-4">
+     Slot Details
   </div>
-  <div class="col-6">
-    <form *ngIf="formReadySchedule" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="mb-3" *ngIf="!isCreateMode">
-        <label class="form-label" for="slotId">Slot Id:</label>
+  <div class="col-6 tab-column pb-2 fs-5 ">
+    <div class="float-end">
+      <i class="fa-solid fa-square-plus" style="
+                  font-size: 2rem;
+                  top: 3px;
+                  position: relative;
+                  cursor: pointer;
+                " (click)="selectSlots()"></i>
+                
+        <a style="margin-left: 8px; margin-right: 25px; font-size: 20px; font-weight: 300">Select Slots
+              </a>
+    </div>
+      
+    </div>
 
-        <input
-          class="form-control"
-          type="text"
-          id="slotId"
-          formControlName="slotId"
-          readonly
-        />
-        <div
-          *ngIf="
-            form.get('slotId')?.invalid &&
-            (form.get('slotId')?.dirty || form.get('slotId')?.touched)
-          "
-        ></div>
-      </div>
+  <div class="row">
+    
+    <div class="col">
+      <app-main-table
+        [headers]="headers"
+        [data]="slotData"
+        [buttonConfig]="buttonConfig"
+        (actionClicked)="handleAction($event)"
+      ></app-main-table>
+    </div>
 
-      <div class="mb-3">
-        <label class="form-label" for="sessionDuration">Session Duration:</label>
-        <select
-          class="form-select"
-          id="sessionDuration"
-          formControlName="sessionDuration"
-        >
-          <option
-            *ngFor="let option of sessionDurationTypeOptions"
-            [value]="option.value"
-            [disabled]="option.value === 'None'"
-          >
-            {{ option.label }}
-          </option>
-        </select>
-        <div
-          *ngIf="
-            form.controls['sessionDuration']?.invalid &&
-            form.controls['sessionDuration']?.touched
-          "
-          class="text-danger"
-        >
-          Please select a Session Duration.
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="startTime">Start Time :</label>
-        <input
-          type="time"
-          id="startTime"
-          class="form-control"
-          formControlName="startTime"
-        />
-        <div
-          *ngIf="
-            form.controls['startTime']?.invalid &&
-            form.controls['startTime']?.touched
-          "
-          class="text-danger"
-        >
-          Please select a Start Time.
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="endTime">End Time :</label>
-        <input
-          type="time"
-          id="endTime"
-          class="form-control"
-          formControlName="endTime"
-        />
-        <div
-          *ngIf="
-            form.controls['endTime']?.invalid &&
-            form.controls['endTime']?.touched
-          "
-          class="text-danger"
-        >
-          Please select a End Time.
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        (click)="onSubmit()"
-        class="btn btn-primary me-3"
-        [disabled]="form.invalid"
-      >
-        Save
-      </button>
-      <button class="btn btn-outline-secondary" (click)="onCancel()">
+    <div class="row mt-1">
+      <div class="col-6">
+        <button class="btn btn-primary float-start me-3" style="background-color: #029cb1; border-color: #029cb1;" (click)="submitFinalSchedule()">Save</button>
+        <button class="btn btn-outline-secondary" (click)="onCancel()">
         Cancel
       </button>
-    </form>
+      </div>
+      
+    </div>
   </div>
 </div>
+
+<!-- 80deea -->

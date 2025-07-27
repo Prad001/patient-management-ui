@@ -14,6 +14,8 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { ScheduleCreateOrUpdateComponent } from './schedule/schedule-create-or-update/schedule-create-or-update.component';
 import { ScheduleSearchComponent } from './schedule/schedule-search/schedule-search.component';
+import { SlotSelectDialogComponent } from './schedule/slot-select-dialog/slot-select-dialog.component';
+import { AgGridModule } from "ag-grid-angular";
 
 @NgModule({
   declarations: [
@@ -25,10 +27,11 @@ import { ScheduleSearchComponent } from './schedule/schedule-search/schedule-sea
    ScheduleComponent,
    ScheduleCreateOrUpdateComponent,
    ScheduleSearchComponent,
+   SlotSelectDialogComponent,
   
    
   ],
-  imports: [CommonModule, SharedModule,FormsModule,
+  imports: [CommonModule, SharedModule,FormsModule,AgGridModule,
         ReactiveFormsModule, NgbModalModule,   FlatpickrModule.forRoot(),CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })],
   exports: [],
 })
