@@ -121,7 +121,7 @@ export class SideNavbarComponent {
     this.router.navigate(['doctor/reports']);
   }
   doctorAppointment() {
-    this.router.navigate(['doctor/appointment']);
+    this.router.navigate(['doctor/appointment/search']);
   }
   doctorSlot() {
     this.router.navigate(['doctor/slot']);

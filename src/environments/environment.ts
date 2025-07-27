@@ -10,5 +10,6 @@ export const environment = {
   //apiUrl: '/api',
   patientUrl: 'http://localhost:4000',
   adminUrl: 'http://localhost:4006',
+  appointmentUrl: 'http://localhost:4007',
   keyCloakRedirectUrl: 'http://localhost:9000'
 };

@@ -13,7 +13,12 @@ export const API_ENDPOINTS = {
   AVAILABILITY: {
     CREATE:'/availabilities',
     FETCH:'/availabilities'
+  },
+  APPOINTMENT: {
+    FETCH: '/appointments',
+    SEARCH: '/appointments',
+    CREATE: '/appointments',
+    UPDATE: '/appointments',
+    DELETE: '/appointments'
   }
-
-
 }

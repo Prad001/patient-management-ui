@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { AppointmentComponent } from "./appointment/appointment.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -14,25 +13,26 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { ScheduleCreateOrUpdateComponent } from './schedule/schedule-create-or-update/schedule-create-or-update.component';
 import { ScheduleSearchComponent } from './schedule/schedule-search/schedule-search.component';
-import { SlotSelectDialogComponent } from './schedule/slot-select-dialog/slot-select-dialog.component';
+import { AppointmentSearchComponent } from './appointment/appointment-search/appointment-search.component';
 import { AgGridModule } from "ag-grid-angular";
+import { SlotSelectDialogComponent } from "./schedule/slot-select-dialog/slot-select-dialog.component";
 
 @NgModule({
   declarations: [
-   AppointmentComponent,
-   DashboardComponent,
-   ReportsComponent,
-   PatientDetailsComponent,
-   SlotComponent,
-   ScheduleComponent,
-   ScheduleCreateOrUpdateComponent,
-   ScheduleSearchComponent,
-   SlotSelectDialogComponent,
-  
-   
+    AppointmentSearchComponent,
+    DashboardComponent,
+    ReportsComponent,
+    PatientDetailsComponent,
+    SlotComponent,
+    ScheduleComponent,
+    ScheduleCreateOrUpdateComponent,
+    ScheduleSearchComponent,
+    AppointmentSearchComponent,
+    SlotSelectDialogComponent
+
   ],
-  imports: [CommonModule, SharedModule,FormsModule,AgGridModule,
-        ReactiveFormsModule, NgbModalModule,   FlatpickrModule.forRoot(),CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })],
+  imports: [CommonModule, SharedModule, FormsModule, AgGridModule,
+    ReactiveFormsModule, NgbModalModule, FlatpickrModule.forRoot(), CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })],
   exports: [],
 })
-export class DoctorModule {}
+export class DoctorModule { }
