@@ -48,8 +48,9 @@
 
                     <div class="row" *ngIf="!this.inSearchMode">
                         <div class="col">
-                            <app-main-table [headers]="headers" [data]="filteredData" [buttonConfig]="buttonConfig"
-                                (actionClicked)="handleAction($event)"></app-main-table>
+                            <app-main-table [headers]="headers" [data]="filteredData"
+                                [buttonConfig]="{ edit: false, delete: false }" (actionClicked)="handleAction($event)">
+                            </app-main-table>
                         </div>
 
                         <div class="row mt-1">
@@ -70,8 +71,9 @@
 
                     <div class="row" *ngIf="this.inSearchMode">
                         <div class="col" *ngIf="searchedData.length > 0; else noDataTemplate">
-                            <app-main-table [headers]="headers" [data]="searchedData" [buttonConfig]="buttonConfig"
-                                (actionClicked)="handleAction($event)"></app-main-table>
+                            <app-main-table [headers]="headers" [data]="searchedData"
+                                [buttonConfig]="{ edit: false, delete: false }" (actionClicked)="handleAction($event)">
+                            </app-main-table>
                         </div>
 
                         <ng-template #noDataTemplate>
