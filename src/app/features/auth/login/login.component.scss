@@ -1,0 +1,64 @@
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.main-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    margin-top: 32px;
+    width: 100%;
+}
+
+.inner {
+    width: 100%;
+}
+
+.tab-column {
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+input.form-control,
+textarea.form-control,
+select.form-select {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 10px 14px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: none;
+}
+
+button.btn {
+    padding: 8px 24px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.text-danger {
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+    .main-card {
+        padding: 24px;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+}

@@ -21,13 +21,17 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
+import { AuthComponent } from './features/auth/auth.component';
+import { authRouter } from './features/auth/auth.router';
+import { AuthModule } from './features/auth/auth.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
-    DoctorComponent
+    DoctorComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -35,12 +39,14 @@ import { AuthInterceptor } from './core/interceptor/auth.interceptor';
     SharedModule,
     BrowserAnimationsModule,
     AdminModule,
+    AuthModule,
     adminRouter,
     AgGridAngular,
     AgGridModule,
     MatDialogModule,
     HttpClientModule,
     doctorRouter,
+    authRouter,
     DoctorModule,
     LoadingBarModule,
     LoadingBarHttpClientModule,
