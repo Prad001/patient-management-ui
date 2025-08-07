@@ -66,6 +66,7 @@ initializeForm() {
         Validators.required,
         this.typeValidator,
       ]),
+      password: new FormControl(null, Validators.required)
     });
   } else {
     this.form = new FormGroup({
@@ -89,6 +90,7 @@ initializeForm() {
         Validators.required,
         this.typeValidator,
       ]),
+      password: new FormControl(this.receptionist.password, Validators.required)
     });
   }
 }
@@ -150,7 +152,8 @@ accessLevelOptions = [
         this.form.value.contactPhone,
         this.form.value.assignedFacility,
         this.form.value.roleTitle,
-        this.form.value.accessLevel
+        this.form.value.accessLevel,
+        this.form.value.password
       ).subscribe(() => {
       this.openSuccessDialog(true); // Only open after success
     });

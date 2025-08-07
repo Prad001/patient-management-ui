@@ -38,21 +38,6 @@ export class ReceptionistService {
       );
   }
 
-  // getDoctors(page: number, size: number = 7, sortBy: string = 'createdAt'): Observable<any> {
-  //       const params = {
-  //           page: page.toString(),
-  //           size: size.toString(),
-  //           sortBy
-  //       };
-
-  //       return this.http
-  //           .get<any>(${this.apiUrl}${API_ENDPOINTS.DOCTOR.FETCH}, { params })
-  //           .pipe(
-  //               tap((response) => console.log('Raw API response:', response)),
-  //               catchError((error) => this.errorHandlingService.handleError(error))
-  //           );
-  //   }
-
   getReceptionistSearch(
     page: number,
     value: string,
@@ -108,7 +93,8 @@ export class ReceptionistService {
     contactPhone: string,
     assignedFacility: string,
     roleTitle: string,
-    accessLevel: string
+    accessLevel: string,
+    password: string
   ): Observable<Receptionist> {
     const status="ACTIVE";
     const lastLogin= "";
@@ -128,6 +114,7 @@ export class ReceptionistService {
           accessLevel,
           lastLogin,
           status,
+          password
         }
       )
       .pipe(

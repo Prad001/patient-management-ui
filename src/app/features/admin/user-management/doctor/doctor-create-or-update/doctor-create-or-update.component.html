@@ -56,8 +56,10 @@
               <!-- Qualification -->
               <div class="mb-3">
                 <label class="form-label" for="qualification">Qualification:</label>
-                <input class="form-control" id="qualification" formControlName="qualification" placeholder="Enter Qualification" />
-                <div *ngIf="form.get('qualification')?.invalid && form.get('qualification')?.touched" class="text-danger">
+                <input class="form-control" id="qualification" formControlName="qualification"
+                  placeholder="Enter Qualification" />
+                <div *ngIf="form.get('qualification')?.invalid && form.get('qualification')?.touched"
+                  class="text-danger">
                   Qualification is required.
                 </div>
               </div>
@@ -65,8 +67,10 @@
               <!-- Specialization -->
               <div class="mb-3">
                 <label class="form-label" for="specialization">Specialization:</label>
-                <input class="form-control" id="specialization" formControlName="specialization" placeholder="Enter Specialization" />
-                <div *ngIf="form.get('specialization')?.invalid && form.get('specialization')?.touched" class="text-danger">
+                <input class="form-control" id="specialization" formControlName="specialization"
+                  placeholder="Enter Specialization" />
+                <div *ngIf="form.get('specialization')?.invalid && form.get('specialization')?.touched"
+                  class="text-danger">
                   Specialization is required.
                 </div>
               </div>
@@ -74,8 +78,10 @@
               <!-- License Number -->
               <div class="mb-3">
                 <label class="form-label" for="licenseNumber">License Number:</label>
-                <input class="form-control" id="licenseNumber" formControlName="licenseNumber" placeholder="Enter License Number" />
-                <div *ngIf="form.get('licenseNumber')?.invalid && form.get('licenseNumber')?.touched" class="text-danger">
+                <input class="form-control" id="licenseNumber" formControlName="licenseNumber"
+                  placeholder="Enter License Number" />
+                <div *ngIf="form.get('licenseNumber')?.invalid && form.get('licenseNumber')?.touched"
+                  class="text-danger">
                   License Number is required.
                 </div>
               </div>
@@ -83,8 +89,10 @@
               <!-- Affiliated Hospital -->
               <div class="mb-3">
                 <label class="form-label" for="affiliatedHospital">Affiliated Hospital:</label>
-                <input class="form-control" id="affiliatedHospital" formControlName="affiliatedHospital" placeholder="Enter Affiliated Hospital" />
-                <div *ngIf="form.get('affiliatedHospital')?.invalid && form.get('affiliatedHospital')?.touched" class="text-danger">
+                <input class="form-control" id="affiliatedHospital" formControlName="affiliatedHospital"
+                  placeholder="Enter Affiliated Hospital" />
+                <div *ngIf="form.get('affiliatedHospital')?.invalid && form.get('affiliatedHospital')?.touched"
+                  class="text-danger">
                   Affiliated Hospital is required.
                 </div>
               </div>
@@ -92,8 +100,10 @@
               <!-- Contact Email -->
               <div class="mb-3">
                 <label class="form-label" for="contactEmail">Email Address:</label>
-                <input class="form-control" id="contactEmail" formControlName="contactEmail" placeholder="Enter Email" />
-                <div *ngIf="form.get('contactEmail')?.invalid && (form.get('contactEmail')?.dirty || form.get('contactEmail')?.touched)">
+                <input class="form-control" id="contactEmail" formControlName="contactEmail"
+                  placeholder="Enter Email" />
+                <div
+                  *ngIf="form.get('contactEmail')?.invalid && (form.get('contactEmail')?.dirty || form.get('contactEmail')?.touched)">
                   <small class="text-danger">*Valid email address is required</small>
                 </div>
               </div>
@@ -101,7 +111,8 @@
               <!-- Contact Phone -->
               <div class="mb-3">
                 <label class="form-label" for="contactPhone">Contact Number:</label>
-                <input class="form-control" id="contactPhone" formControlName="contactPhone" placeholder="Enter Contact Number" />
+                <input class="form-control" id="contactPhone" formControlName="contactPhone"
+                  placeholder="Enter Contact Number" />
                 <div *ngIf="form.get('contactPhone')?.invalid && form.get('contactPhone')?.touched">
                   <small class="text-danger">*Contact number is required</small>
                 </div>
@@ -110,7 +121,8 @@
               <!-- Practice Location -->
               <div class="mb-3">
                 <label class="form-label" for="practiceLocation">Practice Location:</label>
-                <input class="form-control" id="practiceLocation" formControlName="practiceLocation" placeholder="Enter Practice Location" />
+                <input class="form-control" id="practiceLocation" formControlName="practiceLocation"
+                  placeholder="Enter Practice Location" />
                 <div *ngIf="form.get('practiceLocation')?.invalid && form.get('practiceLocation')?.touched">
                   <small class="text-danger">*Practice location is required</small>
                 </div>
@@ -122,6 +134,15 @@
                 <input class="form-control" id="roleCode" formControlName="roleCode" placeholder="Enter Role Code" />
                 <div *ngIf="form.get('roleCode')?.invalid && form.get('roleCode')?.touched">
                   <small class="text-danger">*Role Code is required</small>
+                </div>
+              </div>
+
+              <!-- Password (Create Mode Only) -->
+              <div class="mb-3" *ngIf="isCreateMode">
+                <label class="form-label" for="password">Password:</label>
+                <input class="form-control" id="password" formControlName="password" placeholder="Enter Password" />
+                <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+                  <small class="text-danger">*Password is required</small>
                 </div>
               </div>
 

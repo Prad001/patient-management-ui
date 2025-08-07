@@ -19,6 +19,7 @@
   totalPages:number;
   currentPage:number,
   content:any;
+  password: string;
 }
 
 // public enum ReceptionistStatus {

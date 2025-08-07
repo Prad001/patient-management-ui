@@ -66,7 +66,8 @@ export class PatientCreateOrUpdateComponent {
         medications: new FormControl(null),
         consents: new FormControl(null),
         emergencyContact: new FormControl(null),
-        registeredDate: new FormControl(new Date().toISOString().split('T')[0], Validators.required), // default to today
+        registeredDate: new FormControl(new Date().toISOString().split('T')[0], Validators.required),
+        password: new FormControl(null, Validators.required)
       });
     } else {
       this.form = new FormGroup({
@@ -82,7 +83,8 @@ export class PatientCreateOrUpdateComponent {
         allergies: new FormControl(this.patient.allergies),
         medications: new FormControl(this.patient.medications),
         consents: new FormControl(this.patient.consents),
-        emergencyContact: new FormControl(this.patient.emergencyContact)
+        emergencyContact: new FormControl(this.patient.emergencyContact),
+        password: new FormControl(this.patient.password, Validators.required)
       });
     }
   }
@@ -126,7 +128,8 @@ export class PatientCreateOrUpdateComponent {
         formValue.medications,
         formValue.consents,
         formValue.emergencyContact,
-        formValue.registeredDate
+        formValue.registeredDate, 
+        formValue.password
       ).subscribe(() => {
         this.openSuccessDialog(true);
       });

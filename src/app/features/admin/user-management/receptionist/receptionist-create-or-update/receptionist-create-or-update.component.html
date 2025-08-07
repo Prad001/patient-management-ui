@@ -1,9 +1,7 @@
-<app-bread-crumb
-  [breadcrumbs]="[
+<app-bread-crumb [breadcrumbs]="[
     { label: 'Dashboard', url: '/admin' },
     { label: 'Receptioninst', url: '/admin/user-management/receptionist/search' }
-  ]"
-></app-bread-crumb>
+  ]"></app-bread-crumb>
 
 <section class="container mt-2">
   <div class="row">
@@ -16,254 +14,181 @@
     <div class="main-card mx-auto">
       <div class="inner">
         <div class="row text-start ">
-           <div class="col-12 tab-column pb-4 fs-4">
-        {{ isCreateMode ? "Create New" : "Update" }} User
-         </div>
+          <div class="col-12 tab-column pb-4 fs-4">
+            {{ isCreateMode ? "Create New" : "Update" }} User
+          </div>
           <div class="col-6">
             <form *ngIf="formReady" [formGroup]="form" (ngSubmit)="onSubmit()">
 
               <div class="mb-3" *ngIf="!isCreateMode">
                 <label class="form-label" for="receptionistId">Receptioninst Id:</label>
 
-                <input
-                  class="form-control"
-                  type="text"
-                  id="receptionistId"
-                  formControlName="receptionistId"
-                  readonly
-                />
-                <div
-                  *ngIf="
+                <input class="form-control" type="text" id="receptionistId" formControlName="receptionistId" readonly />
+                <div *ngIf="
                     form.get('receptionistId')?.invalid &&
                     (form.get('receptionistId')?.dirty || form.get('receptionistId')?.touched)
-                  "
-                ></div>
+                  "></div>
               </div>
 
               <div class="mb-3">
                 <label class="form-label" for="name">Name:</label>
 
-                <input
-                  class="form-control"
-                  id="name"
-                  placeholder="Enter Name"
-                  formControlName="name"
-                />
-                <div
-                  *ngIf="
+                <input class="form-control" id="name" placeholder="Enter Name" formControlName="name" />
+                <div *ngIf="
                     form.get('name')?.invalid &&
                     (form.get('name')?.dirty ||
                       form.get('name')?.touched)
-                  "
-                >
+                  ">
                   <small class="text-danger">*Name cannot be empty</small>
                 </div>
               </div>
 
-                <div class="mb-3">
-  <label class="form-label" for="gender">Gender:</label>
-  <select class="form-select" id="gender" formControlName="gender">
-    <option *ngFor="let option of genderOptions" [value]="option.value" [disabled]="option.value === 'None'">
-      {{ option.label }}
-    </option>
-  </select>
-  <div
-    *ngIf="form.controls['gender']?.invalid && form.controls['gender']?.touched"
-    class="text-danger"
-  >
-    Please select a gender.
-  </div>
-</div>
+              <div class="mb-3">
+                <label class="form-label" for="gender">Gender:</label>
+                <select class="form-select" id="gender" formControlName="gender">
+                  <option *ngFor="let option of genderOptions" [value]="option.value"
+                    [disabled]="option.value === 'None'">
+                    {{ option.label }}
+                  </option>
+                </select>
+                <div *ngIf="form.controls['gender']?.invalid && form.controls['gender']?.touched" class="text-danger">
+                  Please select a gender.
+                </div>
+              </div>
 
 
 
 
-               <div class="mb-3">
-                  <label class="form-label" for="dateOfBirth"
-                    >Date of Birth :</label
-                  >
-                  <input
-                    type="date"
-                    id="dateOfBirth"
-                    class="form-control"
-                    formControlName="dateOfBirth"
-                    name="dateOfBirth"
-                  />
-                  <div
-                  *ngIf="
+              <div class="mb-3">
+                <label class="form-label" for="dateOfBirth">Date of Birth :</label>
+                <input type="date" id="dateOfBirth" class="form-control" formControlName="dateOfBirth"
+                  name="dateOfBirth" />
+                <div *ngIf="
                     form.controls['gender']?.invalid &&
                     form.controls['gender']?.touched
-                  "
-                  class="text-danger"
-                >
+                  " class="text-danger">
                   Please select a DOB.
-                 </div>
                 </div>
+              </div>
 
 
-            <div class="mb-3">
+              <div class="mb-3">
                 <label class="form-label" for="employeeCode">Employee Code:</label>
 
-                <input
-                  class="form-control"
-                  id="employeeCode"
-                  placeholder="Enter Employee Code"
-                  formControlName="employeeCode"
-                />
-                <div
-                  *ngIf="
+                <input class="form-control" id="employeeCode" placeholder="Enter Employee Code"
+                  formControlName="employeeCode" />
+                <div *ngIf="
                     form.get('employeeCode')?.invalid &&
                     (form.get('employeeCode')?.dirty ||
                       form.get('employeeCode')?.touched)
-                  "
-                >
+                  ">
                   <small class="text-danger">*Employee Code cannot be empty</small>
                 </div>
-            </div>
+              </div>
 
-             <!-- department: string;
-  contactEmail: string;
-  contactPhone: string;
-  assignedFacility: string; 
-  roleTitle: string;  
-  accessLevel: string;  -->
-
-                 <div class="mb-3">
+              <div class="mb-3">
                 <label class="form-label" for="department">Department:</label>
 
-                <input
-                  class="form-control"
-                  id="department"
-                  placeholder="Enter Department Name"
-                  formControlName="department"
-                />
-                <div
-                  *ngIf="
+                <input class="form-control" id="department" placeholder="Enter Department Name"
+                  formControlName="department" />
+                <div *ngIf="
                     form.get('department')?.invalid &&
                     (form.get('department')?.dirty ||
                       form.get('department')?.touched)
-                  "
-                >
-                  <small class="text-danger">*Department  cannot be empty</small>
+                  ">
+                  <small class="text-danger">*Department cannot be empty</small>
                 </div>
-            </div>
+              </div>
 
 
               <div class="mb-3">
                 <label class="form-label" for="contactEmail">Email Address:</label>
 
-                <input
-                  class="form-control"
-                  id="contactEmail"
-                  placeholder="Enter Email Address"
-                  formControlName="contactEmail"
-                />
-                <div
-                  *ngIf="
+                <input class="form-control" id="contactEmail" placeholder="Enter Email Address"
+                  formControlName="contactEmail" />
+                <div *ngIf="
                     form.get('contactEmail')?.invalid &&
                     (form.get('contactEmail')?.dirty || form.get('contactEmail')?.touched)
-                  "
-                >
-                  <small class="text-danger"
-                    >*Email Address cannot be empty</small
-                  >
+                  ">
+                  <small class="text-danger">*Email Address cannot be empty</small>
                 </div>
               </div>
 
-                <div class="mb-3">
+              <div class="mb-3">
                 <label class="form-label" for="contactPhone">Contact Number:</label>
 
-                <input
-                  class="form-control"
-                  id="contactPhone"
-                  placeholder="Enter Contact Number"
-                  formControlName="contactPhone"
-                />
-                <div
-                  *ngIf="
+                <input class="form-control" id="contactPhone" placeholder="Enter Contact Number"
+                  formControlName="contactPhone" />
+                <div *ngIf="
                     form.get('contactPhone')?.invalid &&
                     (form.get('contactPhone')?.dirty ||
                       form.get('contactPhone')?.touched)
-                  "
-                >
+                  ">
                   <small class="text-danger">*Contact Number cannot be empty</small>
                 </div>
-            </div>
+              </div>
 
 
 
-                <div class="mb-3">
+              <div class="mb-3">
                 <label class="form-label" for="assignedFacility">Assigned Facility:</label>
 
-                <input
-                  class="form-control"
-                  id="assignedFacility"
-                  placeholder="Enter Contact Number"
-                  formControlName="assignedFacility"
-                />
-                <div
-                  *ngIf="
+                <input class="form-control" id="assignedFacility" placeholder="Enter Contact Number"
+                  formControlName="assignedFacility" />
+                <div *ngIf="
                     form.get('assignedFacility')?.invalid &&
                     (form.get('assignedFacility')?.dirty ||
                       form.get('assignedFacility')?.touched)
-                  "
-                >
+                  ">
                   <small class="text-danger">*Assigned Facility cannot be empty</small>
                 </div>
-            </div>
+              </div>
 
 
-                <div class="mb-3">
+              <div class="mb-3">
                 <label class="form-label" for="roleTitle">Role Title:</label>
 
-                <input
-                  class="form-control"
-                  id="roleTitle"
-                  placeholder="Enter Contact Number"
-                  formControlName="roleTitle"
-                />
-                <div
-                  *ngIf="
+                <input class="form-control" id="roleTitle" placeholder="Enter Contact Number"
+                  formControlName="roleTitle" />
+                <div *ngIf="
                     form.get('roleTitle')?.invalid &&
                     (form.get('roleTitle')?.dirty ||
                       form.get('roleTitle')?.touched)
-                  "
-                >
+                  ">
                   <small class="text-danger">*Role Title cannot be empty</small>
                 </div>
-            </div>
+              </div>
 
-            
-                 <div class="mb-3">
+
+              <div class="mb-3">
                 <label class="form-label" for="accessLevel">Access Level:</label>
                 <select class="form-select" id="accessLevel" formControlName="accessLevel">
-                  <option *ngFor="let option of accessLevelOptions" [value]="option.value" [disabled]="option.value === 'None'">
-                      {{ option.label }}
-                    </option>
+                  <option *ngFor="let option of accessLevelOptions" [value]="option.value"
+                    [disabled]="option.value === 'None'">
+                    {{ option.label }}
+                  </option>
                 </select>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     form.controls['accessLevel']?.invalid &&
                     form.controls['accessLevel']?.touched
-                  "
-                  class="text-danger"
-                >
+                  " class="text-danger">
                   Please select a Access Level.
                 </div>
               </div>
 
-              <button
-                type="submit"
-                (click)="onSubmit()"
-                class="btn btn-primary me-3"
-                [disabled]="form.invalid"
-              >
+              <!-- Password (Create Mode Only) -->
+              <div class="mb-3" *ngIf="isCreateMode">
+                <label class="form-label" for="password">Password:</label>
+                <input class="form-control" id="password" formControlName="password" placeholder="Enter Password" />
+                <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+                  <small class="text-danger">*Password is required</small>
+                </div>
+              </div>
+
+              <button type="submit" (click)="onSubmit()" class="btn btn-primary me-3" [disabled]="form.invalid">
                 Save
               </button>
-              <button
-                class="btn btn-outline-secondary"
-                (click)="onCancel()"
-              >
+              <button class="btn btn-outline-secondary" (click)="onCancel()">
                 Cancel
               </button>
             </form>

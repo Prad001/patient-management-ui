@@ -16,4 +16,5 @@ export interface Doctor {
     updatedAt: string;
     totalPages: number;
     currentPage: number
+    password: string;
 }

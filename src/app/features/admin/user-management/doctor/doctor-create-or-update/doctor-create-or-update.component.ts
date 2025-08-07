@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/success-dialog.component';
 import { Doctor } from 'src/types/doctor';
 import { DoctorService } from '../doctor.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-doctor-create-or-update',
@@ -61,7 +60,8 @@ export class DoctorCreateOrUpdateComponent {
         ]),
         contactPhone: new FormControl(null, Validators.required),
         practiceLocation: new FormControl(null, Validators.required),
-        roleCode: new FormControl(null, Validators.required)
+        roleCode: new FormControl(null, Validators.required),
+        password: new FormControl(null, Validators.required)
       });
     } else {
       this.form = new FormGroup({
@@ -82,7 +82,8 @@ export class DoctorCreateOrUpdateComponent {
         ]),
         contactPhone: new FormControl(this.doctor.contactPhone, Validators.required),
         practiceLocation: new FormControl(this.doctor.practiceLocation, Validators.required),
-        roleCode: new FormControl(this.doctor.roleCode, Validators.required)
+        roleCode: new FormControl(this.doctor.roleCode, Validators.required),
+        password: new FormControl(this.doctor.password, Validators.required)
       });
     }
   }
@@ -131,7 +132,8 @@ export class DoctorCreateOrUpdateComponent {
         this.form.value.contactEmail,
         this.form.value.contactPhone,
         this.form.value.practiceLocation,
-        this.form.value.roleCode
+        this.form.value.roleCode,
+        this.form.value.password
       ).subscribe(() => {
         this.openSuccessDialog(true); // Only open after success
       });

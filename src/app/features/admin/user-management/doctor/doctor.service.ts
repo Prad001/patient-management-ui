@@ -85,7 +85,8 @@ export class DoctorService {
         contactEmail: string,
         contactPhone: string,
         practiceLocation: string,
-        roleCode: string
+        roleCode: string,
+        password: string
     ): Observable<Doctor> {
         return this.http
             .post<Doctor>(`${this.apiUrl}${API_ENDPOINTS.DOCTOR.CREATE}`, {
@@ -99,7 +100,8 @@ export class DoctorService {
                 contactEmail,
                 contactPhone,
                 practiceLocation,
-                roleCode
+                roleCode,
+                password
             })
             .pipe(
                 catchError((error) => this.errorHandlingService.handleError(error))

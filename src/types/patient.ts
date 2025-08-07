@@ -17,6 +17,7 @@ export interface Patient {
     updatedAt: string;
     totalPages: number;
     currentPage: number
+    password: string;
 }
 
 // PatientResponseDTO 

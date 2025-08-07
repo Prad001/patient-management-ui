@@ -94,7 +94,8 @@ export class PatientService {
     medications: string,
     consents: string,
     emergencyContact: string,
-    registeredDate: string
+    registeredDate: string,
+    password: string
   ): Observable<Patient> {
     return this.http.post<Patient>(
       `${this.apiUrl}${API_ENDPOINTS.PATIENT.CREATE}`,
@@ -111,7 +112,8 @@ export class PatientService {
         medications,
         consents,
         emergencyContact,
-        registeredDate
+        registeredDate,
+        password
       }
     ).pipe(catchError((error) => this.errorHandlingService.handleError(error)));
   }
