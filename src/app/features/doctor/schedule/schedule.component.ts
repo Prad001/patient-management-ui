@@ -28,12 +28,13 @@ import { ScheduleCreateOrUpdateComponent } from './schedule-create-or-update/sch
 import { MatDialog } from '@angular/material/dialog';
 import { Availabilities } from 'src/types/availabilities';
 import { ScheduleService } from './schedule.service';
+import { AvailabilityUpdateDialogComponent } from './availability/availability-update-dialog/availability-update-dialog.component';
 
 const colors: Record<string, EventColor> = {
-  // red: {
-  //   primary: '#ad2121',
-  //   secondary: '#FAE3E3',
-  // },
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3',
+  },
   blue: {
     primary: '#1e90ff',
     secondary: '#D1E8FF',
@@ -74,9 +75,12 @@ export class ScheduleComponent {
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
+      // onClick: ({ event }: { event: CalendarEvent }): void => {
+      //   this.handleEvent('Edited', event);
+      // },
+      onClick:({ event }: { event: CalendarEvent }): void => {
+          this.openAvailabilityDialog(event.id);
+      }
     },
     // {
     //   label: '<i class="fas fa-fw fa-trash-alt"></i>',
@@ -87,6 +91,21 @@ export class ScheduleComponent {
     //   },
     // },
   ];
+
+  openAvailabilityDialog(id:any){
+
+     this.dialog
+      .open(AvailabilityUpdateDialogComponent, {
+        width: '950px',
+        height: '700px',
+        data: { availabilityId: id },
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.router.navigate(['doctor/schedule']);
+      });
+
+  }
 
   refresh = new Subject<void>();
 

@@ -7,6 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { ErrorHandlingService } from '../shared/service/errorHandling.service';
 import { API_ENDPOINTS } from '../doctor-endpoints';
 import { tap } from 'rxjs/operators';
+import { Availabilities } from 'src/types/availabilities';
 
 
 @Injectable({
@@ -153,6 +154,29 @@ export class ScheduleService {
       .get<Schedule>(
         `${this.scheduleApiUrl}${API_ENDPOINTS.AVAILABILITY.FETCH}`,
          
+      )
+      .pipe(
+        tap((response) => console.log('Schedule created:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
+
+  getAvailability(availabilityId: string): Observable<any>{
+      return this.http
+      .get<Availabilities>(
+        `${this.scheduleApiUrl}${API_ENDPOINTS.AVAILABILITY.GET}`+`/${availabilityId}`,
+      )
+      .pipe(
+        tap((response) => console.log('Schedule created:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
+
+  updateAvailability(availabilityId:string, availability:boolean,unavailabilityReason: string): Observable<any>{
+       return this.http
+      .patch<Availabilities>(
+        `${this.scheduleApiUrl}${API_ENDPOINTS.AVAILABILITY.UPDATE}`+`/${availabilityId}`,
+        { availability, unavailabilityReason}
       )
       .pipe(
         tap((response) => console.log('Schedule created:', response)),

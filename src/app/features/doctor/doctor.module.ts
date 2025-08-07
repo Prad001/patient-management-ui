@@ -18,6 +18,7 @@ import { SlotSelectDialogComponent } from "./schedule/slot-select-dialog/slot-se
 import { SlotCreateOrUpdateComponent } from './slot/slot-create-or-update/slot-create-or-update.component';
 import { SlotSearchComponent } from './slot/slot-search/slot-search.component';
 import { DeleteDialogComponent } from "./shared/dialogs/delete-dialog/delete-dialog.component";
+import { AvailabilityUpdateDialogComponent } from './schedule/availability/availability-update-dialog/availability-update-dialog.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { DeleteDialogComponent } from "./shared/dialogs/delete-dialog/delete-dia
     SlotCreateOrUpdateComponent,
     SlotSearchComponent,
     SlotSelectDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    AvailabilityUpdateDialogComponent
 
   ],
   imports: [CommonModule, SharedModule, FormsModule, AgGridModule,

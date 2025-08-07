@@ -1,0 +1,137 @@
+
+<div class="row text-start p-5">
+  <div class="col-12 tab-column pb-4 fs-4 fw-bold">Update Availability</div>
+  <div class="col-8" *ngIf="formReady">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label" for="availabilityId">Availability Id:</label>
+
+        <input
+          class="form-control"
+          type="text"
+          id="availabilityId"
+          formControlName="availabilityId"
+          readonly
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Availability:</label>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            id="availabilityYes"
+            class="form-check-input"
+            formControlName="availability"
+            [value]="true"
+          />
+          <label class="form-check-label" for="availabilityYes">Yes</label>
+        </div>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            id="availabilityNo"
+            class="form-check-input"
+            formControlName="availability"
+            [value]="false"
+          />
+          <label class="form-check-label" for="availabilityNo">No</label>
+        </div>
+      </div>
+
+<div class="mb-3">
+  <label class="form-label" for="unavailabilityReason">Reason:</label>
+  <select
+    class="form-select"
+    id="unavailabilityReason"
+    formControlName="unavailabilityReason"
+    [disabled]="form.get('availability')?.value === true"
+  >
+    <ng-container *ngFor="let option of unavailabilityReasonOptions">
+      <option
+        *ngIf="form.get('availability')?.value === false || option.value === 'None'"
+        [value]="option.value"
+      >
+        {{ option.label }}
+      </option>
+    </ng-container>
+  </select>
+   <div
+  *ngIf="
+    form.get('availability')?.value === false &&
+    form.get('unavailabilityReason')?.invalid &&
+    form.get('unavailabilityReason')?.touched
+  "
+  class="text-danger mt-1"
+>
+  Please select a reason for unavailability.
+</div>
+</div>
+
+
+
+      <div class="mb-3">
+        <label class="form-label" for="slotName">slotName:</label>
+
+        <input
+          class="form-control"
+          type="text"
+          id="slotName"
+          formControlName="slotName"
+          readonly
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="startTime">Start Time:</label>
+        <input
+          class="form-control"
+          type="text"
+          id="startTime"
+          formControlName="startTime"
+          readonly
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="endTime">End Time:</label>
+        <input
+          class="form-control"
+          type="text"
+          id="endTime"
+          formControlName="endTime"
+          readonly
+        />
+      </div>
+
+      <button
+        type="submit"
+        (click)="onSubmit()"
+        class="btn btn-primary me-3"
+        [disabled]="form.invalid"
+        style="background-color: #029cb1; border-color: #029cb1"
+      >
+        Save
+      </button>
+      
+      <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- {
+    "availabilityId": "38d9a212-b98c-4680-bf3d-c15a6c01c40c",
+    "docId": "dd01866f-cbc8-4ad3-ad46-1c778c352122",
+    "slotId": "dc296feb-490b-4679-851c-e1e2d9c8e5d0",
+    "scheduleId": "7f27f8a0-74fe-4018-aa02-a144bc8d30d1",
+    "date": "2025-07-26",
+    "availability": true,
+    "unavailabilityReason": null,
+    "slotName": "Evening Slot",
+    "startTime": "14:00",
+    "endTime": "17:00"
+}      -->

@@ -13,13 +13,14 @@ import { AdminModule } from './features/admin/admin.module';
 import { adminRouter } from './features/admin/admin.router';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DoctorComponent } from './features/doctor/doctor.component';
 import { doctorRouter } from './features/doctor/doctor.router';
 import { DoctorModule } from './features/doctor/doctor.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 
 
 @NgModule({
@@ -45,11 +46,15 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-     FlatpickrModule.forRoot(),
+    FlatpickrModule.forRoot(),
   ],
- providers: [
-        
-    ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
