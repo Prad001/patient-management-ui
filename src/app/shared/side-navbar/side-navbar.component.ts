@@ -78,6 +78,21 @@ export class SideNavbarComponent {
       }
       // this.isTitle = 'Doctor Dashboard';
     }
+
+    if (this.isPatientRouteNavbar()) {
+      if (currentUrl.includes('reports')) {
+        this.setActiveLink('patientReports');
+      }  else if (currentUrl.includes('book-appointment')) {
+        this.setActiveLink('patientBookAppointment');
+      } else if (currentUrl.includes('upcoming-appointments')) {
+        this.setActiveLink('patientUpcomingAppointments');
+      } else if (currentUrl.includes('past-appointments')) {
+        this.setActiveLink('patientPastAppointments');
+      } else {
+        this.setActiveLink('dashboardPatient');
+      }
+      //this.isTitle = 'Adaptive Access Control';
+    }
   }
 
   setActiveLink(link: string): void {
@@ -135,7 +150,25 @@ export class SideNavbarComponent {
   }
 
 
+  //Patient
+   dashboardPatient() {
+    this.router.navigate(['patient']);
+  }
 
+  patientBookAppointment() {
+    this.router.navigate(['patient/book-appointment']);
+  }
+
+  patientUpcomingAppointments() {
+    this.router.navigate(['patient/upcoming-appointments']);
+  }
+
+  patientPastAppointments() {
+    this.router.navigate(['patient/past-appointments']);
+  }
+  patientReports() {
+    this.router.navigate(['patient/reports']);
+  }
 
 
   isAdminRouteNavbar(): boolean {
@@ -146,6 +179,11 @@ export class SideNavbarComponent {
   isDoctorRouteNavbar(): boolean {
     const url = this.router.url;
     return url.startsWith('/doctor');
+  }
+  
+  isPatientRouteNavbar():boolean{
+     const url = this.router.url;
+    return url.startsWith('/patient');
   }
 
 

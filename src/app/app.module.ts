@@ -21,6 +21,9 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
+import { PatientComponent } from './features/patient/patient.component';
+import { patientRouter } from './features/patient/patient.router';
+import { PatientModule } from './features/patient/patient.module';
 import { AuthComponent } from './features/auth/auth.component';
 import { authRouter } from './features/auth/auth.router';
 import { AuthModule } from './features/auth/auth.module';
@@ -30,8 +33,7 @@ import { AuthModule } from './features/auth/auth.module';
   declarations: [
     AppComponent,
     AdminComponent,
-    DoctorComponent,
-    AuthComponent
+    DoctorComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,8 @@ import { AuthModule } from './features/auth/auth.module';
     doctorRouter,
     authRouter,
     DoctorModule,
+    patientRouter,
+    PatientModule,
     LoadingBarModule,
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,

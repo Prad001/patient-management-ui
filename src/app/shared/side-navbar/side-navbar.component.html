@@ -16,8 +16,8 @@
 
 
 
-    <mat-accordion multi  *ngIf="isAdminRouteNavbar()  && !isDoctorRouteNavbar()">
-  <mat-expansion-panel [expanded]="true" class="user-management-panel">
+    <mat-accordion multi  *ngIf="isAdminRouteNavbar() && !isDoctorRouteNavbar() && !isPatientRouteNavbar()">
+  <mat-expansion-panel [expanded]="true" class="panel">
     <mat-expansion-panel-header>
       
       <mat-panel-title class="dropdown-heading text-right">
@@ -112,6 +112,53 @@
         ><span>Reports</span></span
       ></a
     >
+
+
+    <!-- *************************Patient*************************** -->
+
+    <a
+      *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && isPatientRouteNavbar()"
+      (click)="setActiveLink('dashboardPatient'); dashboardPatient()"
+      [ngClass]="{ active: activeLink === 'dashboardPatient' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-gauge" style="padding-right: 4px"></i
+        ><span>Dashboard</span></span
+      ></a
+    >
+
+           <mat-accordion multi  *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && isPatientRouteNavbar()">
+  <mat-expansion-panel [expanded]="true" class="panel">
+    <mat-expansion-panel-header>
+      
+      <mat-panel-title class="dropdown-heading text-right">
+        <i class="fs-5 fa-solid fa-list-check icon-padding " style="margin-right: 10px"></i>
+        Appointments
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="panel-item" *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && isPatientRouteNavbar()" (click)="patientBookAppointment()" [class.active]="activeLink === 'patientBookAppointment'">
+      Book Appointment
+    </div>
+    <div class="panel-item" *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && isPatientRouteNavbar()" (click)="patientUpcomingAppointments()" [class.active]="activeLink === 'patientUpcomingAppointments'">
+      Upcomming Appointments
+    </div>
+    <div class="panel-item" *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && isPatientRouteNavbar()" (click)="patientPastAppointments()" [class.active]="activeLink === 'patientPastAppointments'">
+      Past Appointments
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+       <a
+      *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && isPatientRouteNavbar()"
+      (click)="setActiveLink('patientReports'); patientReports()"
+      [ngClass]="{ active: activeLink === 'patientReports' }"
+      ><span class="entry"
+        ><i class="fs-5 fa-solid fa-chart-line" style="padding-right: 4px"></i
+        ><span>Reports</span></span
+      ></a
+    >
+
  
   </div>
 
