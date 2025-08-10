@@ -33,7 +33,9 @@ import { AuthModule } from './features/auth/auth.module';
   declarations: [
     AppComponent,
     AdminComponent,
-    DoctorComponent
+    DoctorComponent,
+    AuthComponent,
+    PatientComponent
   ],
   imports: [
     BrowserModule,
