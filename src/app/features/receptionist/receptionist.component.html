@@ -1,0 +1,13 @@
+<div id="container" [ngClass]="{ isSidenavOpen: isSidenavOpen }">
+  
+    <app-side-navbar ></app-side-navbar>
+  
+  
+  <div id="content">
+    <app-app-navbar
+      [isSidenavOpen]="isSidenavOpen"
+  (toggle)="toggleSidenav()"
+    ></app-app-navbar>
+    <router-outlet></router-outlet>
+  </div>
+</div>

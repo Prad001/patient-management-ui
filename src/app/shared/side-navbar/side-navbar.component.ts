@@ -82,7 +82,7 @@ export class SideNavbarComponent {
     if (this.isPatientRouteNavbar()) {
       if (currentUrl.includes('reports')) {
         this.setActiveLink('patientReports');
-      }  else if (currentUrl.includes('book-appointment')) {
+      } else if (currentUrl.includes('book-appointment')) {
         this.setActiveLink('patientBookAppointment');
       } else if (currentUrl.includes('upcoming-appointments')) {
         this.setActiveLink('patientUpcomingAppointments');
@@ -92,6 +92,16 @@ export class SideNavbarComponent {
         this.setActiveLink('dashboardPatient');
       }
       //this.isTitle = 'Adaptive Access Control';
+    }
+
+    if (this.isReceptionistRouteNavbar()) {
+      if (currentUrl.includes('reports')) {
+        this.setActiveLink('receptionistReports');
+      } else if (currentUrl.includes('patients')) {
+        this.setActiveLink('receptionist/patients');
+      } else {
+        this.setActiveLink('dashboardReceptionist');
+      }
     }
   }
 
@@ -151,7 +161,7 @@ export class SideNavbarComponent {
 
 
   //Patient
-   dashboardPatient() {
+  dashboardPatient() {
     this.router.navigate(['patient']);
   }
 
@@ -171,6 +181,18 @@ export class SideNavbarComponent {
   }
 
 
+  // Receptionist 
+  dashboardReceptionist() {
+    this.router.navigate(['receptionist']);
+  }
+
+  patientsReceptionist() {
+    this.router.navigate(['receptionist/patients'])
+  }
+  receptionistReports() {
+    this.router.navigate(['receptionist/reports'])
+  }
+
   isAdminRouteNavbar(): boolean {
     const url = this.router.url;
     return url.startsWith('/admin') && !url.startsWith('/doctor');
@@ -180,12 +202,16 @@ export class SideNavbarComponent {
     const url = this.router.url;
     return url.startsWith('/doctor');
   }
-  
-  isPatientRouteNavbar():boolean{
-     const url = this.router.url;
+
+  isPatientRouteNavbar(): boolean {
+    const url = this.router.url;
     return url.startsWith('/patient');
   }
 
+  isReceptionistRouteNavbar(): boolean {
+    const url = this.router.url;
+    return url.startsWith('/receptionist');
+  }
 
   closeSidenav() {
     this.sidenavClosed.emit();

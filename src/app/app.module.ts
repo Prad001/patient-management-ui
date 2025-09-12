@@ -27,6 +27,9 @@ import { PatientModule } from './features/patient/patient.module';
 import { AuthComponent } from './features/auth/auth.component';
 import { authRouter } from './features/auth/auth.router';
 import { AuthModule } from './features/auth/auth.module';
+import { ReceptionistComponent } from './features/receptionist/receptionist.component';
+import { ReceptionistModule } from './features/receptionist/receptionist.module';
+import { receptionistRouter } from './features/receptionist/receptionist.router';
 
 
 @NgModule({
@@ -35,7 +38,8 @@ import { AuthModule } from './features/auth/auth.module';
     AdminComponent,
     DoctorComponent,
     AuthComponent,
-    PatientComponent
+    PatientComponent,
+    ReceptionistComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,8 @@ import { AuthModule } from './features/auth/auth.module';
     DoctorModule,
     patientRouter,
     PatientModule,
+    ReceptionistModule,
+    receptionistRouter,
     LoadingBarModule,
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
