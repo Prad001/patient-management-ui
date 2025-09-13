@@ -5,6 +5,7 @@ import { ReportsComponent } from "./reports/reports.component";
 import { PastAppointmentsComponent } from "./appointment/past-appointments/past-appointments.component";
 import { UpcomingAppointmentsComponent } from "./appointment/upcoming-appointments/upcoming-appointments.component";
 import { BookAppointmentComponent } from "./appointment/book-appointment/book-appointment.component";
+import { DoctorAvailabilityComponent } from "./appointment/book-appointment/doctor-availability/doctor-availability.component";
 
 export const patientRoutes: Routes = [
   {
@@ -17,6 +18,7 @@ export const patientRoutes: Routes = [
       { path: "", component: DashboardComponent },
       { path: "reports", component: ReportsComponent },
       { path: "book-appointment", component: BookAppointmentComponent },
+      { path: "book-appointment/check-availability", component: DoctorAvailabilityComponent },
       { path: "past-appointments", component: PastAppointmentsComponent },
       { path: "upcoming-appointments", component: UpcomingAppointmentsComponent },
      

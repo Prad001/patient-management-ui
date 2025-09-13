@@ -12,6 +12,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { BookAppointmentComponent } from './appointment/book-appointment/book-appointment.component';
 import { UpcomingAppointmentsComponent } from './appointment/upcoming-appointments/upcoming-appointments.component';
 import { PastAppointmentsComponent } from './appointment/past-appointments/past-appointments.component';
+import { DoctorAvailabilityComponent } from './appointment/book-appointment/doctor-availability/doctor-availability.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PastAppointmentsComponent } from './appointment/past-appointments/past-
    ReportsComponent,
    BookAppointmentComponent,
    UpcomingAppointmentsComponent,
-   PastAppointmentsComponent
+   PastAppointmentsComponent,
+   DoctorAvailabilityComponent
 
   ],
   imports: [CommonModule, SharedModule, FormsModule, AgGridModule,

@@ -82,7 +82,7 @@ export class SideNavbarComponent {
     if (this.isPatientRouteNavbar()) {
       if (currentUrl.includes('reports')) {
         this.setActiveLink('patientReports');
-      } else if (currentUrl.includes('book-appointment')) {
+      }  else if (currentUrl.includes('book-appointment')) {
         this.setActiveLink('patientBookAppointment');
       } else if (currentUrl.includes('upcoming-appointments')) {
         this.setActiveLink('patientUpcomingAppointments');
@@ -161,7 +161,7 @@ export class SideNavbarComponent {
 
 
   //Patient
-  dashboardPatient() {
+   dashboardPatient() {
     this.router.navigate(['patient']);
   }
 

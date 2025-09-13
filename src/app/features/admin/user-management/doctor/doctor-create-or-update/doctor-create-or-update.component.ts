@@ -83,7 +83,7 @@ export class DoctorCreateOrUpdateComponent {
         contactPhone: new FormControl(this.doctor.contactPhone, Validators.required),
         practiceLocation: new FormControl(this.doctor.practiceLocation, Validators.required),
         roleCode: new FormControl(this.doctor.roleCode, Validators.required),
-        password: new FormControl(this.doctor.password, Validators.required)
+        // password: new FormControl(this.doctor.password, Validators.required)
       });
     }
   }
