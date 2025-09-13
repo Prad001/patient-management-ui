@@ -10,13 +10,15 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportsComponent } from './reports/reports.component';
 import { PatientComponent } from './patient/patient.component';
+import { PatientCreateOrUpdateComponent } from './patient/patient-create-or-update/patient-create-or-update.component';
 
 @NgModule({
     declarations: [
     
     DashboardComponent,
          ReportsComponent,
-         PatientComponent
+         PatientComponent,
+         PatientCreateOrUpdateComponent
   ],
     imports: [CommonModule, SharedModule, FormsModule, AgGridModule,
         ReactiveFormsModule, NgbModalModule, FlatpickrModule.forRoot(), CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })],
