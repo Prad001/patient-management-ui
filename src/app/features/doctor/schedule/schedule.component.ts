@@ -65,6 +65,7 @@ export class ScheduleComponent {
   viewDate: Date = new Date();
 
   scheduleData:Availabilities[]=[];
+  tempDoctorId:string = 'dd01866f-cbc8-4ad3-ad46-1c778c352122';
 
   modalData?: {
     action: string;
@@ -126,7 +127,7 @@ export class ScheduleComponent {
 
 async fetchAvailabilities() {
   const response = await firstValueFrom(
-    this.scheduleService.getAvailabilities()
+    this.scheduleService.getAvailabilities(this.tempDoctorId)
   );
 
   this.scheduleData = response;

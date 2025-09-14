@@ -1,0 +1,41 @@
+<div class="p-3 appointment-dialog">
+  <h4 class="mb-3 d-flex align-items-center">
+    <i class="fa-solid fa-calendar me-2 " style="color: #00bcd4;"></i>
+    Select Appointment Time
+  </h4>
+
+  <!-- Time Slot Buttons -->
+  <div class="d-flex flex-wrap gap-2">
+    <button
+      *ngFor="let slot of slots"
+      type="button"
+      class="btn slot-btn text-white px-3 py-2"
+      [ngClass]="{
+        'btn-dark': !slot.isBooked,
+        'btn-secondary': slot.isBooked,
+        'active-slot': selectedSlot === slot
+      }"
+      [disabled]="slot.isBooked"
+      (click)="selectSlot(slot)"
+    >
+      <i class="fa-solid fa-clock me-2"></i>
+      {{ slot.startTime }} - {{ slot.endTime }}
+    </button>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+      <i class="fa-solid fa-xmark me-2"></i> Cancel
+    </button>
+
+    <button
+      type="button"
+      class="btn book-btn text-white"
+      [disabled]="!selectedSlot"
+      (click)="onBook()"
+    >
+      <i class="fa-solid fa-check me-2"></i> Book
+    </button>
+  </div>
+</div>

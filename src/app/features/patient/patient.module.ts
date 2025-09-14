@@ -13,6 +13,10 @@ import { BookAppointmentComponent } from './appointment/book-appointment/book-ap
 import { UpcomingAppointmentsComponent } from './appointment/upcoming-appointments/upcoming-appointments.component';
 import { PastAppointmentsComponent } from './appointment/past-appointments/past-appointments.component';
 import { DoctorAvailabilityComponent } from './appointment/book-appointment/doctor-availability/doctor-availability.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AppointmentDialogComponent } from "./appointment/book-appointment/doctor-availability/appointment-dialog/appointment-dialog.component";
+import { SuccessDialogComponent } from "./shared/dialogs/success-dialog/success-dialog.component";
+import { DeleteDialogComponent } from "./shared/dialogs/delete-dialog/delete-dialog.component";
 
 @NgModule({
   declarations: [
@@ -21,10 +25,13 @@ import { DoctorAvailabilityComponent } from './appointment/book-appointment/doct
    BookAppointmentComponent,
    UpcomingAppointmentsComponent,
    PastAppointmentsComponent,
-   DoctorAvailabilityComponent
+   DoctorAvailabilityComponent,
+   AppointmentDialogComponent,
+   DeleteDialogComponent,
+   SuccessDialogComponent
 
   ],
-  imports: [CommonModule, SharedModule, FormsModule, AgGridModule,
+  imports: [CommonModule, SharedModule, FormsModule, AgGridModule,MatSnackBarModule,
     ReactiveFormsModule, NgbModalModule, FlatpickrModule.forRoot(), CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })],
   exports: [],
 })

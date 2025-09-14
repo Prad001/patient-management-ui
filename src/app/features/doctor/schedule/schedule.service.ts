@@ -149,10 +149,10 @@ export class ScheduleService {
       );
   }
 
-    getAvailabilities(): Observable<any>{
+    getAvailabilities(tempDoctorId: string): Observable<any>{
       return this.http
       .get<Schedule>(
-        `${this.scheduleApiUrl}${API_ENDPOINTS.AVAILABILITY.FETCH}`,
+        `${this.scheduleApiUrl}${API_ENDPOINTS.AVAILABILITY.FETCH}`+`/doctor/${tempDoctorId}`,
          
       )
       .pipe(

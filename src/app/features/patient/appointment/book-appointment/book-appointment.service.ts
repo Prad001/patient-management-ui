@@ -14,7 +14,7 @@ import { Doctor } from 'src/types/doctor';
 })
 export class BookAppointmentService {
     private readonly apiUrl = environment.apiUrl;
-
+    private readonly appointmentUrl = environment.appointmentUrl
     constructor(
         private http: HttpClient,
         private errorHandlingService: ErrorHandlingService
@@ -68,5 +68,23 @@ export class BookAppointmentService {
             );
     }
 
+
+  fetchSessionsBySlotAndDate(doctorId: string,slotId: string,date: string): Observable<any> {
+    return this.http
+      .post<any>(`${this.appointmentUrl}/appointments/fetch-appointments`,{doctorId,slotId,date})
+      .pipe(
+        tap((response) => console.log('Raw API response:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
+
+  bookAppointment(doctorId: string, slotId: string, appointmentDate: string, patientId:string, appointmentTime:string): Observable<any> {
+     return this.http
+      .post<any>(`${this.appointmentUrl}/appointments`,{doctorId,slotId,appointmentDate,patientId,appointmentTime})
+      .pipe(
+        tap((response) => console.log('Raw API response:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      );
+  }
 
 }

@@ -37,3 +37,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
   color: #000000;
 }
 
+
+
+::ng-deep .appointment-dialog-container {
+  padding: 0;
+  overflow: visible; // allow it to grow
+}
+
+::ng-deep .mat-mdc-dialog-content {
+  max-height: none !important; // disable default scroll
+}
