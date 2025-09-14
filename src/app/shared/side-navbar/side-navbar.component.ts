@@ -97,8 +97,8 @@ export class SideNavbarComponent {
     if (this.isReceptionistRouteNavbar()) {
       if (currentUrl.includes('reports')) {
         this.setActiveLink('receptionistReports');
-      } else if (currentUrl.includes('patients')) {
-        this.setActiveLink('receptionist/patients');
+      } else if (currentUrl.includes('patients/search')) {
+        this.setActiveLink('receptionist/patients/search');
       } else {
         this.setActiveLink('dashboardReceptionist');
       }
@@ -187,7 +187,7 @@ export class SideNavbarComponent {
   }
 
   patientsReceptionist() {
-    this.router.navigate(['receptionist/patients'])
+    this.router.navigate(['receptionist/patients/search'])
   }
   receptionistReports() {
     this.router.navigate(['receptionist/reports'])

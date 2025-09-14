@@ -54,10 +54,10 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/doctor']);
             break;
           case 'PATIENT':
-            this.router.navigate(['/admin']);
+            this.router.navigate(['/patient']);
             break;
           case 'RECEPTIONIST':
-            this.router.navigate(['/admin']);
+            this.router.navigate(['/receptionist']);
             break;
           default:
             this.router.navigate(['/unauthorized']);
