@@ -44,7 +44,11 @@ export class LoginComponent implements OnInit {
         if (rememberMe) {
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(decoded));
+        } else {
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('user', JSON.stringify(decoded));
         }
+
 
         switch (decoded.role) {
           case 'ADMIN':
