@@ -165,7 +165,7 @@ export class PatientService {
     };
 
     return this.http
-      .get<any>(`${this.appointmentApiUrl}${API_ENDPOINTS.APPOINTMENT.UPCOMING_FETCH}/${patientId}`, { params })
+      .get<any>(`${this.appointmentApiUrl}${API_ENDPOINTS.APPOINTMENT.UPCOMING_FETCH}`, { params })
       .pipe(
         tap((response) => console.log('Raw API response:', response)),
         catchError((error) => this.errorHandlingService.handleError(error))
@@ -189,7 +189,7 @@ export class PatientService {
     };
 
     return this.http
-      .get<any>(`${this.appointmentApiUrl}${API_ENDPOINTS.APPOINTMENT.UPCOMING_FETCH}/${patientId}`, { params })
+      .get<any>(`${this.appointmentApiUrl}${API_ENDPOINTS.APPOINTMENT.UPCOMING_FETCH}`, { params })
       .pipe(
         catchError((error) => this.errorHandlingService.handleError(error))
       );
@@ -228,7 +228,7 @@ export class PatientService {
     };
 
     return this.http
-      .get<any>(`${this.appointmentApiUrl}${API_ENDPOINTS.APPOINTMENT.PAST_FETCH}/${patientId}`, { params })
+      .get<any>(`${this.appointmentApiUrl}${API_ENDPOINTS.APPOINTMENT.PAST_FETCH}`, { params })
       .pipe(
         tap((response) => console.log('Raw API response:', response)),
         catchError((error) => this.errorHandlingService.handleError(error))

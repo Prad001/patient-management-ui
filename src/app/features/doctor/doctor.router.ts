@@ -7,13 +7,15 @@ import { ScheduleComponent } from "./schedule/schedule.component";
 import { AppointmentSearchComponent } from "./appointment/appointment-search/appointment-search.component";
 import { SlotSearchComponent } from "./slot/slot-search/slot-search.component";
 import { SlotCreateOrUpdateComponent } from "./slot/slot-create-or-update/slot-create-or-update.component";
+import { authGuard } from "src/app/core/guards/auth.guard";
 
 
 export const doctorRoutes: Routes = [
   {
     path: "doctor",
     component: DoctorComponent,
-    canActivate: [],
+    canActivate: [authGuard],
+    data: { roles: ['DOCTOR'] },
     children: [
 
 

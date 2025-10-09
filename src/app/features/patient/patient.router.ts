@@ -6,12 +6,14 @@ import { PastAppointmentsComponent } from "./appointment/past-appointments/past-
 import { UpcomingAppointmentsComponent } from "./appointment/upcoming-appointments/upcoming-appointments.component";
 import { BookAppointmentComponent } from "./appointment/book-appointment/book-appointment.component";
 import { DoctorAvailabilityComponent } from "./appointment/book-appointment/doctor-availability/doctor-availability.component";
+import { authGuard } from "src/app/core/guards/auth.guard";
 
 export const patientRoutes: Routes = [
   {
     path: "patient",
     component: PatientComponent,
-    canActivate: [],
+    canActivate: [authGuard],
+    data: { roles: ['PATIENT'] },
     children: [
 
 

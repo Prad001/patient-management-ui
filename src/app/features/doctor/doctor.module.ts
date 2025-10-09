@@ -34,7 +34,7 @@ import { AvailabilityUpdateDialogComponent } from './schedule/availability/avail
     SlotSearchComponent,
     SlotSelectDialogComponent,
     DeleteDialogComponent,
-    AvailabilityUpdateDialogComponent
+    AvailabilityUpdateDialogComponent,
 
   ],
   imports: [CommonModule, SharedModule, FormsModule, AgGridModule,

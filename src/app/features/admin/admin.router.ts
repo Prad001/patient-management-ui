@@ -8,13 +8,15 @@ import { DoctorSearchComponent } from "./user-management/doctor/doctor-search/do
 import { DoctorCreateOrUpdateComponent } from "./user-management/doctor/doctor-create-or-update/doctor-create-or-update.component";
 import { PatientSearchComponent } from "./user-management/patient/patient-search/patient-search.component";
 import { PatientCreateOrUpdateComponent } from "./user-management/patient/patient-create-or-update/patient-create-or-update.component";
+import { authGuard } from "src/app/core/guards/auth.guard";
 
 
 export const adminRoutes: Routes = [
   {
     path: "admin",
     component: AdminComponent,
-    canActivate: [],
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN'] },
     children: [
       { path: "user-management/receptionist/search", component: ReceptionistSearchComponent },
       { path: "user-management/receptionist/create", component: ReceptionistCreateOrUpdateComponent, data: { create: true } },

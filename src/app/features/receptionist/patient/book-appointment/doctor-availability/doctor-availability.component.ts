@@ -65,11 +65,11 @@ export interface ExtendedCalendarEvent<MetaType = any> extends CalendarEvent<Met
   styleUrls: ['./doctor-availability.component.scss']
 })
 export class DoctorAvailabilityComponent {
-   @ViewChild('modalContent', { static: true }) modalContent?: TemplateRef<any>;
-  doctorId: string = 'dd01866f-cbc8-4ad3-ad46-1c778c352122';
+  @ViewChild('modalContent', { static: true }) modalContent?: TemplateRef<any>;
+  doctorId: string = '6fbbf390-2ef8-4a2a-951c-29962ae0aacb';
 
 
-      constructor(private modal: NgbModal, private router: Router, private route: ActivatedRoute, private dialog:MatDialog, private scheduleService:ScheduleService) {}
+  constructor(private modal: NgbModal, private router: Router, private route: ActivatedRoute, private dialog: MatDialog, private scheduleService: ScheduleService) { }
 
   ngOnInit(): void {
     // Retrieve the doctorId from the route parameters or service
@@ -78,63 +78,63 @@ export class DoctorAvailabilityComponent {
       this.doctorId = params['doctorId'];
     });
 
-     this.fetchAvailabilities();
+    this.fetchAvailabilities();
   }
 
 
-  
-    view: CalendarView = CalendarView.Month;
-  
-    CalendarView = CalendarView;
-  
-    viewDate: Date = new Date();
-  
-    scheduleData:Availabilities[]=[];
-  
-    modalData?: {
-      action: string;
-      event: CalendarEvent;
-    };
-  
-    actions: CalendarEventAction[] = [
-      {
-        label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-        a11yLabel: 'Edit',
-     
-        onClick:({ event }: { event: ExtendedCalendarEvent }): void => {
-             this.openAvailabilityDialog(event.slotId,event.doctorId,event.date);
-        }
-      },
 
-    ];
-  
+  view: CalendarView = CalendarView.Month;
 
-  
-    refresh = new Subject<void>();
-  
-    events: CalendarEvent[] = [
-  
-    ];
-  
-    activeDayIsOpen: boolean = true;
-  
-      
-  
+  CalendarView = CalendarView;
+
+  viewDate: Date = new Date();
+
+  scheduleData: Availabilities[] = [];
+
+  modalData?: {
+    action: string;
+    event: CalendarEvent;
+  };
+
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      a11yLabel: 'Edit',
+
+      onClick: ({ event }: { event: ExtendedCalendarEvent }): void => {
+        this.openAvailabilityDialog(event.slotId, event.doctorId, event.date);
+      }
+    },
+
+  ];
+
+
+
+  refresh = new Subject<void>();
+
+  events: CalendarEvent[] = [
+
+  ];
+
+  activeDayIsOpen: boolean = true;
+
+
+
   async fetchAvailabilities() {
     const response = await firstValueFrom(
       this.scheduleService.getAvailabilities(this.doctorId)
     );
-  
+
     this.scheduleData = response;
 
     console.log('Fetched Availabilities:', this.scheduleData);
 
-     
-  
+
+
     this.events = this.scheduleData.map((item) => {
       const start = new Date(`${item.date}T${item.startTime}`);
       const end = new Date(`${item.date}T${item.endTime}`);
-  
+
       return {
         id: item.availabilityId,
         slotId: item.slotId,
@@ -154,95 +154,95 @@ export class DoctorAvailabilityComponent {
         meta: item,
       } as CalendarEvent;
     });
-  
+
     this.refresh.next(); // trigger change detection for calendar
   }
 
 
-    openAvailabilityDialog(slotId:any, doctorId:any,date:any): void {
-  
-        this.dialog.open(AppointmentDialogComponent, {
-    width: 'auto',           // Let width adjust
-    maxWidth: '950px',       // Prevent it from being too wide
-    height: 'auto',          // Let height adjust
-    maxHeight: '90vh',       // Keep it within viewport
-    data: { slotId, doctorId, date },
-    autoFocus: false,        // Avoid scroll jump
-    panelClass: 'appointment-dialog-container'
-  });
-    }
+  openAvailabilityDialog(slotId: any, doctorId: any, date: any): void {
+
+    this.dialog.open(AppointmentDialogComponent, {
+      width: 'auto',           // Let width adjust
+      maxWidth: '950px',       // Prevent it from being too wide
+      height: 'auto',          // Let height adjust
+      maxHeight: '90vh',       // Keep it within viewport
+      data: { slotId, doctorId, date },
+      autoFocus: false,        // Avoid scroll jump
+      panelClass: 'appointment-dialog-container'
+    });
+  }
 
 
 
   // "doctorId":"6fbbf390-2ef8-4a2a-951c-29962ae0aacb",
   //   "date":"2025-07-27",
   //   "slotId":"80708f50-07ee-491c-b2f1-db0fd0d5afe8"
-  
-  
-    dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-      if (isSameMonth(date, this.viewDate)) {
-        if (
-          (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-          events.length === 0
-        ) {
-          this.activeDayIsOpen = false;
-        } else {
-          this.activeDayIsOpen = true;
-        }
-        this.viewDate = date;
+
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
       }
+      this.viewDate = date;
     }
-  
-    eventTimesChanged({
-      event,
-      newStart,
-      newEnd,
-    }: CalendarEventTimesChangedEvent): void {
-      this.events = this.events.map((iEvent) => {
-        if (iEvent === event) {
-          return {
-            ...event,
-            start: newStart,
-            end: newEnd,
-          };
-        }
-        return iEvent;
-      });
-      this.handleEvent('Dropped or resized', event);
-    }
-  
-    handleEvent(action: string, event: CalendarEvent): void {
-      this.modalData = { event, action };
-      this.modal.open(this.modalContent, { size: 'lg' });
-    }
-  
-    addEvent(): void {
-      this.events = [
-        ...this.events,
-        {
-          title: 'New event',
-          start: startOfDay(new Date()),
-          end: endOfDay(new Date()),
-          color: colors['red'],
-          draggable: true,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true,
-          },
+  }
+
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd,
+  }: CalendarEventTimesChangedEvent): void {
+    this.events = this.events.map((iEvent) => {
+      if (iEvent === event) {
+        return {
+          ...event,
+          start: newStart,
+          end: newEnd,
+        };
+      }
+      return iEvent;
+    });
+    this.handleEvent('Dropped or resized', event);
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+    this.modal.open(this.modalContent, { size: 'lg' });
+  }
+
+  addEvent(): void {
+    this.events = [
+      ...this.events,
+      {
+        title: 'New event',
+        start: startOfDay(new Date()),
+        end: endOfDay(new Date()),
+        color: colors['red'],
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
         },
-      ];
-    }
-  
-    deleteEvent(eventToDelete: CalendarEvent) {
-      this.events = this.events.filter((event) => event !== eventToDelete);
-    }
-  
-    setView(view: CalendarView) {
-      this.view = view;
-    }
-  
-    closeOpenMonthViewDay() {
-      this.activeDayIsOpen = false;
-    }
-  
+      },
+    ];
+  }
+
+  deleteEvent(eventToDelete: CalendarEvent) {
+    this.events = this.events.filter((event) => event !== eventToDelete);
+  }
+
+  setView(view: CalendarView) {
+    this.view = view;
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
+  }
+
 }

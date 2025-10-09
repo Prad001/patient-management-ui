@@ -18,18 +18,18 @@ interface Slot {
 })
 export class AppointmentDialogComponent {
 
-   patientID:string='fb3f227a-7f52-46ae-8548-6b50f398b2e7';
-  
-   slots: Slot[] = [];
-   selectedSlot: Slot | null = null;
-     constructor(
+  patientID: string = 'cbe48651-e74a-4714-822e-c74fc4de5f47';
+
+  slots: Slot[] = [];
+  selectedSlot: Slot | null = null;
+  constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: { slotId: string; doctorId: string; date: string },
     private dialogRef: MatDialogRef<AppointmentDialogComponent>,
     private snackBar: MatSnackBar,
     private bookAppointmentService: BookAppointmentService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.fetchSlots();
@@ -56,27 +56,27 @@ export class AppointmentDialogComponent {
 
   async onBook(): Promise<void> {
 
-  try {
+    try {
 
-    if (!this.selectedSlot) return;
+      if (!this.selectedSlot) return;
 
-    await firstValueFrom(this.bookAppointmentService.bookAppointment(this.data.doctorId, this.data.slotId, this.data.date,this.patientID,this.selectedSlot.startTime));
+      await firstValueFrom(this.bookAppointmentService.bookAppointment(this.data.doctorId, this.data.slotId, this.data.date, this.patientID, this.selectedSlot.startTime));
       this.snackBar.open('Appointment booked successfully!', 'Close', {
-          duration: 3000,
-          panelClass: ['bg-success', 'text-white']
-        });
+        duration: 3000,
+        panelClass: ['bg-success', 'text-white']
+      });
 
 
-        this.router.navigate(['patient/upcoming-appointments']);
+      this.router.navigate(['patient/upcoming-appointments']);
 
-        this.dialogRef.close(true);
-    
-  } catch (error) {
-     this.snackBar.open('Failed to book appointment!', 'Close', {
-          duration: 3000,
-          panelClass: ['bg-danger', 'text-white']
-        });
-  }   
+      this.dialogRef.close(true);
+
+    } catch (error) {
+      this.snackBar.open('Failed to book appointment!', 'Close', {
+        duration: 3000,
+        panelClass: ['bg-danger', 'text-white']
+      });
+    }
   }
 
   onCancel(): void {

@@ -22,12 +22,13 @@ export class AppointmentService {
         const patientId = 'fb3f227a-7f52-46ae-8548-6b50f398b2e7'; // hardcoded for now
 
         const params = {
+            id: patientId,
             page: page.toString(),
             size: size.toString()
         };
 
         return this.http
-            .get<any>(`${this.apiUrl}${API_ENDPOINTS.APPOINTMENT.UPCOMING_FETCH}/${patientId}`, { params })
+            .get<any>(`${this.apiUrl}${API_ENDPOINTS.APPOINTMENT.UPCOMING_FETCH}`, { params })
             .pipe(
                 tap((response) => console.log('Raw API response:', response)),
                 catchError((error) => this.errorHandlingService.handleError(error))
@@ -85,12 +86,13 @@ export class AppointmentService {
         const patientId = 'fb3f227a-7f52-46ae-8548-6b50f398b2e7'; // hardcoded for now
 
         const params = {
+            id: patientId,
             page: page.toString(),
             size: size.toString()
         };
 
         return this.http
-            .get<any>(`${this.apiUrl}${API_ENDPOINTS.APPOINTMENT.PAST_FETCH}/${patientId}`, { params })
+            .get<any>(`${this.apiUrl}${API_ENDPOINTS.APPOINTMENT.PAST_FETCH}`, { params })
             .pipe(
                 tap((response) => console.log('Raw API response:', response)),
                 catchError((error) => this.errorHandlingService.handleError(error))

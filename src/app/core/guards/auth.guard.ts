@@ -1,67 +1,61 @@
-import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  Router,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot
-} from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { JwtPayload } from 'src/types/JwtPayload';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
+export const authGuard: CanActivateFn = (route, state) => {
+  const router = inject(Router);
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  const user = localStorage.getItem('user') || sessionStorage.getItem('user');
 
-  constructor(private router: Router) {}
+  console.log('AuthGuard triggered for route:', state.url);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    const user = localStorage.getItem('user') || sessionStorage.getItem('user');
+  // 1️⃣ No token/user → redirect
+  if (!token || !user) {
+    console.warn('No token or user found. Redirecting to /auth');
+    router.navigate(['/auth/login']);
+    return false;
+  }
 
-    // 1️⃣ Check if token and user exist
-    if (!token || !user) {
-      this.router.navigate(['/auth']);
+  try {
+    // 2️⃣ Decode & check expiry
+    const decoded = jwtDecode<JwtPayload>(token);
+    const isExpired = decoded.exp && decoded.exp * 1000 < Date.now();
+
+    if (isExpired) {
+      console.warn('Token expired. Redirecting to /auth');
+      clearAuthData();
+      router.navigate(['/auth']);
       return false;
     }
 
-    try {
-      // 2️⃣ Decode and verify token expiry
-      const decoded = jwtDecode<JwtPayload>(token);
-      const isExpired = decoded.exp && decoded.exp * 1000 < Date.now();
+    // 3️⃣ Role check
+    const { role } = JSON.parse(user);
+    const allowedRoles = route.data['roles'] as string[];
 
-      if (isExpired) {
-        this.clearAuthData();
-        this.router.navigate(['/auth']);
-        return false;
-      }
+    console.log('Allowed roles:', allowedRoles, 'User role:', role);
 
-      // 3️⃣ Verify role-based access
-      const { role } = JSON.parse(user);
-      const allowedRoles = route.data['roles'] as string[];
-
-      if (!allowedRoles || allowedRoles.includes(role)) {
-        return true;
-      }
-
-      // 4️⃣ Role mismatch → unauthorized
-      this.router.navigate(['/unauthorized']);
-      return false;
-
-    } catch (error) {
-      // 5️⃣ Invalid or corrupted token
-      console.error('Token decode error:', error);
-      this.clearAuthData();
-      this.router.navigate(['/auth']);
-      return false;
+    if (!allowedRoles || allowedRoles.includes(role)) {
+      console.log('Access granted');
+      return true;
     }
-  }
 
-  // 🔧 Helper method to clear all auth data
-  private clearAuthData(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
+    // 4️⃣ Role mismatch
+    console.warn('Access denied. Redirecting to /unauthorized');
+    router.navigate(['/unauthorized']);
+    return false;
+
+  } catch (err) {
+    console.error('Token decode error:', err);
+    clearAuthData();
+    router.navigate(['/auth']);
+    return false;
   }
+};
+
+function clearAuthData() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('user');
 }

@@ -9,12 +9,14 @@ import { DoctorAvailabilityComponent } from "./patient/book-appointment/doctor-a
 import { BookAppointmentComponent } from "./patient/book-appointment/book-appointment.component";
 import { PastAppointmentsComponent } from "./patient/past-appointments/past-appointments.component";
 import { UpcomingAppointmentsComponent } from "./patient/upcoming-appointments/upcoming-appointments.component";
+import { authGuard } from "src/app/core/guards/auth.guard";
 
 export const receptionistRoutes: Routes = [
     {
         path: "receptionist",
         component: ReceptionistComponent,
-        canActivate: [],
+        canActivate: [authGuard],
+        data: { roles: ['RECEPTIONIST'] },
         children: [
 
 
