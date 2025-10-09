@@ -4,6 +4,9 @@
     </button>
     <button class="button-capture me-3" *ngIf="params.buttonConfig.configure" (click)="onButtonClick('configure')">Configure
     </button>
+
+    <button class="button-capture me-3" *ngIf="params.buttonConfig.bookAppointment" (click)="onButtonClick('book-appointment')">Book Appointment
+    </button>
     
     <button class="btn" *ngIf="params.buttonConfig.update" (click)="onButtonClick('update')">
         <i class="fa-solid fa-pen" id="update" ></i>

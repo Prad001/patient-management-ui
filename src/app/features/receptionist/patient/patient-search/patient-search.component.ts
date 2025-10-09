@@ -50,7 +50,7 @@ export class PatientSearchComponent {
   buttonConfig = {
     update: true,
     delete: true,
-    capture: false,
+    bookAppointment: true,
   };
 
   async ngOnInit(): Promise<void> {
@@ -90,6 +90,9 @@ export class PatientSearchComponent {
       this.updatePatient(event.rowIndex);
     } else if (event.action === "delete") {
       this.deletePatient(event.rowIndex);
+    }
+    else if (event.action === "book-appointment") {
+      this.bookAppointment(event.rowIndex);
     }
   }
 
@@ -179,6 +182,14 @@ export class PatientSearchComponent {
       : this.filteredData[index].patientId;
 
     this.router.navigate(["admin", "user-management", "patient", "update", patientId]);
+  }
+
+    bookAppointment(index: number): void {
+    const patientId = this.inSearchMode
+      ? this.searchedData[index].patientId
+      : this.filteredData[index].patientId;
+
+    this.router.navigate(["receptionist/patients/search/book-appointment", patientId]);
   }
 
   async deletePatient(index: number): Promise<void> {

@@ -1,0 +1,145 @@
+<app-bread-crumb
+  [breadcrumbs]="[
+    { label: 'Dashboard', url: '/dashboard' },
+    { label: 'Book Appointment' }
+  ]"
+></app-bread-crumb>
+
+<section class="py-4">
+  <div class="container">
+    <div class="main-card p-3 shadow rounded-4 bg-white">
+      <div class="row g-4">
+        <!-- LEFT COLUMN -->
+        <div class="col-12 col-md-4">
+          <!-- Search Input -->
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control form-control-lg rounded-pill shadow-sm"
+              placeholder="Search doctors..."
+              [ngModel]="searchText"
+              (ngModelChange)="onSearchTextChange($event)"
+              [disabled]="!filterByHeader"
+            />
+          </div>
+
+          <!-- Category Dropdown -->
+          <div class="mb-4">
+            <select
+              class="form-select form-select-md rounded-pill shadow-sm"
+              [(ngModel)]="filterByHeader"
+              (ngModelChange)="onCategoryChange()"
+            >
+              <option value="">Select Category</option>
+              <ng-container *ngFor="let header of headers">
+                <option *ngIf="header.showInDropdown" [value]="header.property">
+                  {{ header.name }}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+
+          <div *ngIf="!this.inSearchMode">
+            <!-- Doctors list -->
+
+            <div
+              class="doctor-card p-3 mb-3 rounded-4 shadow-sm d-flex align-items-center gap-3"
+              (click)="selectDoctor(doctor)"
+              *ngFor="let doctor of filteredData"
+            >
+              <span class="doc-initial">{{ doctor.name.charAt(0) }}</span>
+              <div>
+                <h6 class="mb-0 fw-bold fs-5">Dr. {{ doctor.name }}</h6>
+                <small class="text-muted fs-6">{{
+                  doctor.specialization
+                }}</small>
+              </div>
+            </div>
+
+            <div class="float-end">
+              <app-pagination
+                [totalPages]="totalPages"
+                [totalItems]="filteredData.length"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (onClick)="changePage($event)"
+              ></app-pagination>
+            </div>
+          </div>
+
+          <div *ngIf="this.inSearchMode">
+            <!-- Doctors list -->
+            <div
+              class="doctor-card p-3 mb-3 rounded-4 shadow-sm d-flex align-items-center gap-3"
+              (click)="selectDoctor(doctor)"
+              *ngFor="let doctor of searchedData"
+            >
+              <span class="doc-initial">{{ doctor.name.charAt(0) }}</span>
+              <div>
+                <h6 class="mb-0 fw-bold fs-5">Dr. {{ doctor.name }}</h6>
+                <small class="text-muted fs-6">{{
+                  doctor.specialization
+                }}</small>
+              </div>
+            </div>
+
+            <div class="float-end">
+              <app-pagination
+                [totalPages]="totalPages"
+                [totalItems]="searchedData.length"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (onClick)="changePage($event)"
+              ></app-pagination>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col-12 col-md-8">
+          <!-- Placeholder for doctor schedule / booking calendar -->
+          <div
+            id="info-card"
+            class="p-4 rounded-5 shadow-sm text-center"
+            *ngIf="!isDoctorSelected"
+          >
+            <p class="mb-0">Select a doctor to view available slots</p>
+          </div>
+
+          <div
+            id="info-card"
+            class="p-4 rounded-5 shadow-sm text-center"
+            *ngIf="isDoctorSelected && selectedDoctor"
+          >
+            <!-- <h2 class="mb-3">{{selectedDoctor?.name}}</h2> -->
+            <!-- <p class="text-muted mb-4">Select a date and time to book your appointment</p> -->
+            <h1 class="fs-3 fw-bold mt-5">Dr. {{ selectedDoctor.name }}</h1>
+            <p>
+              <strong>Specialization:</strong>
+              {{ selectedDoctor.specialization }}
+            </p>
+            <p>
+              <strong>Qualification:</strong> {{ selectedDoctor.qualification }}
+            </p>
+            <p><strong>Gender:</strong> {{ selectedDoctor.gender }}</p>
+            <p>
+              <strong>Hospital:</strong> {{ selectedDoctor.affiliatedHospital }}
+            </p>
+            <p><strong>Email:</strong> {{ selectedDoctor.contactEmail }}</p>
+            <p><strong>Role:</strong> {{ selectedDoctor.roleCode }}</p>
+            <p><strong>License:</strong> {{ selectedDoctor.licenseNumber }}</p>
+            <!-- Calendar  or Time Slot Picker -->
+            <div class="d-flex justify-content-center pt-2 pb-2">
+              <button
+                class="btn btn-primary rounded-pill px-4 py-2 availability-button"
+                (click)="checkAvailability()"
+              >
+                Check Availability
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

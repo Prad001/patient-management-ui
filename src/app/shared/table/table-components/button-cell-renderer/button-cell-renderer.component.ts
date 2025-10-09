@@ -18,7 +18,7 @@ export class ButtonCellRendererComponent  implements ICellRendererAngularComp{
     return true;
   }
 
-  onButtonClick(action: 'update' | 'delete' | 'capture' | 'configure') {
+  onButtonClick(action: 'update' | 'delete' | 'capture' | 'configure' | 'book-appointment'): void {
     const rowIndex = this.params.node.rowIndex;
     const rowData = this.params.data;
 

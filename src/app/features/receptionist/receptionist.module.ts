@@ -14,6 +14,9 @@ import { ReportsComponent } from './reports/reports.component';
 // import { PatientComponent } from './patient/patient.component';
 import { PatientCreateOrUpdateComponent } from './patient/patient-create-or-update/patient-create-or-update.component';
 import { PatientSearchComponent } from "./patient/patient-search/patient-search.component";
+import { BookAppointmentComponent } from "./patient/book-appointment/book-appointment.component";
+import { DoctorAvailabilityComponent } from "./patient/book-appointment/doctor-availability/doctor-availability.component";
+import { AppointmentDialogComponent } from "./patient/book-appointment/doctor-availability/appointment-dialog/appointment-dialog.component";
 
 @NgModule({
     declarations: [
@@ -25,6 +28,9 @@ import { PatientSearchComponent } from "./patient/patient-search/patient-search.
         PatientSearchComponent,
         DeleteDialogComponent,
         SuccessDialogComponent,
+        BookAppointmentComponent,
+        DoctorAvailabilityComponent,
+        AppointmentDialogComponent
     ],
     imports: [CommonModule, SharedModule, FormsModule, AgGridModule,
         ReactiveFormsModule, NgbModalModule, FlatpickrModule.forRoot(), CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })],
