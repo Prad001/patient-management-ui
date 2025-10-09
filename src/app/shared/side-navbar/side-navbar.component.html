@@ -149,16 +149,16 @@
           (click)="patientsReceptionist()" [class.active]="activeLink === 'receptionist/patients'">
           Configure Patients
         </div>
-        <!-- <div class="panel-item"
-          *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && isPatientRouteNavbar() && !isReceptionistRouteNavbar()"
-          (click)="patientUpcomingAppointments()" [class.active]="activeLink === 'patientUpcomingAppointments'">
+        <div class="panel-item"
+          *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && !isPatientRouteNavbar() && isReceptionistRouteNavbar()"
+          (click)="patientReceptionistUpcomingAppointments()" [class.active]="activeLink === 'patientReceptionistUpcomingAppointments'">
           Upcomming Appointments
         </div>
         <div class="panel-item"
-          *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && isPatientRouteNavbar() && !isReceptionistRouteNavbar()"
-          (click)="patientPastAppointments()" [class.active]="activeLink === 'patientPastAppointments'">
+          *ngIf="!isAdminRouteNavbar() && !isDoctorRouteNavbar() && !isPatientRouteNavbar() && isReceptionistRouteNavbar()"
+          (click)="patientReceptionistPastAppointments()" [class.active]="activeLink === 'patientReceptionistPastAppointments'">
           Past Appointments
-        </div> -->
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
 

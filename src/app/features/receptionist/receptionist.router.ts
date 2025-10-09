@@ -7,6 +7,8 @@ import { PatientCreateOrUpdateComponent } from "./patient/patient-create-or-upda
 import { PatientSearchComponent } from "./patient/patient-search/patient-search.component";
 import { DoctorAvailabilityComponent } from "./patient/book-appointment/doctor-availability/doctor-availability.component";
 import { BookAppointmentComponent } from "./patient/book-appointment/book-appointment.component";
+import { PastAppointmentsComponent } from "./patient/past-appointments/past-appointments.component";
+import { UpcomingAppointmentsComponent } from "./patient/upcoming-appointments/upcoming-appointments.component";
 
 export const receptionistRoutes: Routes = [
     {
@@ -22,8 +24,10 @@ export const receptionistRoutes: Routes = [
             { path: "patients/create", component: PatientCreateOrUpdateComponent, data: { create: true } },
             { path: "patients/update/:patientId", component: PatientCreateOrUpdateComponent, data: { create: false } },
             { path: "patients/search", component: PatientSearchComponent },
-            { path: "patients/search/book-appointment/:patientId", component: BookAppointmentComponent},
-             { path: "patients/search/book-appointment/check-availability/:doctorId", component: DoctorAvailabilityComponent },
+            { path: "patients/search/book-appointment/:patientId", component: BookAppointmentComponent },
+            { path: "patients/search/book-appointment/check-availability/:doctorId", component: DoctorAvailabilityComponent },
+            { path: "patients/past-appointments", component: PastAppointmentsComponent },
+            { path: "patients/upcoming-appointments", component: UpcomingAppointmentsComponent },
             // { path: "book-appointment", component: BookAppointmentComponent },
             // { path: "past-appointments", component: PastAppointmentsComponent },
             // { path: "upcoming-appointments", component: UpcomingAppointmentsComponent },
