@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TimeFormatService } from '../../shared/service/time-format.service';
 import { Appointment } from 'src/types/appointment';
 import { AppointmentService } from '../appointment-service';
+import { RescheduleDialogComponent } from '../../shared/dialogs/reschedule-dialog/reschedule-dialog.component';
 
 @Component({
   selector: 'app-upcoming-appointments',
@@ -129,7 +130,7 @@ export class UpcomingAppointmentsComponent {
     rowData: Appointment;
   }): void {
     if (event.action === "update") {
-      this.resheduleUpcomingAppointment(event.rowIndex);
+      this.resheduleUpcomingAppointment(event.rowIndex, event.rowData.doctorId);
     } else if (event.action === "delete") {
       this.cancelUpcomingAppointment(event.rowIndex);
     }
@@ -138,15 +139,67 @@ export class UpcomingAppointmentsComponent {
   // ──────────────────────────────────────────────────────────────
   // Navigation
   // ──────────────────────────────────────────────────────────────
-  resheduleUpcomingAppointment(index: number): void {
-    const appointmentId = this.inSearchMode
-      ? this.searchedData[index].doctorId
-      : this.filteredData[index].doctorId;
-    this.router.navigate([
-      "patient",
-      appointmentId,
-    ]);
+  async resheduleUpcomingAppointment(index: number, doctorId: string): Promise<void> {
+    try {
+      // Step 1: Get appointment object
+      const appointment = this.inSearchMode
+        ? this.searchedData[index]
+        : this.filteredData[index];
+
+      // Step 2: Prepare dialog data depending on status
+      const isAlreadyRescheduled = appointment.appointmentStatus === 'RESCHEDULED';
+      const dialogData = {
+        title: isAlreadyRescheduled ? "Info" : "Are you sure?",
+        message: isAlreadyRescheduled
+          ? "This appointment has already been rescheduled."
+          : "Do you really want to reschedule this appointment?",
+        isConfirm: isAlreadyRescheduled, // show only OK button if already rescheduled
+      };
+
+      const dialogRef = this.dialog.open(RescheduleDialogComponent, {
+        data: dialogData,
+      });
+
+      const result = await dialogRef.afterClosed().toPromise();
+
+      // If already rescheduled, no action needed
+      if (isAlreadyRescheduled || !result) return;
+
+      // Step 3: Call service to update status = RESCHEDULED
+      await firstValueFrom(
+        this.appointmentService.resheduleUpcomingAppointment(appointment.appointmentId)
+      );
+
+      // Step 4: Show success dialog
+      this.dialog.open(RescheduleDialogComponent, {
+        data: {
+          title: "Success",
+          message: "The appointment has been rescheduled successfully.",
+          isConfirm: true,
+        },
+      });
+
+      // Step 5: Navigate to booking availability
+      this.router.navigate([
+        "patient",
+        "book-appointment",
+        "check-availability",
+        { doctorId },
+      ]);
+
+    } catch (error) {
+      console.error("Error rescheduling appointment:", error);
+
+      this.dialog.open(RescheduleDialogComponent, {
+        data: {
+          title: "Error",
+          message: "Failed to reschedule the appointment. Please try again.",
+          isConfirm: true,
+        },
+      });
+    }
   }
+
 
   // ──────────────────────────────────────────────────────────────
   // Data Fetching
@@ -226,7 +279,7 @@ export class UpcomingAppointmentsComponent {
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         data: {
           title: "Are you sure?",
-          message: "Do you really want to delete this Appointment?",
+          message: "Do you really want to cancel this appointment?",
           isConfirm: false,
         },
       });
@@ -238,9 +291,10 @@ export class UpcomingAppointmentsComponent {
         ? this.searchedData[index].appointmentId
         : this.filteredData[index].appointmentId;
 
-      await firstValueFrom(this.appointmentService.resheduleUpcomingAppointment(appointmentId));
+      // Mark as CANCELLED instead of deleting
+      await firstValueFrom(this.appointmentService.cancelUpcomingAppointment(appointmentId));
 
-      // ✅ Wait for data to reload before showing success message
+      // Refresh data
       if (this.inSearchMode) {
         await this.fetchUpcomingAppointmentsSearch();
       } else {
@@ -250,15 +304,24 @@ export class UpcomingAppointmentsComponent {
       this.dialog.open(DeleteDialogComponent, {
         data: {
           title: "Success",
-          message: "The Appointment has been deleted successfully.",
+          message: "The appointment has been cancelled successfully.",
           isConfirm: true,
         },
       });
 
     } catch (error) {
-      console.error("Error deleting appointment:", error);
+      console.error("Error cancelling appointment:", error);
+
+      this.dialog.open(DeleteDialogComponent, {
+        data: {
+          title: "Error",
+          message: "Failed to cancel the appointment. Please try again.",
+          isConfirm: true,
+        },
+      });
     }
   }
+
 
   back(): void {
     if (this.inSearchMode) {

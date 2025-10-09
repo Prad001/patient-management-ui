@@ -65,7 +65,7 @@ export class ScheduleComponent {
   viewDate: Date = new Date();
 
   scheduleData:Availabilities[]=[];
-  tempDoctorId:string = 'dd01866f-cbc8-4ad3-ad46-1c778c352122';
+  tempDoctorId:string = '6fbbf390-2ef8-4a2a-951c-29962ae0aacb';
 
   modalData?: {
     action: string;

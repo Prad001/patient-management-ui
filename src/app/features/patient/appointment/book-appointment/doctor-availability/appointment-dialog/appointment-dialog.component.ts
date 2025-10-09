@@ -18,7 +18,7 @@ interface Slot {
 })
 export class AppointmentDialogComponent {
 
-   patientID:string='473200ec-69fb-49ae-9c96-2d84c0b53adb';
+   patientID:string='fb3f227a-7f52-46ae-8548-6b50f398b2e7';
   
    slots: Slot[] = [];
    selectedSlot: Slot | null = null;

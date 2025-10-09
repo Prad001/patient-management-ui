@@ -17,6 +17,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppointmentDialogComponent } from "./appointment/book-appointment/doctor-availability/appointment-dialog/appointment-dialog.component";
 import { SuccessDialogComponent } from "./shared/dialogs/success-dialog/success-dialog.component";
 import { DeleteDialogComponent } from "./shared/dialogs/delete-dialog/delete-dialog.component";
+import { RescheduleDialogComponent } from './shared/dialogs/reschedule-dialog/reschedule-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DeleteDialogComponent } from "./shared/dialogs/delete-dialog/delete-dia
    DoctorAvailabilityComponent,
    AppointmentDialogComponent,
    DeleteDialogComponent,
-   SuccessDialogComponent
+   SuccessDialogComponent,
+   RescheduleDialogComponent,
 
   ],
   imports: [CommonModule, SharedModule, FormsModule, AgGridModule,MatSnackBarModule,

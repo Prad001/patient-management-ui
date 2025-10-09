@@ -19,7 +19,7 @@ export class AppointmentService {
     ) { }
 
     getUpcomingAppointments(page: number, size: number = 2): Observable<any> {
-        const patientId = '473200ec-69fb-49ae-9c96-2d84c0b53adb'; // hardcoded for now
+        const patientId = 'fb3f227a-7f52-46ae-8548-6b50f398b2e7'; // hardcoded for now
 
         const params = {
             page: page.toString(),
@@ -41,7 +41,7 @@ export class AppointmentService {
         size: number = 7,
         sortBy: string = 'appointmentDate'
     ): Observable<any> {
-        const patientId = '473200ec-69fb-49ae-9c96-2d84c0b53adb'; // hardcoded for now
+        const patientId = 'fb3f227a-7f52-46ae-8548-6b50f398b2e7'; // hardcoded for now
         const params = {
             category,
             value,
@@ -57,28 +57,32 @@ export class AppointmentService {
             );
     }
 
-    resheduleUpcomingAppointment(
-        appointmentId: string
-    ): Observable<Appointment> {
+    resheduleUpcomingAppointment(appointmentId: string): Observable<Appointment> {
         return this.http
-            .put<Appointment>(`${this.apiUrl}/appointments/${appointmentId}`, {
-                appointmentId
-            })
+            .patch<Appointment>(
+                `${this.apiUrl}/appointments/${appointmentId}`,
+                { status: "RESCHEDULED" } // matches AppointmentStatusUpdateDTO
+            )
             .pipe(
                 catchError((error) => this.errorHandlingService.handleError(error))
             );
     }
 
-    cancelUpcomingAppointment(appointmentId: string): Observable<void> {
+
+    cancelUpcomingAppointment(appointmentId: string): Observable<Appointment> {
         return this.http
-            .delete<void>(`${this.apiUrl}/appointments/${appointmentId}`)
+            .patch<Appointment>(
+                `${this.apiUrl}/appointments/${appointmentId}`,
+                { status: "CANCELLED" } // matches AppointmentStatusUpdateDTO
+            )
             .pipe(
                 catchError((error) => this.errorHandlingService.handleError(error))
             );
     }
+
 
     getPastAppointments(page: number, size: number = 2): Observable<any> {
-        const patientId = '473200ec-69fb-49ae-9c96-2d84c0b53adb'; // hardcoded for now
+        const patientId = 'fb3f227a-7f52-46ae-8548-6b50f398b2e7'; // hardcoded for now
 
         const params = {
             page: page.toString(),

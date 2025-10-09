@@ -13,82 +13,82 @@ import { Header } from 'src/types/header';
   styleUrls: ['./book-appointment.component.scss']
 })
 export class BookAppointmentComponent {
-    // ─── Pagination ───────────────────────────────────────────────
-    currentPage = 1;
-    itemsPerPage = 7;
-    totalPages = 0;
-    totalPagesNormal = 0;
-    totalPagesSearch = 0;
-  
-  
-    // ─── Search & Filtering ──────────────────────────────────────
-    searchText: string = '';
-    filterByHeader: string = '';
-    inSearchMode = false;
-    searchTextChanged = new Subject<string>();
-    
-    isDoctorSelected: boolean = false;
-  
-    // ─── Data ─────────────────────────────────────────────────────
-    doctors: Doctor[] = [];
-    filteredData: Doctor[] = [];
-    searchedData: Doctor[] = [];
-    selectedDoctor: Doctor | null = null; // Store selected doctor
-    doctorId: string = '';
-
-      // ─── UI Configuration ─────────────────────────────────────────
-      headers: Header[] = [
-        
-        {
-          name: "Doctor Name",
-          property: "name",
-          showInDropdown: true,
-    
-        },
-        {
-          name: "Doctor Role",
-          property: "roleCode",
-          showInDropdown: true,
-    
-        },
-        {
-          name: "Specialization",
-          property: "specialization",
-          showInDropdown: true,
-    
-        },
-        {
-          name: "Qualification",
-          property: "qualification",
-          showInDropdown: true,
-    
-        },
-        
-      ];
-
-       constructor(
-         private router: Router,
-         private doctorService: BookAppointmentService,
-         private dialog: MatDialog,
-         private cdr: ChangeDetectorRef,
-         private timeFormatService: TimeFormatService
-       ) { }
+  // ─── Pagination ───────────────────────────────────────────────
+  currentPage = 1;
+  itemsPerPage = 7;
+  totalPages = 0;
+  totalPagesNormal = 0;
+  totalPagesSearch = 0;
 
 
-         async ngOnInit(): Promise<void> {
-           await this.fetchDoctors();
-       
-           this.searchTextChanged
-             .pipe(debounceTime(300), distinctUntilChanged())
-             .subscribe((text) => {
-               this.searchText = text;
-               this.searchDoctors();
-             });
-       
-           this.cdr.detectChanges();
-         }
+  // ─── Search & Filtering ──────────────────────────────────────
+  searchText: string = '';
+  filterByHeader: string = '';
+  inSearchMode = false;
+  searchTextChanged = new Subject<string>();
 
-           // ──────────────────────────────────────────────────────────────
+  isDoctorSelected: boolean = false;
+
+  // ─── Data ─────────────────────────────────────────────────────
+  doctors: Doctor[] = [];
+  filteredData: Doctor[] = [];
+  searchedData: Doctor[] = [];
+  selectedDoctor: Doctor | null = null; // Store selected doctor
+  doctorId: string = '';
+
+  // ─── UI Configuration ─────────────────────────────────────────
+  headers: Header[] = [
+
+    {
+      name: "Doctor Name",
+      property: "name",
+      showInDropdown: true,
+
+    },
+    {
+      name: "Doctor Role",
+      property: "roleCode",
+      showInDropdown: true,
+
+    },
+    {
+      name: "Specialization",
+      property: "specialization",
+      showInDropdown: true,
+
+    },
+    {
+      name: "Qualification",
+      property: "qualification",
+      showInDropdown: true,
+
+    },
+
+  ];
+
+  constructor(
+    private router: Router,
+    private doctorService: BookAppointmentService,
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef,
+    private timeFormatService: TimeFormatService
+  ) { }
+
+
+  async ngOnInit(): Promise<void> {
+    await this.fetchDoctors();
+
+    this.searchTextChanged
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((text) => {
+        this.searchText = text;
+        this.searchDoctors();
+      });
+
+    this.cdr.detectChanges();
+  }
+
+  // ──────────────────────────────────────────────────────────────
   // Getters
   // ──────────────────────────────────────────────────────────────
   get paginatedData(): Doctor[] {
@@ -99,7 +99,7 @@ export class BookAppointmentComponent {
       : this.filteredData.slice(start, end);
   }
 
-    // ──────────────────────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────────────
   // Event Handlers
   // ──────────────────────────────────────────────────────────────
   changePage(page: number): void {
@@ -110,160 +110,160 @@ export class BookAppointmentComponent {
     this.inSearchMode ? this.fetchDoctorsSearch() : this.fetchDoctors();
   }
 
-    onSearchTextChange(searchValue: string): void {
+  onSearchTextChange(searchValue: string): void {
     this.searchTextChanged.next(searchValue);
   }
 
 
 
   // ──────────────────────────────────────────────────────────────
-    // Navigation
-    // ──────────────────────────────────────────────────────────────
-    updateDoctor(index: number): void {
-      const doctorId = this.inSearchMode
-        ? this.searchedData[index].doctorId
-        : this.filteredData[index].doctorId;
-      this.router.navigate([
-        "admin/user-management/doctor/update",
-        doctorId,
-      ]);
+  // Navigation
+  // ──────────────────────────────────────────────────────────────
+  updateDoctor(index: number): void {
+    const doctorId = this.inSearchMode
+      ? this.searchedData[index].doctorId
+      : this.filteredData[index].doctorId;
+    this.router.navigate([
+      "admin/user-management/doctor/update",
+      doctorId,
+    ]);
+  }
+
+  createDoctors(): void {
+    this.router.navigate([
+      "admin/user-management/doctor/create",
+    ]);
+  }
+
+  back(): void {
+    if (this.inSearchMode) {
+      this.inSearchMode = false;
+      this.fetchDoctors();
+    } else {
+      this.router.navigate(["admin/user-management/doctor/search"]);
     }
-  
-    createDoctors(): void {
-      this.router.navigate([
-        "admin/user-management/doctor/create",
-      ]);
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // Data Fetching
+  // ──────────────────────────────────────────────────────────────
+  async fetchDoctors(): Promise<void> {
+    try {
+      const response = await firstValueFrom(
+        this.doctorService.getDoctors(this.currentPage - 1, this.itemsPerPage)
+      );
+      this.formatAndSetDoctors(response, false);
+    } catch (error) {
+      console.error("Error fetching rules:", error);
     }
-  
-    back(): void {
-      if (this.inSearchMode) {
-        this.inSearchMode = false;
-        this.fetchDoctors();
-      } else {
-        this.router.navigate(["admin/user-management/doctor/search"]);
-      }
+  }
+
+  async fetchDoctorsSearch(): Promise<void> {
+    try {
+      const response = await this.doctorService
+        .getDoctorSearch(
+          this.currentPage - 1,
+          this.filterByHeader,
+          this.searchText,
+          this.itemsPerPage
+        )
+        .toPromise();
+
+      this.formatAndSetDoctors(response, true);
+    } catch (error) {
+      console.error("Error fetching rule search:", error);
     }
-  
-    // ──────────────────────────────────────────────────────────────
-    // Data Fetching
-    // ──────────────────────────────────────────────────────────────
-    async fetchDoctors(): Promise<void> {
-      try {
-        const response = await firstValueFrom(
-          this.doctorService.getDoctors(this.currentPage - 1, this.itemsPerPage)
-        );
-        this.formatAndSetDoctors(response, false);
-      } catch (error) {
-        console.error("Error fetching rules:", error);
-      }
+  }
+
+
+  private formatAndSetDoctors(response: any, inSearchMode: boolean): void {
+    if (!response || !response.content || response.content.length === 0) return;
+
+    const formatted = response.content.map((doctor: Doctor) => ({
+      ...doctor,
+      timestamp: this.timeFormatService.formatDate(doctor.updatedAt),
+    }));
+
+    if (inSearchMode) {
+      this.searchedData = formatted;
+      this.totalPagesSearch = response.totalPages;
+    } else {
+      this.filteredData = formatted;
+      this.totalPagesNormal = response.totalPages;
     }
-  
-    async fetchDoctorsSearch(): Promise<void> {
-      try {
-        const response = await this.doctorService
-          .getDoctorSearch(
-            this.currentPage - 1,
-            this.filterByHeader,
-            this.searchText,
-            this.itemsPerPage
-          )
-          .toPromise();
-  
-        this.formatAndSetDoctors(response, true);
-      } catch (error) {
-        console.error("Error fetching rule search:", error);
-      }
-    }
-  
-  
-    private formatAndSetDoctors(response: any, inSearchMode: boolean): void {
-      if (!response || !response.content || response.content.length === 0) return;
-  
-      const formatted = response.content.map((doctor: Doctor) => ({
-        ...doctor,
-        timestamp: this.timeFormatService.formatDate(doctor.updatedAt),
-      }));
-  
-      if (inSearchMode) {
-        this.searchedData = formatted;
-        this.totalPagesSearch = response.totalPages;
-      } else {
-        this.filteredData = formatted;
-        this.totalPagesNormal = response.totalPages;
-      }
-  
-      this.totalPages = response.totalPages;
-      this.currentPage = response.page + 1;
-    }
+
+    this.totalPages = response.totalPages;
+    this.currentPage = response.page + 1;
+  }
 
   // ──────────────────────────────────────────────────────────────
   // Search
   // ──────────────────────────────────────────────────────────────
-async searchDoctors(): Promise<void> {
-  try {
-    // ❌ If category not selected → reset and show normal list
-    if (!this.filterByHeader) {
-      this.inSearchMode = false;
-      this.searchText = ''; // optional: clear search text
-      await this.fetchDoctors();
-      return;
-    }
+  async searchDoctors(): Promise<void> {
+    try {
+      // ❌ If category not selected → reset and show normal list
+      if (!this.filterByHeader) {
+        this.inSearchMode = false;
+        this.searchText = ''; // optional: clear search text
+        await this.fetchDoctors();
+        return;
+      }
 
-    // ❌ If search text empty → reset and show normal list
-    if (!this.searchText) {
-      this.inSearchMode = false;
-      await this.fetchDoctors();
-      return;
-    }
+      // ❌ If search text empty → reset and show normal list
+      if (!this.searchText) {
+        this.inSearchMode = false;
+        await this.fetchDoctors();
+        return;
+      }
 
-    // ✅ Valid category & text → search
-    this.inSearchMode = true;
-    await this.fetchDoctorsSearch();
-    this.totalPages = this.totalPagesSearch;
+      // ✅ Valid category & text → search
+      this.inSearchMode = true;
+      await this.fetchDoctorsSearch();
+      this.totalPages = this.totalPagesSearch;
 
-    const selectedHeader = this.headers.find(
-      (h) => h.property === this.filterByHeader && h.showInDropdown
-    );
-
-    if (selectedHeader) {
-      this.searchedData = this.searchedData.filter((rule) => {
-        const value = rule[selectedHeader.property];
-        return value
-          ?.toString()
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase());
-      });
-
-      this.searchedData.sort((a, b) =>
-        a[selectedHeader.property]
-          ?.toString()
-          .localeCompare(b[selectedHeader.property]?.toString())
+      const selectedHeader = this.headers.find(
+        (h) => h.property === this.filterByHeader && h.showInDropdown
       );
+
+      if (selectedHeader) {
+        this.searchedData = this.searchedData.filter((rule) => {
+          const value = rule[selectedHeader.property];
+          return value
+            ?.toString()
+            .toLowerCase()
+            .includes(this.searchText.toLowerCase());
+        });
+
+        this.searchedData.sort((a, b) =>
+          a[selectedHeader.property]
+            ?.toString()
+            .localeCompare(b[selectedHeader.property]?.toString())
+        );
+      }
+    } catch (error) {
+      console.error("Error during search:", error);
     }
-  } catch (error) {
-    console.error("Error during search:", error);
   }
-}
 
-onCategoryChange(): void {
-  this.searchText = '';
-  this.inSearchMode = false;
-  this.fetchDoctors();
-}
+  onCategoryChange(): void {
+    this.searchText = '';
+    this.inSearchMode = false;
+    this.fetchDoctors();
+  }
 
 
-  
 
-         
+
+
   selectDoctor(doctor: Doctor): void {
     this.isDoctorSelected = true;
-     this.selectedDoctor = doctor; // Save to show in UI
+    this.selectedDoctor = doctor; // Save to show in UI
     console.log('Selected Doctor:', doctor);
-    
+
   }
 
   checkAvailability(): void {
-     
+
     // console.log('Booking appointment with:', doctor);
     this.router.navigate([
       'patient/book-appointment/check-availability',
@@ -285,11 +285,11 @@ onCategoryChange(): void {
   // getDoctorImage(doctor: Doctor): string {
   //   return doctor.image || 'assets/images/default-doctor.png';
   // }
-  
+
   // getDoctorSpecialization(doctor: Doctor): string {
   //   return doctor.specialization || 'General';
   // }
-  
+
   // getDoctorExperience(doctor: Doctor): string {
   //   return doctor.experience ? `${doctor.experience} years` : 'N/A';
   // }
@@ -297,7 +297,7 @@ onCategoryChange(): void {
   // getDoctorRating(doctor: Doctor): number {
   //   return doctor.rating || 0;
   // }
-  
+
   // getDoctorAvailability(doctor: Doctor): string {
   //   return doctor.isAvailable ? 'Available' : 'Not Available';
   // }

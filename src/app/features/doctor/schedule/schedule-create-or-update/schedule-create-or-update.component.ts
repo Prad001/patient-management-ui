@@ -88,7 +88,7 @@ export class ScheduleCreateOrUpdateComponent {
     startDate: string;
     endDate: string;
   } = {
-    doctorId: '5d06ccae-e547-4431-a9f0-8c46e5b40413',
+    doctorId: '6fbbf390-2ef8-4a2a-951c-29962ae0aacb',
     slotIds: [],
     scheduleType: '',
     startDate: '',
@@ -294,7 +294,7 @@ export class ScheduleCreateOrUpdateComponent {
 
     if (this.isCreateMode) {
       this.newScheduleData = {
-        doctorId: 'dd01866f-cbc8-4ad3-ad46-1c778c352122',
+        doctorId: '6fbbf390-2ef8-4a2a-951c-29962ae0aacb',
         slotIds: [],
         scheduleType: this.form.value.scheduleType,
         startDate: this.form.value.startDate,

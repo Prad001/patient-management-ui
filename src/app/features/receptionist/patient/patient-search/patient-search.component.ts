@@ -78,7 +78,7 @@ export class PatientSearchComponent {
   }
 
   createPatients(): void {
-    this.router.navigate(["admin/user-management/patient/create"]);
+    this.router.navigate(["receptionist/patients/create"]);
   }
 
   handleAction(event: {
@@ -181,7 +181,7 @@ export class PatientSearchComponent {
       ? this.searchedData[index].patientId
       : this.filteredData[index].patientId;
 
-    this.router.navigate(["admin", "user-management", "patient", "update", patientId]);
+    this.router.navigate(["receptionist", "patients", "update", patientId]);
   }
 
     bookAppointment(index: number): void {
