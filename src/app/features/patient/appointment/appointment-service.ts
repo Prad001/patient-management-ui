@@ -6,6 +6,7 @@ import { catchError, tap } from "rxjs/operators";
 import { ErrorHandlingService } from "../shared/service/errorHandling.service";
 import { API_ENDPOINTS } from "../patient-endpoints";
 import { Appointment } from "src/types/appointment";
+import { AuthService } from "src/app/shared/auth-service/auth.service";
 
 @Injectable({
     providedIn: "root",
@@ -15,14 +16,15 @@ export class AppointmentService {
 
     constructor(
         private http: HttpClient,
-        private errorHandlingService: ErrorHandlingService
+        private errorHandlingService: ErrorHandlingService,
+        private authService: AuthService
     ) { }
 
     getUpcomingAppointments(page: number, size: number = 2): Observable<any> {
-        const patientId = 'fb3f227a-7f52-46ae-8548-6b50f398b2e7'; // hardcoded for now
+        const patientId = this.authService.getUserId(); 
 
         const params = {
-            id: patientId,
+            id: patientId ?? '',
             page: page.toString(),
             size: size.toString()
         };
@@ -42,7 +44,7 @@ export class AppointmentService {
         size: number = 7,
         sortBy: string = 'appointmentDate'
     ): Observable<any> {
-        const patientId = 'fb3f227a-7f52-46ae-8548-6b50f398b2e7'; // hardcoded for now
+        const patientId = this.authService.getUserId(); 
         const params = {
             category,
             value,
@@ -83,10 +85,10 @@ export class AppointmentService {
 
 
     getPastAppointments(page: number, size: number = 2): Observable<any> {
-        const patientId = 'fb3f227a-7f52-46ae-8548-6b50f398b2e7'; // hardcoded for now
+        const patientId = this.authService.getUserId();
 
         const params = {
-            id: patientId,
+            id: patientId ?? '',
             page: page.toString(),
             size: size.toString()
         };

@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BookAppointmentService } from '../../book-appointment.service';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/auth-service/auth.service';
 
 interface Slot {
   startTime: string;
@@ -16,22 +17,23 @@ interface Slot {
   templateUrl: './appointment-dialog.component.html',
   styleUrls: ['./appointment-dialog.component.scss']
 })
-export class AppointmentDialogComponent {
+export class AppointmentDialogComponent implements OnInit {
+  patientID: string | null = null;
+  slots: Slot[] = [];
+  selectedSlot: Slot | null = null;
 
-   patientID:string='fb3f227a-7f52-46ae-8548-6b50f398b2e7';
-  
-   slots: Slot[] = [];
-   selectedSlot: Slot | null = null;
-     constructor(
+  constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: { slotId: string; doctorId: string; date: string },
     private dialogRef: MatDialogRef<AppointmentDialogComponent>,
     private snackBar: MatSnackBar,
     private bookAppointmentService: BookAppointmentService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    this.patientID = this.authService.getUserId();
     this.fetchSlots();
   }
 
@@ -55,28 +57,36 @@ export class AppointmentDialogComponent {
   }
 
   async onBook(): Promise<void> {
+    try {
+      if (!this.selectedSlot) return;
+      if (!this.patientID) {
+        this.snackBar.open('Patient ID missing from token', 'Close', { duration: 3000 });
+        return;
+      }
 
-  try {
+      await firstValueFrom(
+        this.bookAppointmentService.bookAppointment(
+          this.data.doctorId,
+          this.data.slotId,
+          this.data.date,
+          this.patientID,
+          this.selectedSlot.startTime
+        )
+      );
 
-    if (!this.selectedSlot) return;
-
-    await firstValueFrom(this.bookAppointmentService.bookAppointment(this.data.doctorId, this.data.slotId, this.data.date,this.patientID,this.selectedSlot.startTime));
       this.snackBar.open('Appointment booked successfully!', 'Close', {
-          duration: 3000,
-          panelClass: ['bg-success', 'text-white']
-        });
+        duration: 3000,
+        panelClass: ['bg-success', 'text-white']
+      });
 
-
-        this.router.navigate(['patient/upcoming-appointments']);
-
-        this.dialogRef.close(true);
-    
-  } catch (error) {
-     this.snackBar.open('Failed to book appointment!', 'Close', {
-          duration: 3000,
-          panelClass: ['bg-danger', 'text-white']
-        });
-  }   
+      this.router.navigate(['patient/upcoming-appointments']);
+      this.dialogRef.close(true);
+    } catch (error) {
+      this.snackBar.open('Failed to book appointment!', 'Close', {
+        duration: 3000,
+        panelClass: ['bg-danger', 'text-white']
+      });
+    }
   }
 
   onCancel(): void {
