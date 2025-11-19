@@ -4,9 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged, firstValueFrom, Subject } from 'rxjs';
 import { Patient } from 'src/types/patient';
 import { Header } from 'src/types/header';
-import { PatientService } from '../../admin/user-management/patient/patient.service';
 import { TimeFormatService } from '../shared/service/time-format.service';
 import { DeleteDialogComponent } from '../shared/dialogs/delete-dialog/delete-dialog.component';
+import { PatientService } from './patient.service';
+import { AuthService } from 'src/app/shared/auth-service/auth.service';
 
 @Component({
   selector: 'app-patient-search',
@@ -32,6 +33,7 @@ export class PatientDetailsComponent {
   patients: Patient[] = [];
   filteredData: Patient[] = [];
   searchedData: Patient[] = [];
+  doctorId = this.authservice.getUserId();
 
   headers: Header[] = [
     { name: "Patient Id", property: "patientId", showInDropdown: true },
@@ -44,7 +46,8 @@ export class PatientDetailsComponent {
     private patientService: PatientService,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef,
-    private timeFormatService: TimeFormatService
+    private timeFormatService: TimeFormatService,
+    private authservice: AuthService
   ) { }
 
   buttonConfig = {
@@ -101,8 +104,15 @@ export class PatientDetailsComponent {
 
   async fetchPatients(): Promise<void> {
     try {
+      const page = isNaN(this.currentPage) || this.currentPage < 1 ? 0 : this.currentPage - 1;
       const response = await firstValueFrom(
-        this.patientService.getPatients(this.currentPage - 1)
+        this.patientService.getPatientSearch(
+          this.doctorId!,
+          page,
+          this.filterByHeader,
+          this.searchText,
+          this.itemsPerPage
+        )
       );
       this.formatAndSetPatients(response, false)
     } catch (error) {
@@ -121,6 +131,7 @@ export class PatientDetailsComponent {
 
       const response = await this.patientService
         .getPatientSearch(
+          this.doctorId!,
           page,
           this.filterByHeader,
           this.searchText,

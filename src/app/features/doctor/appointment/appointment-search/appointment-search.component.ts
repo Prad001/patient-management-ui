@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TimeFormatService } from '../../shared/service/time-format.service';
 import { Appointment } from 'src/types/appointment';
 import { AppointmentService } from '../appointment-service';
+import { AuthService } from 'src/app/shared/auth-service/auth.service';
 
 @Component({
   selector: 'app-appointment-search',
@@ -31,6 +32,7 @@ export class AppointmentSearchComponent {
   appointments: Appointment[] = [];
   filteredData: Appointment[] = [];
   searchedData: Appointment[] = [];
+  doctorId = this.authService.getUserId();
 
   // ─── UI Configuration ─────────────────────────────────────────
   headers: Header[] = [
@@ -107,7 +109,8 @@ export class AppointmentSearchComponent {
     private appointmentService: AppointmentService,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef,
-    private timeFormatService: TimeFormatService
+    private timeFormatService: TimeFormatService,
+    private authService: AuthService
   ) { }
 
   // ──────────────────────────────────────────────────────────────
@@ -199,7 +202,7 @@ export class AppointmentSearchComponent {
   async fetchAppointments(): Promise<void> {
     try {
       const response = await firstValueFrom(
-        this.appointmentService.getAppointments(this.currentPage - 1, this.itemsPerPage)
+        this.appointmentService.getAppointments(this.doctorId!, this.currentPage - 1, this.itemsPerPage)
       );
       this.formatAndSetAppointments(response, false);
     } catch (error) {

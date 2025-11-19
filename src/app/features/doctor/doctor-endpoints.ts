@@ -18,12 +18,15 @@ export const API_ENDPOINTS = {
     SEARCH: '/appointments',
     CREATE: '/appointments',
     UPDATE: '/appointments',
-    DELETE: '/appointments'
+    DELETE: '/appointments',
+    FETCHBYDOCTOR: '/appointments/doctor',
   },
   PATIENT: {
     FETCH: '/patients/paginated',
     SEARCH: '/patients/filter',
     GET: '/patients',
+    FETCHBYDOCTOR: '/patients/doctor',
+    DELETE: '/patients',
   },
   SLOT: {
     FETCH: '/slots/paginated',

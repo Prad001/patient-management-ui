@@ -28,51 +28,51 @@ export class AvailabilityUpdateDialogComponent {
     this.availabilityId = data.availabilityId;
   }
 
- async ngOnInit() {
-  await this.fetchAvailabilityById();
-  this.form = this.initializeForm();
-  this.onAvailabilityChange(); // set up logic to watch availability
+  async ngOnInit() {
+    await this.fetchAvailabilityById();
+    this.form = this.initializeForm();
+    this.onAvailabilityChange(); // set up logic to watch availability
 
-  this.formReady = true;
-
-
-}
-
-onAvailabilityChange(): void {
-  this.form.get('availability')?.valueChanges.subscribe((available) => {
-    const reasonControl = this.form.get('unavailabilityReason');
-
-    if (!available) {
-      reasonControl?.setValidators([
-        Validators.required,
-        Validators.pattern(/^(?!None$).+/) // prevent 'None' option
-      ]);
-    } else {
-      reasonControl?.clearValidators();
-      reasonControl?.setValue('None');
-    }
-
-    reasonControl?.updateValueAndValidity();
-  });
-}
+    this.formReady = true;
 
 
-initializeForm(): FormGroup {
-  return new FormGroup({
-    availabilityId: new FormControl(this.availability?.availabilityId || ''),
-    availability: new FormControl(this.availability?.availability ?? null, Validators.required),
-    unavailabilityReason: new FormControl(
-      this.availability?.unavailabilityReason ?? 'None',
-      [Validators.required]
-    ),
-    slotName: new FormControl(this.availability?.slotName || ''),
-    startTime: new FormControl(this.availability?.startTime || ''),
-    endTime: new FormControl(this.availability?.endTime || ''),
-  });
+  }
 
-  
+  onAvailabilityChange(): void {
+    this.form.get('availability')?.valueChanges.subscribe((available) => {
+      const reasonControl = this.form.get('unavailabilityReason');
 
-}
+      if (!available) {
+        reasonControl?.setValidators([
+          Validators.required,
+          Validators.pattern(/^(?!None$).+/) // prevent 'None' option
+        ]);
+      } else {
+        reasonControl?.clearValidators();
+        reasonControl?.setValue('None');
+      }
+
+      reasonControl?.updateValueAndValidity();
+    });
+  }
+
+
+  initializeForm(): FormGroup {
+    return new FormGroup({
+      availabilityId: new FormControl(this.availability?.availabilityId || ''),
+      availability: new FormControl(this.availability?.availability ?? null, Validators.required),
+      unavailabilityReason: new FormControl(
+        this.availability?.unavailabilityReason ?? 'None',
+        [Validators.required]
+      ),
+      slotName: new FormControl(this.availability?.slotName || ''),
+      startTime: new FormControl(this.availability?.startTime || ''),
+      endTime: new FormControl(this.availability?.endTime || ''),
+    });
+
+
+
+  }
 
 
 
@@ -82,64 +82,64 @@ initializeForm(): FormGroup {
   //   }
 
   async fetchAvailabilityById() {
-      const response = await firstValueFrom(
-              this.scheduleService.getAvailability(this.availabilityId)
-            );
-      console.log('Availability data is:',response);
-      this.availability=response;
+    const response = await firstValueFrom(
+      this.scheduleService.getAvailability(this.availabilityId)
+    );
+    console.log('Availability data is:', response);
+    this.availability = response;
   }
 
 
- unavailabilityReasonOptions = [
-  { value: 'None', label: 'None' },
-  { value: 'On Leave', label: 'On Leave' },
-  { value: 'Sick Leave', label: 'Sick Leave' },
-  { value: 'Vacation', label: 'Vacation' },
-  { value: 'Personal Emergency', label: 'Personal Emergency' },
-  { value: 'Surgery (Self)', label: 'Surgery (Self)' },
-  { value: 'Conference/Workshop', label: 'Conference/Workshop' },
-  { value: 'Hospital Duty', label: 'Hospital Duty' },
-  { value: 'Administrative Work', label: 'Administrative Work' },
-  { value: 'Out of Office', label: 'Out of Office' },
-  { value: 'Not Scheduled', label: 'Not Scheduled' },
-  { value: 'Travel', label: 'Travel' },
-  { value: 'Shift Change', label: 'Shift Change' },
-  { value: 'Technical Issue', label: 'Technical Issue' },
-  { value: 'Unavailable (No Reason Provided)', label: 'Unavailable (No Reason Provided)' },
-];
+  unavailabilityReasonOptions = [
+    { value: 'None', label: 'None' },
+    { value: 'On Leave', label: 'On Leave' },
+    { value: 'Sick Leave', label: 'Sick Leave' },
+    { value: 'Vacation', label: 'Vacation' },
+    { value: 'Personal Emergency', label: 'Personal Emergency' },
+    { value: 'Surgery (Self)', label: 'Surgery (Self)' },
+    { value: 'Conference/Workshop', label: 'Conference/Workshop' },
+    { value: 'Hospital Duty', label: 'Hospital Duty' },
+    { value: 'Administrative Work', label: 'Administrative Work' },
+    { value: 'Out of Office', label: 'Out of Office' },
+    { value: 'Not Scheduled', label: 'Not Scheduled' },
+    { value: 'Travel', label: 'Travel' },
+    { value: 'Shift Change', label: 'Shift Change' },
+    { value: 'Technical Issue', label: 'Technical Issue' },
+    { value: 'Unavailable (No Reason Provided)', label: 'Unavailable (No Reason Provided)' },
+  ];
 
 
-  onSubmit(){
+  onSubmit() {
     try {
-        
-        this.scheduleService.updateAvailability(
-          this.form.value.availabilityId,
-          this.form.value.availability,
-          this.form.value.unavailabilityReason,
 
-        ).subscribe(() => {
+      this.scheduleService.updateAvailability(
+        this.form.value.availabilityId,
+        this.form.value.availability,
+        this.form.value.unavailabilityReason,
+
+      ).subscribe(() => {
         this.openSuccessDialog(false);
       });
-      
+
     } catch (error) {
-       
+
     }
-            
+
   }
 
-    openSuccessDialog(isCreateMode: boolean): void {
-      this.dialog
-        .open(SuccessDialogComponent, {
-          width: '250px',
-          data: { isCreateMode, title: 'Availability' },
-        })
-        .afterClosed()
-        .subscribe((result) => {
-          this.router.navigate(['doctor/schedule']);
-        });
-    }
+  openSuccessDialog(isCreateMode: boolean): void {
+    this.dialog
+      .open(SuccessDialogComponent, {
+        width: '250px',
+        data: { isCreateMode, title: 'Availability' },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        this.router.navigate(['doctor/schedule']);
+      });
+  }
 
-  onCancel(){
+  onCancel() {
     this.dialogRef.close();
   }
 }

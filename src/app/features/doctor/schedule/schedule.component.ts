@@ -29,6 +29,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Availabilities } from 'src/types/availabilities';
 import { ScheduleService } from './schedule.service';
 import { AvailabilityUpdateDialogComponent } from './availability/availability-update-dialog/availability-update-dialog.component';
+import { AuthService } from 'src/app/shared/auth-service/auth.service';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -64,8 +65,8 @@ export class ScheduleComponent {
 
   viewDate: Date = new Date();
 
-  scheduleData:Availabilities[]=[];
-  tempDoctorId:string = '6fbbf390-2ef8-4a2a-951c-29962ae0aacb';
+  scheduleData: Availabilities[] = [];
+  tempDoctorId: string = '6fbbf390-2ef8-4a2a-951c-29962ae0aacb';
 
   modalData?: {
     action: string;
@@ -79,8 +80,8 @@ export class ScheduleComponent {
       // onClick: ({ event }: { event: CalendarEvent }): void => {
       //   this.handleEvent('Edited', event);
       // },
-      onClick:({ event }: { event: CalendarEvent }): void => {
-          this.openAvailabilityDialog(event.id);
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.openAvailabilityDialog(event.id);
       }
     },
     // {
@@ -93,9 +94,9 @@ export class ScheduleComponent {
     // },
   ];
 
-  openAvailabilityDialog(id:any){
+  openAvailabilityDialog(id: any) {
 
-     this.dialog
+    this.dialog
       .open(AvailabilityUpdateDialogComponent, {
         width: '950px',
         height: '700px',
@@ -116,45 +117,45 @@ export class ScheduleComponent {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal, private router: Router, private dialog:MatDialog, private scheduleService:ScheduleService) {}
+  constructor(private modal: NgbModal, private router: Router, private dialog: MatDialog, private scheduleService: ScheduleService, private authService: AuthService) { }
 
 
-    ngOnInit(): void {
-      this.fetchAvailabilities();
-    }
+  ngOnInit(): void {
+    this.fetchAvailabilities();
+  }
 
-    
 
-async fetchAvailabilities() {
-  const response = await firstValueFrom(
-    this.scheduleService.getAvailabilities(this.tempDoctorId)
-  );
 
-  this.scheduleData = response;
+  async fetchAvailabilities() {
+    const response = await firstValueFrom(
+      this.scheduleService.getAvailabilities(this.authService.getUserId()!)
+    );
 
-  this.events = this.scheduleData.map((item) => {
-    const start = new Date(`${item.date}T${item.startTime}`);
-    const end = new Date(`${item.date}T${item.endTime}`);
+    this.scheduleData = response;
 
-    return {
-      id: item.availabilityId,
-      title: item.slotName,
-      start,
-      end,
-      color: item.availability ? colors['green'] : colors['red'],
-      actions: this.actions,
-      allDay: false,
-      draggable: false,
-      resizable: {
-        beforeStart: false,
-        afterEnd: false,
-      },
-      meta: item,
-    } as CalendarEvent;
-  });
+    this.events = this.scheduleData.map((item) => {
+      const start = new Date(`${item.date}T${item.startTime}`);
+      const end = new Date(`${item.date}T${item.endTime}`);
 
-  this.refresh.next(); // trigger change detection for calendar
-}
+      return {
+        id: item.availabilityId,
+        title: item.slotName,
+        start,
+        end,
+        color: item.availability ? colors['green'] : colors['red'],
+        actions: this.actions,
+        allDay: false,
+        draggable: false,
+        resizable: {
+          beforeStart: false,
+          afterEnd: false,
+        },
+        meta: item,
+      } as CalendarEvent;
+    });
+
+    this.refresh.next(); // trigger change detection for calendar
+  }
 
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -228,7 +229,7 @@ async fetchAvailabilities() {
       .open(ScheduleCreateOrUpdateComponent, {
         width: '950px',
         height: '700px',
-        data: { isCreateMode:true, title: 'Schedule' },
+        data: { isCreateMode: true, title: 'Schedule' },
       })
       .afterClosed()
       .subscribe(() => {

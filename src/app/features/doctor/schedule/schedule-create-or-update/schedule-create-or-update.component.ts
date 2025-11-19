@@ -18,6 +18,7 @@ import { formatDate } from '@angular/common';
 import { Header } from 'src/types/header';
 import { Slot } from 'src/types/slot';
 import { SlotSelectDialogComponent } from '../slot-select-dialog/slot-select-dialog.component';
+import { AuthService } from 'src/app/shared/auth-service/auth.service';
 
 @Component({
   selector: 'app-schedule-create-or-update',
@@ -31,9 +32,10 @@ export class ScheduleCreateOrUpdateComponent {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private scheduleService: ScheduleService,
+    private authservice: AuthService,
     @Inject(MAT_DIALOG_DATA)
     public data: { title: string; isCreateMode: boolean }
-  ) {}
+  ) { }
 
   isCreateMode: boolean = this.data.isCreateMode;
   isNext = false;
@@ -44,6 +46,7 @@ export class ScheduleCreateOrUpdateComponent {
   slotData: Slot[] = [];
   formReadySchedule = false;
   today = new Date().toISOString().split('T')[0];
+  doctorId = this.authservice.getUserId();
 
   selectedTab: 'schedule' | 'slot' = 'schedule';
 
@@ -88,12 +91,12 @@ export class ScheduleCreateOrUpdateComponent {
     startDate: string;
     endDate: string;
   } = {
-    doctorId: '6fbbf390-2ef8-4a2a-951c-29962ae0aacb',
-    slotIds: [],
-    scheduleType: '',
-    startDate: '',
-    endDate: '',
-  };
+      doctorId: this.doctorId!,
+      slotIds: [],
+      scheduleType: '',
+      startDate: '',
+      endDate: '',
+    };
 
   buttonConfig = {
     update: false,
@@ -131,23 +134,23 @@ export class ScheduleCreateOrUpdateComponent {
           // 🔥 Update slotIds in the object
           this.newScheduleData.slotIds = selected.map(slot => slot.slotId);
         }
-        
+
       });
   }
 
   submitFinalSchedule(): void {
-  if (!this.newScheduleData || this.newScheduleData.slotIds.length === 0) {
-    alert('Please select at least one slot.');
-    return;
+    if (!this.newScheduleData || this.newScheduleData.slotIds.length === 0) {
+      alert('Please select at least one slot.');
+      return;
+    }
+
+    console.log("schedule data is:", this.newScheduleData);
+
+    this.scheduleService.createScheduleWithSlots(this.newScheduleData).subscribe({
+      next: () => this.openSuccessDialog(true),
+      error: (err: any) => console.error('Schedule creation failed', err),
+    });
   }
-
-  console.log("schedule data is:",this.newScheduleData);
-
-  this.scheduleService.createScheduleWithSlots(this.newScheduleData).subscribe({
-    next: () => this.openSuccessDialog(true),
-    error: (err:any) => console.error('Schedule creation failed', err),
-  });
-}
 
 
   async ngOnInit() {
@@ -186,12 +189,12 @@ export class ScheduleCreateOrUpdateComponent {
     this.form = this.isCreateMode
       ? formGroup
       : new FormGroup({
-          scheduleId: new FormControl(
-            this.existingScheduleId,
-            Validators.required
-          ),
-          ...formGroup.controls,
-        });
+        scheduleId: new FormControl(
+          this.existingScheduleId,
+          Validators.required
+        ),
+        ...formGroup.controls,
+      });
 
     this.setupDateLogic();
   }
@@ -294,7 +297,7 @@ export class ScheduleCreateOrUpdateComponent {
 
     if (this.isCreateMode) {
       this.newScheduleData = {
-        doctorId: '6fbbf390-2ef8-4a2a-951c-29962ae0aacb',
+        doctorId: this.doctorId!,
         slotIds: [],
         scheduleType: this.form.value.scheduleType,
         startDate: this.form.value.startDate,

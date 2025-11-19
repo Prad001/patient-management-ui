@@ -28,7 +28,7 @@ export class AppointmentService {
 
 
 
-    getAppointments(page: number, size: number = 2, sortBy: string = 'createdAt'): Observable<any> {
+    getAppointments(doctorId: string, page: number, size: number = 2, sortBy: string = 'createdAt'): Observable<any> {
         const params = {
             page: page.toString(),
             size: size.toString(),
@@ -36,7 +36,7 @@ export class AppointmentService {
         };
 
         return this.http
-            .get<any>(`${this.apiUrl}${API_ENDPOINTS.APPOINTMENT.FETCH}`, { params })
+            .get<any>(`${this.apiUrl}${API_ENDPOINTS.APPOINTMENT.FETCHBYDOCTOR}/${doctorId}`, { params })
             .pipe(
                 tap((response) => console.log('Raw API response:', response)),
                 catchError((error) => this.errorHandlingService.handleError(error))

@@ -38,6 +38,7 @@ export class PatientService {
 
 
   getPatientSearch(
+    doctorId: string,
     page: number,
     category: string,
     value: string,
@@ -53,7 +54,7 @@ export class PatientService {
     };
 
     return this.http
-      .get<any>(`${this.apiUrl}${API_ENDPOINTS.PATIENT.SEARCH}`, { params })
+      .get<any>(`${this.apiUrl}${API_ENDPOINTS.PATIENT.FETCHBYDOCTOR}${doctorId}`, { params })
       .pipe(
         tap((response) => console.log('Raw API response:', response)),
         catchError((error) => this.errorHandlingService.handleError(error))
@@ -70,4 +71,15 @@ export class PatientService {
         catchError((error) => this.errorHandlingService.handleError(error))
       )
   }
+
+  deletePatient(patientid: string): Observable<void> {
+    console.log('Final URL:', `${this.apiUrl}${API_ENDPOINTS.PATIENT.DELETE}`);
+    return this.http
+      .delete<void>(`${this.apiUrl}${API_ENDPOINTS.PATIENT.DELETE}/${patientid}`)
+      .pipe(
+        tap((response) => console.log('Raw API response:', response)),
+        catchError((error) => this.errorHandlingService.handleError(error))
+      )
+  }
+
 }
